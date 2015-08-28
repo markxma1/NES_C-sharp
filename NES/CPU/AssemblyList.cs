@@ -184,6 +184,7 @@ namespace NES
         {
             Assembly[0x45] = delegate () { Input8Byte(Assembly_6502.EOR_45); };
             Assembly[0x41] = delegate () { Input8Byte(Assembly_6502.EOR_41); };
+            Assembly[0x49] = delegate () { Input8Byte(Assembly_6502.EOR_49); }; 
             Assembly[0x55] = delegate () { Input8Byte(Assembly_6502.EOR_55); };
             Assembly[0x51] = delegate () { Input8Byte(Assembly_6502.EOR_51); };
         }

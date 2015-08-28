@@ -15,7 +15,13 @@ namespace NES
 
         #region Init
         delegate void Func();
-        static public AssemblyList Assembly = new AssemblyList();
+        public static AssemblyList Assembly = new AssemblyList();
+        private static ushort lastPC = 0;
+        private static ushort lastPC2 = 0;
+        private static ushort lastPC3 = 0;
+        private static ushort lastPC4 = 0;
+        private static ushort lastPC5 = 0;
+        private static byte changed = 0;
 
         #region PAL/NTSC Speed
         public static double cpuspeed;
@@ -56,72 +62,24 @@ namespace NES
                 cpuspeed = Sleep((mod == Mod.PAL) ? (PAL) : (NTSC), delegate
                 {
 
-                    if (NES_Register.PC == 0xC070)
+                    if (NES_Register.PC == 0xc29d)//0xC0c8
                     { }
 
                     //if (NES_Register.PPUPCADDR == 0x2212)
                     //{ }
 
-                    //if (NES_Register.PPUPCADDR == 0x2612)
-                    //{ }
+                    //if (((Adress)NES_Memory.Memory[0xb6cd]).value != changed)
+                    //{ changed = ((Adress)NES_Memory.Memory[0xb6cd]).value; }
 
-                    //if (NES_Register.PPUPCADDR == 0x3212)
-                    //{ }
-
-                    //if (NES_Register.PPUPCADDR == 0x3612)
-                    //{ }
+                    lastPC5 = lastPC4;
+                    lastPC4 = lastPC3;
+                    lastPC3 = lastPC2;
+                    lastPC2 = lastPC;
+                    lastPC = NES_Register.PC;
                     try { Assembly.assembly[((Adress)NES_Memory.Memory[NES_Register.PC]).Value](); }
-                    catch (Exception ex) { System.Windows.Forms.MessageBox.Show("No Assembly: " + ((Adress)NES_Memory.Memory[NES_Register.PC]).Value.ToString("X")); }
-                    Interrupt();
+                    catch (Exception ex) { System.Windows.Forms.MessageBox.Show(ex.Message + ((Adress)NES_Memory.Memory[lastPC]).Value.ToString("X")); }
+                    Interrupt.Check();
                 });
-            }
-        }
-
-        private static void Interrupt()
-        {
-
-            // $FFFA–$FFFB 	2 bytes 	Address of Non Maskable Interrupt (NMI) handler routine
-            // $FFFC–$FFFD 	2 bytes 	Address of Power on reset handler routine
-            // $FFFE–$FFFF 	2 bytes 	Address of Break (BRK instruction) handler routine
-            if (NES_Register.IRQ && !NES_Register.P.Interrupt)
-            {
-                NES_Register.P.Interrupt = true;
-                ((Adress)NES_Memory.Stack[NES_Register.S--]).Value = (byte)NES_Register.PC;
-                ((Adress)NES_Memory.Stack[NES_Register.S--]).Value = (byte)(NES_Register.PC >> 8);
-                var PStack = NES_Register.P;
-                PStack.B = false;
-                PStack.U = true;
-                ((Adress)NES_Memory.Stack[NES_Register.S--]).Value = PStack.P;
-                NES_Register.PC = (ushort)(((Adress)NES_Memory.Stack[0xfffe]).Value | (((Adress)NES_Memory.Stack[0xffff]).Value << 8));
-                NES_Register.IRQ = false;
-            }
-            if (NES_Register.BRK)
-            {
-                NES_Register.P.Interrupt = true;
-                ((Adress)NES_Memory.Stack[NES_Register.S--]).Value = (byte)NES_Register.PC;
-                ((Adress)NES_Memory.Stack[NES_Register.S--]).Value = (byte)(NES_Register.PC >> 8);
-                var PStack = NES_Register.P;
-                PStack.B = true;
-                PStack.U = true;
-                ((Adress)NES_Memory.Stack[NES_Register.S--]).Value = PStack.P;
-                NES_Register.PC = (ushort)(((Adress)NES_Memory.Memory[0xfffe]).Value | (((Adress)NES_Memory.Memory[0xffff]).Value << 8));
-                NES_Register.BRK = false;
-            }
-            if (NES_Register.NMI)
-            {
-                NES_Register.P.Interrupt = true;
-                ((Adress)NES_Memory.Stack[NES_Register.S--]).Value = (byte)NES_Register.PC;
-                ((Adress)NES_Memory.Stack[NES_Register.S--]).Value = (byte)(NES_Register.PC >> 8);
-                var PStack = NES_Register.P;
-                PStack.B = false;
-                PStack.U = true;
-                ((Adress)NES_Memory.Stack[NES_Register.S--]).Value = PStack.P;
-                NES_Register.PC = (ushort)(((Adress)NES_Memory.Memory[0xfffa]).Value | (((Adress)NES_Memory.Memory[0xfffb]).Value << 8));
-                NES_Register.NMI = false;
-            }
-            if (NES_Register.RESET)
-            {
-                NES_Register.PC = (ushort)(((Adress)NES_Memory.Memory[0xfffc]).Value | (((Adress)NES_Memory.Memory[0xfffd]).Value << 8));
             }
         }
 

@@ -23,8 +23,7 @@ namespace NES
         public static void LDA_AD(ushort a)
         {
             NES_Register.A = ((Adress)NES_Memory.Memory[a]).Value;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Status.NZ(NES_Register.A);
         }
 
         /// <summary>
@@ -42,8 +41,7 @@ namespace NES
         public static void LDA_BD(ushort ax)
         {
             NES_Register.A = ((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Status.NZ(NES_Register.A);
         }
 
         /// <summary>
@@ -61,8 +59,7 @@ namespace NES
         public static void LDA_B9(ushort ay)
         {
             NES_Register.A = ((Adress)NES_Memory.Memory[ay + NES_Register.Y]).Value;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Status.NZ(NES_Register.A);
         }
 
         /// <summary>
@@ -80,8 +77,7 @@ namespace NES
         public static void LDA_A9(byte v)
         {
             NES_Register.A = v;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Status.NZ(NES_Register.A);
         }
 
         /// <summary>
@@ -98,8 +94,7 @@ namespace NES
         public static void LDA_A5(byte zp)
         {
             NES_Register.A = ((Adress)NES_Memory.Memory[zp]).Value;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Status.NZ(NES_Register.A);
         }
 
         /// <summary>
@@ -116,11 +111,9 @@ namespace NES
         /// </param>
         public static void LDA_A1(byte zpx)
         {
-            short address = (short)(zpx + NES_Register.X);
-            var temp = (ushort)((((Adress)NES_Memory.Memory[address]).Value) | ((Adress)NES_Memory.Memory[address + 1]).Value << 8);
-            NES_Register.A = ((Adress)NES_Memory.Memory[temp]).Value;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+
+            NES_Register.A = ((Adress)NES_Memory.Memory[Parameter.zpx1(zpx)]).Value;
+            Status.NZ(NES_Register.A);
         }
 
         /// <summary>
@@ -436,9 +429,7 @@ namespace NES
         /// </param>
         public static void STA_81(byte zpx)
         {
-            short address = (short)(zpx + NES_Register.X);
-            var temp = (short)((((Adress)NES_Memory.Memory[address]).Value) | (((Adress)NES_Memory.Memory[address + 1]).Value << 8));
-            ((Adress)NES_Memory.Memory[temp]).Value = NES_Register.A;
+            ((Adress)NES_Memory.Memory[Parameter.zpx1(zpx)]).Value = NES_Register.A;
         }
 
         /// <summary>
@@ -681,12 +672,7 @@ namespace NES
         /// </param>
         public static void ADC_65(byte zp)
         {
-            var temp = NES_Register.A + ((Adress)NES_Memory.Memory[zp]).Value + ((NES_Register.P.Carry) ? (1) : (0));
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Overflow = ((temp & ~(0xFF)) > 0);
-            NES_Register.P.Zero = NES_Register.A == 0;
-            NES_Register.P.Carry = ((temp & (0x0100)) > 0);
+            NES_Register.A = Math.ADC(NES_Register.A, ((Adress)NES_Memory.Memory[zp]).Value);
         }
 
         /// <summary>
@@ -2785,9 +2771,7 @@ namespace NES
         public static void TAX_AA()
         {
             NES_Register.X = NES_Register.A;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
-
+            Status.NZ(NES_Register.X);
         }
 
         /// <summary>
@@ -2798,8 +2782,7 @@ namespace NES
         public static void TXA_8A()
         {
             NES_Register.A = NES_Register.X;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Status.NZ(NES_Register.A);
         }
 
         /// <summary>
@@ -2810,8 +2793,7 @@ namespace NES
         public static void TAY_A8()
         {
             NES_Register.Y = NES_Register.A;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Status.NZ(NES_Register.A);
         }
 
         /// <summary>
@@ -2822,8 +2804,7 @@ namespace NES
         public static void TYA_98()
         {
             NES_Register.A = NES_Register.Y;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Status.NZ(NES_Register.Y);
         }
 
         /// <summary>
@@ -2834,8 +2815,7 @@ namespace NES
         public static void TSX_BA()
         {
             NES_Register.X = NES_Register.S;
-            NES_Register.P.Negative = (NES_Register.X & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.X == 0;
+            Status.NZ(NES_Register.S);
         }
 
         /// <summary>
@@ -2888,7 +2868,7 @@ namespace NES
         /// </summary>
         public static void PLP_28()
         {
-            NES_Register.P.P = (byte)(((Adress)NES_Memory.Stack[++NES_Register.S]).Value & 0xCF);
+            Stack.StackToProcessorstatus();
         }
         #endregion
 
@@ -2942,8 +2922,7 @@ namespace NES
         /// </param>
         public static void JSR_20(ushort a)
         {
-            ((Adress)NES_Memory.Stack[NES_Register.S--]).Value = (byte)NES_Register.PC;
-            ((Adress)NES_Memory.Stack[NES_Register.S--]).Value = (byte)(NES_Register.PC >> 8);
+            Stack.PcToStack();
             NES_Register.PC = a;
         }
 
@@ -2953,7 +2932,7 @@ namespace NES
         /// </summary>
         public static void RTS_60()
         {
-            NES_Register.PC = (ushort)((((Adress)NES_Memory.Stack[++NES_Register.S]).Value << 8) | ((Adress)NES_Memory.Stack[++NES_Register.S]).Value);
+            Stack.StackToPc();
         }
 
         /// <summary>
@@ -2963,8 +2942,8 @@ namespace NES
         /// </summary>
         public static void RTI_40()
         {
-            NES_Register.P.P = ((Adress)NES_Memory.Stack[++NES_Register.S]).Value;
-            NES_Register.PC = (ushort)((((Adress)NES_Memory.Stack[++NES_Register.S]).Value << 8) | ((Adress)NES_Memory.Stack[++NES_Register.S]).Value);
+            Stack.StackToPc();
+            Stack.StackToProcessorstatus();
         }
         #endregion
 
