@@ -125,7 +125,11 @@ namespace NES
 
         private static void InitBytes()
         {
-            for (int i = 0; i <= 0xff; i += 4)
+            SpriteYc = new ArrayList();
+            SpriteTile = new ArrayList();
+            SpriteAttribute = new ArrayList();
+            SpriteXc = new ArrayList();
+            for (int i = 0; i < 0xff; i += 4)
             {
                 SpriteYc.Add(Memory[i]);
                 {
@@ -156,7 +160,7 @@ namespace NES
         {
             for (int i = 0; i < 0xFF; i++)
             {
-                Memory[i]=NES_Memory.Memory[XX << 8 + i]; 
+                Memory[i]=NES_Memory.Memory[(XX << 8) + i]; 
             }
             InitBytes();
         }
