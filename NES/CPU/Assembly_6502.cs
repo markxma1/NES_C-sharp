@@ -2239,28 +2239,8 @@ namespace NES
         /// </param>
         public static void CMP_C1(byte zpx)
         {
-            short address = (short)(zpx + NES_Register.X);
-            var temp2 = (short)((((Adress)NES_Memory.Memory[address]).Value) | (((Adress)NES_Memory.Memory[address]).Value << 8));
-            var temp = ((Adress)NES_Memory.Memory[((Adress)NES_Memory.Memory[temp2]).Value]).Value;
-
-            if (NES_Register.A < temp)
-            {
-                NES_Register.P.Negative = true;
-                NES_Register.P.Zero = false;
-                NES_Register.P.Carry = false;
-            }
-            if (NES_Register.A == temp)
-            {
-                NES_Register.P.Negative = false;
-                NES_Register.P.Zero = true;
-                NES_Register.P.Carry = true;
-            }
-            if (NES_Register.A > temp)
-            {
-                NES_Register.P.Negative = false;
-                NES_Register.P.Zero = false;
-                NES_Register.P.Carry = true;
-            }
+            var temp = ((Adress)NES_Memory.Memory[((Adress)NES_Memory.Memory[Parameter.zpx1(zpx)]).Value]).Value;
+            Math.CMP(NES_Register.A, temp);
         }
 
         /// <summary>

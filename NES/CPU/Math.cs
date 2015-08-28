@@ -13,5 +13,28 @@
             Status.NVZC(temp);
             return (byte)temp;
         }
+
+
+        public static void CMP(byte A, byte B)
+        {
+            if (A < B)
+            {
+                NES_Register.P.Negative = true;
+                NES_Register.P.Zero = false;
+                NES_Register.P.Carry = false;
+            }
+            if (A == B)
+            {
+                NES_Register.P.Negative = false;
+                NES_Register.P.Zero = true;
+                NES_Register.P.Carry = true;
+            }
+            if (A > B)
+            {
+                NES_Register.P.Negative = false;
+                NES_Register.P.Zero = false;
+                NES_Register.P.Carry = true;
+            }
+        }
     }
 }
