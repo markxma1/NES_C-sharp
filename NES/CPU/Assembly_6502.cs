@@ -629,12 +629,7 @@ namespace NES
         /// </param>
         public static void ADC_79(ushort ay)
         {
-            var temp = NES_Register.A + ((Adress)NES_Memory.Memory[ay + NES_Register.Y]).Value + ((NES_Register.P.Carry) ? (1) : (0));
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Overflow = ((temp & ~(0xFF)) > 0);
-            NES_Register.P.Zero = NES_Register.A == 0;
-            NES_Register.P.Carry = ((temp & (0x0100)) > 0);
+            NES_Register.A = Math.ADC(NES_Register.A, ((Adress)NES_Memory.Memory[ay + NES_Register.Y]).Value);
         }
 
         /// <summary>
@@ -651,12 +646,7 @@ namespace NES
         /// </param>
         public static void ADC_69(byte v)
         {
-            var temp = NES_Register.A + v + ((NES_Register.P.Carry) ? (1) : (0));
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Overflow = ((temp & ~(0xFF)) > 0);
-            NES_Register.P.Zero = NES_Register.A == 0;
-            NES_Register.P.Carry = ((temp & (0x0100)) > 0);
+            NES_Register.A = Math.ADC(NES_Register.A, v);
         }
 
         /// <summary>
@@ -689,14 +679,7 @@ namespace NES
         /// </param>
         public static void ADC_61(byte zpx)
         {
-            short address = (short)(zpx + NES_Register.X);
-            var temp = (short)((((Adress)NES_Memory.Memory[address]).Value) | (((Adress)NES_Memory.Memory[address + 1]).Value << 8));
-            var temp2 = NES_Register.A + ((Adress)NES_Memory.Memory[temp]).Value + ((NES_Register.P.Carry) ? (1) : (0));
-            NES_Register.A = (byte)temp2;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Overflow = ((temp & ~(0xFF)) > 0);
-            NES_Register.P.Zero = NES_Register.A == 0;
-            NES_Register.P.Carry = ((temp & (0x0100)) > 0);
+            NES_Register.A = Math.ADC(NES_Register.A, ((Adress)NES_Memory.Memory[Parameter.zpx1(zpx)]).Value);
         }
 
         /// <summary>
@@ -713,12 +696,7 @@ namespace NES
         /// </param>
         public static void ADC_75(byte zpx)
         {
-            var temp = NES_Register.A + ((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value + ((NES_Register.P.Carry) ? (1) : (0));
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Overflow = ((temp & ~(0xFF)) > 0);
-            NES_Register.P.Zero = NES_Register.A == 0;
-            NES_Register.P.Carry = ((temp & (0x0100)) > 0);
+            NES_Register.A = Math.ADC(NES_Register.A, ((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value);
         }
 
         /// <summary>
@@ -735,12 +713,7 @@ namespace NES
         public static void ADC_71(byte zpy)
         {
             var temp = ((Adress)NES_Memory.Memory[zpy]).Value | ((Adress)NES_Memory.Memory[zpy + 1]).Value << 8;
-            var temp2 = NES_Register.A + ((Adress)NES_Memory.Memory[temp]).Value + ((NES_Register.P.Carry) ? (1) : (0));
-            NES_Register.A = (byte)temp2;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Overflow = ((temp & ~(0xFF)) > 0);
-            NES_Register.P.Zero = NES_Register.A == 0;
-            NES_Register.P.Carry = ((temp & (0x0100)) > 0);
+            NES_Register.A = Math.ADC(NES_Register.A, ((Adress)NES_Memory.Memory[temp]).Value);
         }
         #endregion
 
@@ -2061,25 +2034,7 @@ namespace NES
         public static void CMP_CD(ushort a)
         {
             var temp = ((Adress)NES_Memory.Memory[a]).Value;
-
-            if (NES_Register.A < temp)
-            {
-                NES_Register.P.Negative = true;
-                NES_Register.P.Zero = false;
-                NES_Register.P.Carry = false;
-            }
-            if (NES_Register.A == temp)
-            {
-                NES_Register.P.Negative = false;
-                NES_Register.P.Zero = true;
-                NES_Register.P.Carry = true;
-            }
-            if (NES_Register.A > temp)
-            {
-                NES_Register.P.Negative = false;
-                NES_Register.P.Zero = false;
-                NES_Register.P.Carry = true;
-            }
+            Math.CMP(temp);
         }
 
         /// <summary>
@@ -2097,25 +2052,7 @@ namespace NES
         public static void CMP_DD(ushort ax)
         {
             var temp = ((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value;
-
-            if (NES_Register.A < temp)
-            {
-                NES_Register.P.Negative = true;
-                NES_Register.P.Zero = false;
-                NES_Register.P.Carry = false;
-            }
-            if (NES_Register.A == temp)
-            {
-                NES_Register.P.Negative = false;
-                NES_Register.P.Zero = true;
-                NES_Register.P.Carry = true;
-            }
-            if (NES_Register.A > temp)
-            {
-                NES_Register.P.Negative = false;
-                NES_Register.P.Zero = false;
-                NES_Register.P.Carry = true;
-            }
+            Math.CMP(temp);
         }
 
         /// <summary>
@@ -2133,25 +2070,7 @@ namespace NES
         public static void CMP_D9(ushort ay)
         {
             var temp = ((Adress)NES_Memory.Memory[ay + NES_Register.Y]).Value;
-
-            if (NES_Register.A < temp)
-            {
-                NES_Register.P.Negative = true;
-                NES_Register.P.Zero = false;
-                NES_Register.P.Carry = false;
-            }
-            if (NES_Register.A == temp)
-            {
-                NES_Register.P.Negative = false;
-                NES_Register.P.Zero = true;
-                NES_Register.P.Carry = true;
-            }
-            if (NES_Register.A > temp)
-            {
-                NES_Register.P.Negative = false;
-                NES_Register.P.Zero = false;
-                NES_Register.P.Carry = true;
-            }
+            Math.CMP(temp);
         }
 
         /// <summary>
@@ -2168,26 +2087,7 @@ namespace NES
         /// </param>
         public static void CMP_C9(byte v)
         {
-            var temp = v;
-
-            if (NES_Register.A < temp)
-            {
-                NES_Register.P.Negative = true;
-                NES_Register.P.Zero = false;
-                NES_Register.P.Carry = false;
-            }
-            if (NES_Register.A == temp)
-            {
-                NES_Register.P.Negative = false;
-                NES_Register.P.Zero = true;
-                NES_Register.P.Carry = true;
-            }
-            if (NES_Register.A > temp)
-            {
-                NES_Register.P.Negative = false;
-                NES_Register.P.Zero = false;
-                NES_Register.P.Carry = true;
-            }
+            Math.CMP(v);
         }
 
         /// <summary>
@@ -2204,25 +2104,7 @@ namespace NES
         public static void CMP_C5(byte zp)
         {
             var temp = ((Adress)NES_Memory.Memory[zp]).Value;
-
-            if (NES_Register.A < temp)
-            {
-                NES_Register.P.Negative = true;
-                NES_Register.P.Zero = false;
-                NES_Register.P.Carry = false;
-            }
-            if (NES_Register.A == temp)
-            {
-                NES_Register.P.Negative = false;
-                NES_Register.P.Zero = true;
-                NES_Register.P.Carry = true;
-            }
-            if (NES_Register.A > temp)
-            {
-                NES_Register.P.Negative = false;
-                NES_Register.P.Zero = false;
-                NES_Register.P.Carry = true;
-            }
+            Math.CMP(temp);
         }
 
         /// <summary>
@@ -2240,7 +2122,7 @@ namespace NES
         public static void CMP_C1(byte zpx)
         {
             var temp = ((Adress)NES_Memory.Memory[((Adress)NES_Memory.Memory[Parameter.zpx1(zpx)]).Value]).Value;
-            Math.CMP(NES_Register.A, temp);
+            Math.CMP(temp);
         }
 
         /// <summary>
@@ -2258,25 +2140,7 @@ namespace NES
         public static void CMP_D5(byte zpx)
         {
             var temp = ((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value;
-
-            if (NES_Register.A < temp)
-            {
-                NES_Register.P.Negative = true;
-                NES_Register.P.Zero = false;
-                NES_Register.P.Carry = false;
-            }
-            if (NES_Register.A == temp)
-            {
-                NES_Register.P.Negative = false;
-                NES_Register.P.Zero = true;
-                NES_Register.P.Carry = true;
-            }
-            if (NES_Register.A > temp)
-            {
-                NES_Register.P.Negative = false;
-                NES_Register.P.Zero = false;
-                NES_Register.P.Carry = true;
-            }
+            Math.CMP(temp);
         }
 
         /// <summary>
@@ -2294,25 +2158,7 @@ namespace NES
         {
             var temp2 = ((Adress)NES_Memory.Memory[zpy]).Value | ((Adress)NES_Memory.Memory[zpy + 1]).Value << 8;
             var temp = ((Adress)NES_Memory.Memory[((Adress)NES_Memory.Memory[temp2]).Value]).Value;
-
-            if (NES_Register.A < temp)
-            {
-                NES_Register.P.Negative = true;
-                NES_Register.P.Zero = false;
-                NES_Register.P.Carry = false;
-            }
-            if (NES_Register.A == temp)
-            {
-                NES_Register.P.Negative = false;
-                NES_Register.P.Zero = true;
-                NES_Register.P.Carry = true;
-            }
-            if (NES_Register.A > temp)
-            {
-                NES_Register.P.Negative = false;
-                NES_Register.P.Zero = false;
-                NES_Register.P.Carry = true;
-            }
+            Math.CMP(temp);
         }
         #endregion
 
@@ -2515,19 +2361,19 @@ namespace NES
         {
             var temp = ((Adress)NES_Memory.Memory[zp]).Value;
 
-            if (NES_Register.X < temp)
+            if (NES_Register.Y < temp)
             {
                 NES_Register.P.Negative = true;
                 NES_Register.P.Zero = false;
                 NES_Register.P.Carry = false;
             }
-            if (NES_Register.X == temp)
+            if (NES_Register.Y == temp)
             {
                 NES_Register.P.Negative = false;
                 NES_Register.P.Zero = true;
                 NES_Register.P.Carry = true;
             }
-            if (NES_Register.X > temp)
+            if (NES_Register.Y > temp)
             {
                 NES_Register.P.Negative = false;
                 NES_Register.P.Zero = false;
@@ -2536,7 +2382,7 @@ namespace NES
         }
         #endregion
 
-        #region CPY
+        #region BIT
 
         /// <summary>
         /// Test Bits in Memory with Accumulator: BIT
