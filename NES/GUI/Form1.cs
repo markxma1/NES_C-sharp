@@ -12,7 +12,7 @@ namespace NES
 
             new NES_CPU();
             //NES_ROM.LoadRom(@"F:\roms\thwaite.nes");
-            NES_ROM.LoadRom(@"F:\roms\Dendy\galaga.nes");
+            NES_ROM.LoadRom(@".\FCEUX\Galaga.nes");
             //NES_ROM.LoadRom(@"F:\roms\Dendy\ICE_HOCK.nes");
             //NES_ROM.LoadRom(@"F:\roms\Dendy\FCEUX\test.nes");
             backgroundWorker1.RunWorkerAsync();
