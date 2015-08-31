@@ -19,5 +19,36 @@
             OC(number);
             NZ(number);
         }
+
+        public static int Carry()
+        {
+            return ((NES_Register.P.Carry) ? (1) : (0));
+        }
+
+        public static int NotCarry()
+        {
+            return ((NES_Register.P.Carry) ? (0) : (1));
+        }
+
+        public static void RegisterIsBigger()
+        {
+            NES_Register.P.Negative = false;
+            NES_Register.P.Zero = false;
+            NES_Register.P.Carry = true;
+        }
+
+        public static void Equal()
+        {
+            NES_Register.P.Negative = false;
+            NES_Register.P.Zero = true;
+            NES_Register.P.Carry = true;
+        }
+
+        public static void MemoryIsBigger()
+        {
+            NES_Register.P.Negative = true;
+            NES_Register.P.Zero = false;
+            NES_Register.P.Carry = false;
+        }
     }
 }

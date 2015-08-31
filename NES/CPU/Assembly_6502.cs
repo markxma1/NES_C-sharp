@@ -6,6 +6,7 @@ namespace NES
         #region Load and Store
 
         #region Load
+
         #region LDA
 
         /// <summary>
@@ -40,7 +41,7 @@ namespace NES
         /// </param>
         public static void LDA_BD(ushort ax)
         {
-            NES_Register.A = ((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value;
+            NES_Register.A = ((Adress)NES_Memory.Memory[Parameter.ax(ax)]).Value;
             Status.NZ(NES_Register.A);
         }
 
@@ -58,7 +59,7 @@ namespace NES
         /// </param>
         public static void LDA_B9(ushort ay)
         {
-            NES_Register.A = ((Adress)NES_Memory.Memory[ay + NES_Register.Y]).Value;
+            NES_Register.A = ((Adress)NES_Memory.Memory[Parameter.ay(ay)]).Value;
             Status.NZ(NES_Register.A);
         }
 
@@ -93,7 +94,7 @@ namespace NES
         /// </param>
         public static void LDA_A5(byte zp)
         {
-            NES_Register.A = ((Adress)NES_Memory.Memory[zp]).Value;
+            NES_Register.A = ((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value;
             Status.NZ(NES_Register.A);
         }
 
@@ -122,7 +123,7 @@ namespace NES
         /// Flags: N, Z
         /// </summary>
         /// <param name="zpx">
-        /// Zero Page Indexed with X: zp,x[edit]
+        /// Zero Page Indexed with X: zp,x
         /// The value in X is added to the specified zero page address for a sum address. The value at the sum address is used to perform the computation.
         /// Example
         /// The value $02 in X is added to $01 for a sum of $03. The value $A5 at address $0003 is loaded into the Accumulator.
@@ -130,9 +131,8 @@ namespace NES
         /// </param>
         public static void LDA_B5(byte zpx)
         {
-            NES_Register.A = ((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            NES_Register.A = ((Adress)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value;
+            Status.NZ(NES_Register.A);
         }
 
         /// <summary>
@@ -148,10 +148,8 @@ namespace NES
         /// </param>
         public static void LDA_B1(byte zpy)
         {
-            var temp = ((Adress)NES_Memory.Memory[zpy]).Value | ((Adress)NES_Memory.Memory[zpy + 1]).Value << 8;
-            NES_Register.A = ((Adress)NES_Memory.Memory[temp + NES_Register.Y]).Value;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            NES_Register.A = ((Adress)NES_Memory.Memory[Parameter.zpy1(zpy)]).Value;
+            Status.NZ(NES_Register.A);
         }
         #endregion
 
@@ -172,8 +170,7 @@ namespace NES
         public static void LDX_AE(ushort a)
         {
             NES_Register.X = ((Adress)NES_Memory.Memory[a]).Value;
-            NES_Register.P.Negative = (NES_Register.X & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.X == 0;
+            Status.NZ(NES_Register.X);
         }
 
         /// <summary>
@@ -190,9 +187,8 @@ namespace NES
         /// </param>
         public static void LDX_BE(ushort ay)
         {
-            NES_Register.X = ((Adress)NES_Memory.Memory[ay + NES_Register.Y]).Value;
-            NES_Register.P.Negative = (NES_Register.X & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.X == 0;
+            NES_Register.X = ((Adress)NES_Memory.Memory[Parameter.ay(ay)]).Value;
+            Status.NZ(NES_Register.X);
         }
 
         /// <summary>
@@ -210,8 +206,7 @@ namespace NES
         public static void LDX_A2(byte v)
         {
             NES_Register.X = v;
-            NES_Register.P.Negative = (NES_Register.X & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.X == 0;
+            Status.NZ(NES_Register.X);
         }
 
         /// <summary>
@@ -227,9 +222,8 @@ namespace NES
         /// </param>
         public static void LDX_A6(byte zp)
         {
-            NES_Register.X = ((Adress)NES_Memory.Memory[zp]).Value;
-            NES_Register.P.Negative = (NES_Register.X & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.X == 0;
+            NES_Register.X = ((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value;
+            Status.NZ(NES_Register.X);
         }
 
         /// <summary>
@@ -245,9 +239,8 @@ namespace NES
         /// </param>
         public static void LDX_B6(byte zpy)
         {
-            NES_Register.X = ((Adress)NES_Memory.Memory[zpy + NES_Register.Y]).Value;
-            NES_Register.P.Negative = (NES_Register.X & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.X == 0;
+            NES_Register.X = ((Adress)NES_Memory.Memory[Parameter.zpy2(zpy)]).Value;
+            Status.NZ(NES_Register.X);
         }
         #endregion
 
@@ -268,8 +261,7 @@ namespace NES
         public static void LDY_AC(ushort a)
         {
             NES_Register.Y = ((Adress)NES_Memory.Memory[a]).Value;
-            NES_Register.P.Negative = (NES_Register.Y & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.Y == 0;
+            Status.NZ(NES_Register.Y);
         }
 
         /// <summary>
@@ -286,9 +278,8 @@ namespace NES
         /// </param>
         public static void LDY_BC(ushort ax)
         {
-            NES_Register.Y = ((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value;
-            NES_Register.P.Negative = (NES_Register.Y & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.Y == 0;
+            NES_Register.Y = ((Adress)NES_Memory.Memory[Parameter.ax(ax)]).Value;
+            Status.NZ(NES_Register.Y);
         }
 
         /// <summary>
@@ -306,8 +297,7 @@ namespace NES
         public static void LDY_A0(byte v)
         {
             NES_Register.Y = v;
-            NES_Register.P.Negative = (NES_Register.Y & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.Y == 0;
+            Status.NZ(NES_Register.Y);
         }
 
         /// <summary>
@@ -323,9 +313,8 @@ namespace NES
         /// </param>
         public static void LDY_A4(byte zp)
         {
-            NES_Register.Y = ((Adress)NES_Memory.Memory[zp]).Value;
-            NES_Register.P.Negative = (NES_Register.Y & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.Y == 0;
+            NES_Register.Y = ((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value;
+            Status.NZ(NES_Register.Y);
         }
 
         /// <summary>
@@ -334,7 +323,7 @@ namespace NES
         /// Flags: N, Z
         /// </summary>
         /// <param name="zpx">
-        /// Zero Page Indexed with X: zp,x[edit]
+        /// Zero Page Indexed with X: zp,x
         /// The value in X is added to the specified zero page address for a sum address. The value at the sum address is used to perform the computation.
         /// Example
         /// The value $02 in X is added to $01 for a sum of $03. The value $A5 at address $0003 is loaded into the Accumulator.
@@ -342,9 +331,8 @@ namespace NES
         /// </param>
         public static void LDY_B4(byte zpx)
         {
-            NES_Register.Y = ((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value;
-            NES_Register.P.Negative = (NES_Register.Y & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.Y == 0;
+            NES_Register.Y = ((Adress)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value;
+            Status.NZ(NES_Register.Y);
         }
         #endregion
         #endregion
@@ -382,7 +370,7 @@ namespace NES
         /// </param>
         public static void STA_9D(ushort ax)
         {
-            ((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value = NES_Register.A;
+            ((Adress)NES_Memory.Memory[Parameter.ax(ax)]).Value = NES_Register.A;
         }
 
         /// <summary>
@@ -398,7 +386,7 @@ namespace NES
         /// </param>
         public static void STA_99(ushort ay)
         {
-            ((Adress)NES_Memory.Memory[ay + NES_Register.Y]).Value = NES_Register.A;
+            ((Adress)NES_Memory.Memory[Parameter.ay(ay)]).Value = NES_Register.A;
         }
 
         /// <summary>
@@ -413,7 +401,7 @@ namespace NES
         /// </param>
         public static void STA_85(byte zp)
         {
-            ((Adress)NES_Memory.Memory[zp]).Value = NES_Register.A;
+            ((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value = NES_Register.A;
         }
 
         /// <summary>
@@ -437,7 +425,7 @@ namespace NES
         /// A -> M
         /// </summary>
         /// <param name="zpx">
-        /// Zero Page Indexed with X: zp,x[edit]
+        /// Zero Page Indexed with X: zp,x
         /// The value in X is added to the specified zero page address for a sum address. The value at the sum address is used to perform the computation.
         /// Example
         /// The value $02 in X is added to $01 for a sum of $03. The value $A5 at address $0003 is loaded into the Accumulator.
@@ -445,7 +433,7 @@ namespace NES
         /// </param>
         public static void STA_95(byte zpx)
         {
-            ((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value = NES_Register.A;
+            ((Adress)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value = NES_Register.A;
         }
 
         /// <summary>
@@ -460,8 +448,7 @@ namespace NES
         /// </param>
         public static void STA_91(byte zpy)
         {
-            var temp = ((Adress)NES_Memory.Memory[zpy]).Value | ((Adress)NES_Memory.Memory[zpy + 1]).Value << 8;
-            ((Adress)NES_Memory.Memory[temp + NES_Register.Y]).Value = NES_Register.A;
+            ((Adress)NES_Memory.Memory[Parameter.zpy1(zpy)]).Value = NES_Register.A;
         }
         #endregion
 
@@ -495,7 +482,7 @@ namespace NES
         /// </param>
         public static void STX_86(byte zp)
         {
-            ((Adress)NES_Memory.Memory[zp]).Value = NES_Register.X;
+            ((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value = NES_Register.X;
         }
 
         /// <summary>
@@ -510,7 +497,7 @@ namespace NES
         /// </param>
         public static void STX_96(byte zpy)
         {
-            ((Adress)NES_Memory.Memory[zpy + NES_Register.Y]).Value = NES_Register.X;
+            ((Adress)NES_Memory.Memory[Parameter.zpy2(zpy)]).Value = NES_Register.X;
         }
         #endregion
 
@@ -545,7 +532,7 @@ namespace NES
         /// </param>
         public static void STY_84(byte zp)
         {
-            ((Adress)NES_Memory.Memory[zp]).Value = NES_Register.Y;
+            ((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value = NES_Register.Y;
         }
 
         /// <summary>
@@ -553,7 +540,7 @@ namespace NES
         /// Y -> M
         ///</summary>
         /// <param name="zpx">
-        /// Zero Page Indexed with X: zp,x[edit]
+        /// Zero Page Indexed with X: zp,x
         /// The value in X is added to the specified zero page address for a sum address. The value at the sum address is used to perform the computation.
         /// Example
         /// The value $02 in X is added to $01 for a sum of $03. The value $A5 at address $0003 is loaded into the Accumulator.
@@ -561,7 +548,7 @@ namespace NES
         /// </param>
         public static void STY_94(byte zpx)
         {
-            ((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value = NES_Register.Y;
+            ((Adress)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value = NES_Register.Y;
         }
         #endregion
         #endregion
@@ -585,12 +572,7 @@ namespace NES
         /// </param>
         public static void ADC_6D(ushort a)
         {
-            var temp = NES_Register.A + ((Adress)NES_Memory.Memory[a]).Value + ((NES_Register.P.Carry) ? (1) : (0));
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Overflow = ((temp & ~(0xFF)) > 0);
-            NES_Register.P.Zero = NES_Register.A == 0;
-            NES_Register.P.Carry = ((temp & (0x0100)) > 0);
+            NES_Register.A = Math.ADC(NES_Register.A, ((Adress)NES_Memory.Memory[a]).Value);
         }
 
         /// <summary>
@@ -607,12 +589,7 @@ namespace NES
         /// </param>
         public static void ADC_7D(ushort ax)
         {
-            var temp = NES_Register.A + ((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value + ((NES_Register.P.Carry) ? (1) : (0));
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Overflow = ((temp & ~(0xFF)) > 0);
-            NES_Register.P.Zero = NES_Register.A == 0;
-            NES_Register.P.Carry = ((temp & (0x0100)) > 0);
+            NES_Register.A = Math.ADC(NES_Register.A, ((Adress)NES_Memory.Memory[Parameter.ax(ax)]).Value);
         }
 
         /// <summary>
@@ -629,7 +606,7 @@ namespace NES
         /// </param>
         public static void ADC_79(ushort ay)
         {
-            NES_Register.A = Math.ADC(NES_Register.A, ((Adress)NES_Memory.Memory[ay + NES_Register.Y]).Value);
+            NES_Register.A = Math.ADC(NES_Register.A, ((Adress)NES_Memory.Memory[Parameter.ay(ay)]).Value);
         }
 
         /// <summary>
@@ -688,7 +665,7 @@ namespace NES
         /// Flags: N, V, Z, C
         ///</summary>
         /// <param name="zpx">
-        /// Zero Page Indexed with X: zp,x[edit]
+        /// Zero Page Indexed with X: zp,x
         /// The value in X is added to the specified zero page address for a sum address. The value at the sum address is used to perform the computation.
         /// Example
         /// The value $02 in X is added to $01 for a sum of $03. The value $A5 at address $0003 is loaded into the Accumulator.
@@ -696,7 +673,7 @@ namespace NES
         /// </param>
         public static void ADC_75(byte zpx)
         {
-            NES_Register.A = Math.ADC(NES_Register.A, ((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value);
+            NES_Register.A = Math.ADC(NES_Register.A, ((Adress)NES_Memory.Memory[Parameter.zpy2(zpx)]).Value);
         }
 
         /// <summary>
@@ -712,8 +689,7 @@ namespace NES
         /// </param>
         public static void ADC_71(byte zpy)
         {
-            var temp = ((Adress)NES_Memory.Memory[zpy]).Value | ((Adress)NES_Memory.Memory[zpy + 1]).Value << 8;
-            NES_Register.A = Math.ADC(NES_Register.A, ((Adress)NES_Memory.Memory[temp]).Value);
+            NES_Register.A = Math.ADC(NES_Register.A, ((Adress)NES_Memory.Memory[Parameter.zpy1(zpy)]).Value);
         }
         #endregion
 
@@ -733,12 +709,7 @@ namespace NES
         /// </param>
         public static void SBC_ED(ushort a)
         {
-            var temp = NES_Register.A - ((Adress)NES_Memory.Memory[a]).Value - ((NES_Register.P.Carry) ? (0) : (1));
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Overflow = ((temp & ~(0xFF)) > 0);
-            NES_Register.P.Zero = NES_Register.A == 0;
-            NES_Register.P.Carry = ((temp & (0x0100)) > 0);
+            NES_Register.A = Math.SBC(NES_Register.A, ((Adress)NES_Memory.Memory[a]).Value);
         }
 
         /// <summary>
@@ -755,12 +726,7 @@ namespace NES
         /// </param>
         public static void SBC_FD(ushort ax)
         {
-            var temp = NES_Register.A - ((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value - ((NES_Register.P.Carry) ? (0) : (1));
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Overflow = ((temp & ~(0xFF)) > 0);
-            NES_Register.P.Zero = NES_Register.A == 0;
-            NES_Register.P.Carry = ((temp & (0x0100)) > 0);
+            NES_Register.A = Math.SBC(NES_Register.A, ((Adress)NES_Memory.Memory[Parameter.ay(ax)]).Value);
         }
 
         /// <summary>
@@ -777,12 +743,7 @@ namespace NES
         /// </param>
         public static void SBC_F9(ushort ay)
         {
-            var temp = NES_Register.A - ((Adress)NES_Memory.Memory[ay + NES_Register.Y]).Value - ((NES_Register.P.Carry) ? (0) : (1));
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Overflow = ((temp & ~(0xFF)) > 0);
-            NES_Register.P.Zero = NES_Register.A == 0;
-            NES_Register.P.Carry = ((temp & (0x0100)) > 0);
+            NES_Register.A = Math.SBC(NES_Register.A, ((Adress)NES_Memory.Memory[Parameter.ay(ay)]).Value);
         }
 
         /// <summary>
@@ -799,12 +760,7 @@ namespace NES
         /// </param>
         public static void SBC_E9(byte v)
         {
-            var temp = NES_Register.A - v - ((NES_Register.P.Carry) ? (0) : (1));
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Overflow = ((temp & ~(0xFF)) > 0);
-            NES_Register.P.Zero = NES_Register.A == 0;
-            NES_Register.P.Carry = ((temp & (0x0100)) > 0);
+            NES_Register.A = Math.SBC(NES_Register.A, v);
         }
 
         /// <summary>
@@ -820,12 +776,7 @@ namespace NES
         /// </param>
         public static void SBC_E5(byte zp)
         {
-            var temp = NES_Register.A - ((Adress)NES_Memory.Memory[zp]).Value - ((NES_Register.P.Carry) ? (0) : (1));
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Overflow = ((temp & ~(0xFF)) > 0);
-            NES_Register.P.Zero = NES_Register.A == 0;
-            NES_Register.P.Carry = ((temp & (0x0100)) > 0);
+            NES_Register.A = Math.SBC(NES_Register.A, ((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value);
         }
 
         /// <summary>
@@ -842,14 +793,7 @@ namespace NES
         /// </param>
         public static void SBC_E1(byte zpx)
         {
-            short address = (short)(zpx + NES_Register.X);
-            var temp = (short)((((Adress)NES_Memory.Memory[address]).Value) | (((Adress)NES_Memory.Memory[address + 1]).Value << 8));
-            var temp2 = NES_Register.A - ((Adress)NES_Memory.Memory[temp]).Value - ((NES_Register.P.Carry) ? (0) : (1));
-            NES_Register.A = (byte)temp2;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Overflow = ((temp & ~(0xFF)) > 0);
-            NES_Register.P.Zero = NES_Register.A == 0;
-            NES_Register.P.Carry = ((temp & (0x0100)) > 0);
+            NES_Register.A = Math.SBC(NES_Register.A, ((Adress)NES_Memory.Memory[Parameter.zpx1(zpx)]).Value);
         }
 
         /// <summary>
@@ -858,7 +802,7 @@ namespace NES
         /// Flags: N, V, Z, C
         ///</summary>
         /// <param name="zpx">
-        /// Zero Page Indexed with X: zp,x[edit]
+        /// Zero Page Indexed with X: zp,x
         /// The value in X is added to the specified zero page address for a sum address. The value at the sum address is used to perform the computation.
         /// Example
         /// The value $02 in X is added to $01 for a sum of $03. The value $A5 at address $0003 is loaded into the Accumulator.
@@ -866,12 +810,7 @@ namespace NES
         /// </param>
         public static void SBC_F5(byte zpx)
         {
-            var temp = NES_Register.A - ((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value - ((NES_Register.P.Carry) ? (0) : (1));
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Overflow = ((temp & ~(0xFF)) > 0);
-            NES_Register.P.Zero = NES_Register.A == 0;
-            NES_Register.P.Carry = ((temp & (0x0100)) > 0);
+            NES_Register.A = Math.SBC(NES_Register.A, ((Adress)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value);
         }
 
         /// <summary>
@@ -887,13 +826,7 @@ namespace NES
         /// </param>
         public static void SBC_F1(byte zpy)
         {
-            var temp = ((Adress)NES_Memory.Memory[zpy]).Value | ((Adress)NES_Memory.Memory[zpy + 1]).Value << 8;
-            var temp2 = NES_Register.A - ((Adress)NES_Memory.Memory[temp]).Value - ((NES_Register.P.Carry) ? (0) : (1));
-            NES_Register.A = (byte)temp2;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Overflow = ((temp & ~(0xFF)) > 0);
-            NES_Register.P.Zero = NES_Register.A == 0;
-            NES_Register.P.Carry = ((temp & (0x0100)) > 0);
+            NES_Register.A = Math.SBC(NES_Register.A, ((Adress)NES_Memory.Memory[Parameter.zpy1(zpy)]).Value);
         }
         #endregion
         #endregion
@@ -916,9 +849,7 @@ namespace NES
         /// </param>
         public static void INC_EE(ushort a)
         {
-            ((Adress)NES_Memory.Memory[a]).Value++;
-            NES_Register.P.Negative = (((Adress)NES_Memory.Memory[a]).Value & 0x80) != 0;
-            NES_Register.P.Zero = ((Adress)NES_Memory.Memory[a]).Value == 0;
+            Status.NZ(++((Adress)NES_Memory.Memory[a]).Value);
         }
 
         /// <summary>
@@ -935,9 +866,7 @@ namespace NES
         /// </param>
         public static void INC_FE(ushort ax)
         {
-            ((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value++;
-            NES_Register.P.Negative = (((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value & 0x80) != 0;
-            NES_Register.P.Zero = ((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value == 0;
+            Status.NZ(++((Adress)NES_Memory.Memory[Parameter.ax(ax)]).Value);
         }
 
         /// <summary>
@@ -953,9 +882,7 @@ namespace NES
         /// </param>
         public static void INC_E6(byte zp)
         {
-            ((Adress)NES_Memory.Memory[zp]).Value++;
-            NES_Register.P.Negative = (((Adress)NES_Memory.Memory[zp]).Value & 0x80) != 0;
-            NES_Register.P.Zero = ((Adress)NES_Memory.Memory[zp]).Value == 0;
+            Status.NZ(++((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value);
         }
 
         /// <summary>
@@ -972,9 +899,7 @@ namespace NES
         /// </param>
         public static void INC_F6(byte zpx)
         {
-            ((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value++;
-            NES_Register.P.Negative = (((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value & 0x80) != 0;
-            NES_Register.P.Zero = ((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value == 0;
+            Status.NZ(++((Adress)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value);
         }
         #endregion
 
@@ -985,9 +910,7 @@ namespace NES
         ///</summary>
         public static void INX_E8()
         {
-            NES_Register.X++;
-            NES_Register.P.Negative = (NES_Register.X & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.X == 0;
+            Status.NZ(++NES_Register.X);
         }
 
         /// <summary>
@@ -997,9 +920,7 @@ namespace NES
         ///</summary>
         public static void INY_C8()
         {
-            NES_Register.Y++;
-            NES_Register.P.Negative = (NES_Register.Y & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.Y == 0;
+            Status.NZ(++NES_Register.Y);
         }
 
         #region DEC
@@ -1018,9 +939,7 @@ namespace NES
         /// </param>
         public static void DEC_CE(ushort a)
         {
-            ((Adress)NES_Memory.Memory[a]).Value--;
-            NES_Register.P.Negative = (((Adress)NES_Memory.Memory[a]).Value & 0x80) != 0;
-            NES_Register.P.Zero = ((Adress)NES_Memory.Memory[a]).Value == 0;
+            Status.NZ(--((Adress)NES_Memory.Memory[a]).Value);
         }
 
         /// <summary>
@@ -1037,9 +956,7 @@ namespace NES
         /// </param>
         public static void DEC_DE(ushort ax)
         {
-            ((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value--;
-            NES_Register.P.Negative = (((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value & 0x80) != 0;
-            NES_Register.P.Zero = ((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value == 0;
+            Status.NZ(--((Adress)NES_Memory.Memory[Parameter.ax(ax)]).Value);
         }
 
         /// <summary>
@@ -1055,9 +972,7 @@ namespace NES
         /// </param>
         public static void DEC_C6(byte zp)
         {
-            ((Adress)NES_Memory.Memory[zp]).Value--;
-            NES_Register.P.Negative = (((Adress)NES_Memory.Memory[zp]).Value & 0x80) != 0;
-            NES_Register.P.Zero = ((Adress)NES_Memory.Memory[zp]).Value == 0;
+            Status.NZ(--((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value);
         }
 
         /// <summary>
@@ -1074,9 +989,7 @@ namespace NES
         /// </param>
         public static void DEC_D6(byte zpx)
         {
-            ((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value--;
-            NES_Register.P.Negative = (((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value & 0x80) != 0;
-            NES_Register.P.Zero = ((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value == 0;
+            Status.NZ(--((Adress)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value);
         }
         #endregion
 
@@ -1087,9 +1000,7 @@ namespace NES
         ///</summary>
         public static void DEX_CA()
         {
-            NES_Register.X--;
-            NES_Register.P.Negative = (NES_Register.X & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.X == 0;
+            Status.NZ(--NES_Register.X);
         }
 
         /// <summary>
@@ -1099,9 +1010,7 @@ namespace NES
         ///</summary>
         public static void DEY_88()
         {
-            NES_Register.Y--;
-            NES_Register.P.Negative = (NES_Register.Y & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.Y == 0;
+            Status.NZ(--NES_Register.Y);
         }
         #endregion
 
@@ -1124,10 +1033,7 @@ namespace NES
         /// </param>
         public static void ASL_0E(ushort a)
         {
-            NES_Register.P.Carry = ((((Adress)NES_Memory.Memory[a]).Value & ~(0x80)) > 0);
-            ((Adress)NES_Memory.Memory[a]).Value = (byte)(((Adress)NES_Memory.Memory[a]).Value << 1);
-            NES_Register.P.Negative = (((Adress)NES_Memory.Memory[a]).Value & 0x80) != 0;
-            NES_Register.P.Zero = ((Adress)NES_Memory.Memory[a]).Value == 0;
+            Math.ASL(a);
         }
 
         /// <summary>
@@ -1144,17 +1050,13 @@ namespace NES
         /// </param>
         public static void ASL_1E(ushort ax)
         {
-            NES_Register.P.Carry = ((((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value & ~(0x80)) > 0);
-            ((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value = (byte)(((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value << 1);
-            NES_Register.P.Negative = (((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value & 0x80) != 0;
-            NES_Register.P.Zero = ((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value == 0;
+            Math.ASL(Parameter.ax(ax));
         }
 
         /// <summary>
         /// Arithmetic Shift Left One Bit: ASL
         /// C {- 7 6 5 4 3 2 1 0 {- 0
         /// Flags: N, Z, C
-        ///
         /// Accumulator: A
         /// The Accumulator is implied as the operand, so no address needs to be specified.
         /// Example
@@ -1162,10 +1064,7 @@ namespace NES
         ///</summary>
         public static void ASL_0A()
         {
-            NES_Register.P.Carry = ((NES_Register.A & ~(0x80)) > 0);
-            NES_Register.A = (byte)(NES_Register.A << 1);
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Math.ASL();
         }
 
         /// <summary>
@@ -1181,10 +1080,7 @@ namespace NES
         /// </param>
         public static void ASL_06(byte zp)
         {
-            NES_Register.P.Carry = ((((Adress)NES_Memory.Memory[zp]).Value & ~(0x80)) > 0);
-            ((Adress)NES_Memory.Memory[zp]).Value = (byte)(((Adress)NES_Memory.Memory[zp]).Value << 1);
-            NES_Register.P.Negative = (((Adress)NES_Memory.Memory[zp]).Value & 0x80) != 0;
-            NES_Register.P.Zero = ((Adress)NES_Memory.Memory[zp]).Value == 0;
+            Math.ASL(Parameter.zp(zp));
         }
 
         /// <summary>
@@ -1193,7 +1089,7 @@ namespace NES
         /// Flags: N, Z, C
         ///</summary>
         /// <param name="zpx">
-        /// Zero Page Indexed with X: zp,x[edit]
+        /// Zero Page Indexed with X: zp,x
         /// The value in X is added to the specified zero page address for a sum address. The value at the sum address is used to perform the computation.
         /// Example
         /// The value $02 in X is added to $01 for a sum of $03. The value $A5 at address $0003 is loaded into the Accumulator.
@@ -1201,10 +1097,7 @@ namespace NES
         /// </param>
         public static void ASL_16(byte zpx)
         {
-            NES_Register.P.Carry = ((((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value & ~(0x80)) > 0);
-            ((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value = (byte)(((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value << 1);
-            NES_Register.P.Negative = (((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value & 0x80) != 0;
-            NES_Register.P.Zero = ((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value == 0;
+            Math.ASL(Parameter.zpx2(zpx));
         }
         #endregion
 
@@ -1224,10 +1117,7 @@ namespace NES
         /// </param>
         public static void LSR_4E(ushort a)
         {
-            NES_Register.P.Carry = ((((Adress)NES_Memory.Memory[a]).Value & ~(0x1)) > 0);
-            ((Adress)NES_Memory.Memory[a]).Value = (byte)(((Adress)NES_Memory.Memory[a]).Value >> 1);
-            NES_Register.P.Negative = (((Adress)NES_Memory.Memory[a]).Value & 0x80) != 0;
-            NES_Register.P.Zero = ((Adress)NES_Memory.Memory[a]).Value == 0;
+            Math.LSR(a);
         }
 
         /// <summary>
@@ -1244,10 +1134,7 @@ namespace NES
         /// </param>
         public static void LSR_5E(ushort ax)
         {
-            NES_Register.P.Carry = ((((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value & ~(0x1)) > 0);
-            ((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value = (byte)(((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value >> 1);
-            NES_Register.P.Negative = (((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value & 0x80) != 0;
-            NES_Register.P.Zero = ((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value == 0;
+            Math.LSR(Parameter.ax(ax));
         }
 
         /// <summary>
@@ -1262,10 +1149,7 @@ namespace NES
         ///</summary>
         public static void LSR_4A()
         {
-            NES_Register.P.Carry = ((NES_Register.A & ~(0x1)) > 0);
-            NES_Register.A = (byte)(NES_Register.A >> 1);
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Math.LSR();
         }
 
         /// <summary>
@@ -1281,10 +1165,7 @@ namespace NES
         /// </param>
         public static void LSR_46(byte zp)
         {
-            NES_Register.P.Carry = ((((Adress)NES_Memory.Memory[zp]).Value & ~(0x1)) > 0);
-            ((Adress)NES_Memory.Memory[zp]).Value = (byte)(((Adress)NES_Memory.Memory[zp]).Value >> 1);
-            NES_Register.P.Negative = (((Adress)NES_Memory.Memory[zp]).Value & 0x80) != 0;
-            NES_Register.P.Zero = ((Adress)NES_Memory.Memory[zp]).Value == 0;
+            Math.LSR(Parameter.zp(zp));
         }
 
         /// <summary>
@@ -1293,7 +1174,7 @@ namespace NES
         /// Flags: N, Z, C
         ///</summary>
         /// <param name="zpx">
-        /// Zero Page Indexed with X: zp,x[edit]
+        /// Zero Page Indexed with X: zp,x
         /// The value in X is added to the specified zero page address for a sum address. The value at the sum address is used to perform the computation.
         /// Example
         /// The value $02 in X is added to $01 for a sum of $03. The value $A5 at address $0003 is loaded into the Accumulator.
@@ -1301,10 +1182,7 @@ namespace NES
         /// </param>
         public static void LSR_56(byte zpx)
         {
-            NES_Register.P.Carry = ((((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value & ~(0x1)) > 0);
-            ((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value = (byte)(((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value >> 1);
-            NES_Register.P.Negative = (((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value & 0x80) != 0;
-            NES_Register.P.Zero = ((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value == 0;
+            Math.LSR(Parameter.zpx2(zpx));
         }
         #endregion
         #endregion
@@ -1327,10 +1205,7 @@ namespace NES
         /// </param>
         public static void ROL_2E(ushort a)
         {
-            NES_Register.P.Carry = ((((Adress)NES_Memory.Memory[a]).Value & ~(0x80)) > 0);
-            ((Adress)NES_Memory.Memory[a]).Value = (byte)(((Adress)NES_Memory.Memory[a]).Value << 1 + ((NES_Register.P.Carry) ? (1) : (0)));
-            NES_Register.P.Negative = (((Adress)NES_Memory.Memory[a]).Value & 0x80) != 0;
-            NES_Register.P.Zero = ((Adress)NES_Memory.Memory[a]).Value == 0;
+            Math.ROL(a);
         }
 
         /// <summary>
@@ -1347,10 +1222,7 @@ namespace NES
         /// </param>
         public static void ROL_3E(ushort ax)
         {
-            NES_Register.P.Carry = ((((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value & ~(0x80)) > 0);
-            ((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value = (byte)(((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value << 1 + ((NES_Register.P.Carry) ? (1) : (0)));
-            NES_Register.P.Negative = (((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value & 0x80) != 0;
-            NES_Register.P.Zero = ((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value == 0;
+            Math.ROL(Parameter.ax(ax));
         }
 
         /// <summary>
@@ -1365,10 +1237,7 @@ namespace NES
         ///</summary>
         public static void ROL_2A()
         {
-            NES_Register.P.Carry = ((NES_Register.A & ~(0x80)) > 0);
-            NES_Register.A = (byte)(NES_Register.A << 1 + ((NES_Register.P.Carry) ? (1) : (0)));
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Math.ROL();
         }
 
         /// <summary>
@@ -1384,10 +1253,7 @@ namespace NES
         /// </param>
         public static void ROL_26(byte zp)
         {
-            NES_Register.P.Carry = ((((Adress)NES_Memory.Memory[zp]).Value & ~(0x80)) > 0);
-            ((Adress)NES_Memory.Memory[zp]).Value = (byte)(((Adress)NES_Memory.Memory[zp]).Value << 1 + ((NES_Register.P.Carry) ? (1) : (0)));
-            NES_Register.P.Negative = (((Adress)NES_Memory.Memory[zp]).Value & 0x80) != 0;
-            NES_Register.P.Zero = ((Adress)NES_Memory.Memory[zp]).Value == 0;
+            Math.ROL(Parameter.zp(zp));
         }
 
         /// <summary>
@@ -1396,7 +1262,7 @@ namespace NES
         /// Flags: N, Z, C
         ///</summary>
         /// <param name="zpx">
-        /// Zero Page Indexed with X: zp,x[edit]
+        /// Zero Page Indexed with X: zp,x
         /// The value in X is added to the specified zero page address for a sum address. The value at the sum address is used to perform the computation.
         /// Example
         /// The value $02 in X is added to $01 for a sum of $03. The value $A5 at address $0003 is loaded into the Accumulator.
@@ -1404,10 +1270,7 @@ namespace NES
         /// </param>
         public static void ROL_36(byte zpx)
         {
-            NES_Register.P.Carry = ((((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value & ~(0x80)) > 0);
-            ((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value = (byte)(((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value << 1 + ((NES_Register.P.Carry) ? (1) : (0)));
-            NES_Register.P.Negative = (((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value & 0x80) != 0;
-            NES_Register.P.Zero = ((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value == 0;
+            Math.ROL(Parameter.zpx2(zpx));
         }
         #endregion
 
@@ -1427,10 +1290,7 @@ namespace NES
         /// </param>
         public static void ROR_6E(ushort a)
         {
-            NES_Register.P.Carry = ((((Adress)NES_Memory.Memory[a]).Value & ~(0x1)) > 0);
-            ((Adress)NES_Memory.Memory[a]).Value = (byte)(((Adress)NES_Memory.Memory[a]).Value >> 1 + ((NES_Register.P.Carry) ? (1) : (0)));
-            NES_Register.P.Negative = (((Adress)NES_Memory.Memory[a]).Value & 0x80) != 0;
-            NES_Register.P.Zero = ((Adress)NES_Memory.Memory[a]).Value == 0;
+            Math.ROR(a);
         }
 
         /// <summary>
@@ -1447,10 +1307,7 @@ namespace NES
         /// </param>
         public static void ROR_7E(ushort ax)
         {
-            NES_Register.P.Carry = ((((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value & ~(0x1)) > 0);
-            ((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value = (byte)(((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value >> 1 + ((NES_Register.P.Carry) ? (1) : (0)));
-            NES_Register.P.Negative = (((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value & 0x80) != 0;
-            NES_Register.P.Zero = ((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value == 0;
+            Math.ROR(Parameter.ax(ax));
         }
 
         /// <summary>
@@ -1465,10 +1322,7 @@ namespace NES
         ///</summary>
         public static void ROR_6A()
         {
-            NES_Register.P.Carry = ((NES_Register.A & ~(0x1)) > 0);
-            NES_Register.A = (byte)(NES_Register.A >> 1 + ((NES_Register.P.Carry) ? (1) : (0)));
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Math.ROR();
         }
 
         /// <summary>
@@ -1484,10 +1338,7 @@ namespace NES
         /// </param>
         public static void ROR_66(byte zp)
         {
-            NES_Register.P.Carry = ((((Adress)NES_Memory.Memory[zp]).Value & ~(0x1)) > 0);
-            ((Adress)NES_Memory.Memory[zp]).Value = (byte)(((Adress)NES_Memory.Memory[zp]).Value >> 1 + ((NES_Register.P.Carry) ? (1) : (0)));
-            NES_Register.P.Negative = (((Adress)NES_Memory.Memory[zp]).Value & 0x80) != 0;
-            NES_Register.P.Zero = ((Adress)NES_Memory.Memory[zp]).Value == 0;
+            Math.ROR(zp);
         }
 
         /// <summary>
@@ -1496,7 +1347,7 @@ namespace NES
         /// Flags: N, Z, C
         ///</summary>
         /// <param name="zpx">
-        /// Zero Page Indexed with X: zp,x[edit]
+        /// Zero Page Indexed with X: zp,x
         /// The value in X is added to the specified zero page address for a sum address. The value at the sum address is used to perform the computation.
         /// Example
         /// The value $02 in X is added to $01 for a sum of $03. The value $A5 at address $0003 is loaded into the Accumulator.
@@ -1504,10 +1355,7 @@ namespace NES
         /// </param>
         public static void ROR_76(byte zpx)
         {
-            NES_Register.P.Carry = ((((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value & ~(0x1)) > 0);
-            ((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value = (byte)(((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value >> 1 + ((NES_Register.P.Carry) ? (1) : (0)));
-            NES_Register.P.Negative = (((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value & 0x80) != 0;
-            NES_Register.P.Zero = ((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value == 0;
+            Math.ROR(Parameter.zpy2(zpx));
         }
         #endregion
         #endregion
@@ -1531,10 +1379,7 @@ namespace NES
         /// </param>
         public static void AND_2D(ushort a)
         {
-            var temp = NES_Register.A & ((Adress)NES_Memory.Memory[a]).Value;
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Math.AND(((Adress)NES_Memory.Memory[a]).Value);
         }
 
         /// <summary>
@@ -1551,10 +1396,7 @@ namespace NES
         /// </param>
         public static void AND_3D(ushort ax)
         {
-            var temp = NES_Register.A & ((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value;
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Math.AND(((Adress)NES_Memory.Memory[Parameter.ax(ax)]).Value);
         }
 
         /// <summary>
@@ -1571,10 +1413,7 @@ namespace NES
         /// </param>
         public static void AND_39(ushort ay)
         {
-            var temp = NES_Register.A & ((Adress)NES_Memory.Memory[ay + NES_Register.Y]).Value;
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Math.AND(((Adress)NES_Memory.Memory[Parameter.ay(ay)]).Value);
         }
 
         /// <summary>
@@ -1591,10 +1430,7 @@ namespace NES
         /// </param>
         public static void AND_29(byte v)
         {
-            var temp = NES_Register.A & v;
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Math.AND(v);
         }
 
         /// <summary>
@@ -1610,10 +1446,7 @@ namespace NES
         /// </param>
         public static void AND_25(byte zp)
         {
-            var temp = NES_Register.A & ((Adress)NES_Memory.Memory[zp]).Value;
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Math.AND(((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value);
         }
 
         /// <summary>
@@ -1630,12 +1463,7 @@ namespace NES
         /// </param>
         public static void AND_21(byte zpx)
         {
-            short address = (short)(zpx + NES_Register.X);
-            var temp = (short)((((Adress)NES_Memory.Memory[address]).Value) | (((Adress)NES_Memory.Memory[address + 1]).Value << 8));
-            var temp2 = NES_Register.A & ((Adress)NES_Memory.Memory[((Adress)NES_Memory.Memory[temp]).Value]).Value;
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Math.AND(((Adress)NES_Memory.Memory[Parameter.zpx1(zpx)]).Value);
         }
 
         /// <summary>
@@ -1644,7 +1472,7 @@ namespace NES
         /// Flags: N, Z
         ///</summary>
         /// <param name="zpx">
-        /// Zero Page Indexed with X: zp,x[edit]
+        /// Zero Page Indexed with X: zp,x
         /// The value in X is added to the specified zero page address for a sum address. The value at the sum address is used to perform the computation.
         /// Example
         /// The value $02 in X is added to $01 for a sum of $03. The value $A5 at address $0003 is loaded into the Accumulator.
@@ -1652,10 +1480,7 @@ namespace NES
         /// </param>
         public static void AND_35(byte zpx)
         {
-            var temp = NES_Register.A & ((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value;
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Math.AND(((Adress)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value);
         }
 
         /// <summary>
@@ -1671,11 +1496,7 @@ namespace NES
         /// </param>
         public static void AND_31(byte zpy)
         {
-            var temp = ((Adress)NES_Memory.Memory[zpy]).Value | ((Adress)NES_Memory.Memory[zpy + 1]).Value << 8;
-            var temp2 = NES_Register.A & ((Adress)NES_Memory.Memory[((Adress)NES_Memory.Memory[temp]).Value]).Value;
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Math.AND(((Adress)NES_Memory.Memory[Parameter.zpy1(zpy)]).Value);
         }
         #endregion
 
@@ -1695,10 +1516,7 @@ namespace NES
         /// </param>
         public static void ORA_0D(ushort a)
         {
-            var temp = NES_Register.A | ((Adress)NES_Memory.Memory[a]).Value;
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Math.ORA(((Adress)NES_Memory.Memory[a]).Value);
         }
 
         /// <summary>
@@ -1715,10 +1533,7 @@ namespace NES
         /// </param>
         public static void ORA_1D(ushort ax)
         {
-            var temp = NES_Register.A | ((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value;
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Math.ORA(((Adress)NES_Memory.Memory[Parameter.ax(ax)]).Value);
         }
 
         /// <summary>
@@ -1735,10 +1550,7 @@ namespace NES
         /// </param>
         public static void ORA_19(ushort ay)
         {
-            var temp = NES_Register.A | ((Adress)NES_Memory.Memory[ay + NES_Register.Y]).Value;
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Math.ORA(((Adress)NES_Memory.Memory[Parameter.ay(ay)]).Value);
         }
 
         /// <summary>
@@ -1755,10 +1567,7 @@ namespace NES
         /// </param>
         public static void ORA_09(byte v)
         {
-            var temp = NES_Register.A | v;
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Math.ORA(((Adress)NES_Memory.Memory[v]).Value);
         }
 
         /// <summary>
@@ -1774,10 +1583,7 @@ namespace NES
         /// </param>
         public static void ORA_05(byte zp)
         {
-            var temp = NES_Register.A | ((Adress)NES_Memory.Memory[zp]).Value;
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Math.ORA(((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value);
         }
 
         /// <summary>
@@ -1794,12 +1600,7 @@ namespace NES
         /// </param>
         public static void ORA_01(byte zpx)
         {
-            short address = (short)(zpx + NES_Register.X);
-            var temp = (short)((((Adress)NES_Memory.Memory[address]).Value) | (((Adress)NES_Memory.Memory[address + 1]).Value << 8));
-            var temp2 = NES_Register.A | ((Adress)NES_Memory.Memory[((Adress)NES_Memory.Memory[temp]).Value]).Value;
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Math.ORA(((Adress)NES_Memory.Memory[Parameter.zpx1(zpx)]).Value);
         }
 
         /// <summary>
@@ -1808,7 +1609,7 @@ namespace NES
         /// Flags: N, Z
         ///</summary>
         /// <param name="zpx">
-        /// Zero Page Indexed with X: zp,x[edit]
+        /// Zero Page Indexed with X: zp,x
         /// The value in X is added to the specified zero page address for a sum address. The value at the sum address is used to perform the computation.
         /// Example
         /// The value $02 in X is added to $01 for a sum of $03. The value $A5 at address $0003 is loaded into the Accumulator.
@@ -1816,10 +1617,7 @@ namespace NES
         /// </param>
         public static void ORA_15(byte zpx)
         {
-            var temp = NES_Register.A | ((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value;
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Math.ORA(((Adress)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value);
         }
 
         /// <summary>
@@ -1835,11 +1633,7 @@ namespace NES
         /// </param>
         public static void ORA_11(byte zpy)
         {
-            var temp = ((Adress)NES_Memory.Memory[zpy]).Value | ((Adress)NES_Memory.Memory[zpy + 1]).Value << 8;
-            var temp2 = NES_Register.A | ((Adress)NES_Memory.Memory[((Adress)NES_Memory.Memory[temp]).Value]).Value;
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Math.ORA(((Adress)NES_Memory.Memory[Parameter.zpy1(zpy)]).Value);
         }
         #endregion
 
@@ -1859,10 +1653,7 @@ namespace NES
         /// </param>
         public static void EOR_4D(ushort a)
         {
-            var temp = NES_Register.A ^ ((Adress)NES_Memory.Memory[a]).Value;
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Math.EOR(((Adress)NES_Memory.Memory[a]).Value);
         }
 
         /// <summary>
@@ -1879,10 +1670,7 @@ namespace NES
         /// </param>
         public static void EOR_5D(ushort ax)
         {
-            var temp = NES_Register.A ^ ((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value;
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Math.EOR(((Adress)NES_Memory.Memory[Parameter.ax(ax)]).Value);
         }
 
         /// <summary>
@@ -1899,10 +1687,7 @@ namespace NES
         /// </param>
         public static void EOR_59(ushort ay)
         {
-            var temp = NES_Register.A ^ ((Adress)NES_Memory.Memory[ay + NES_Register.Y]).Value;
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Math.EOR(((Adress)NES_Memory.Memory[Parameter.ay(ay)]).Value);
         }
 
         /// <summary>
@@ -1919,10 +1704,7 @@ namespace NES
         /// </param>
         public static void EOR_49(byte v)
         {
-            var temp = NES_Register.A ^ v;
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Math.EOR(((Adress)NES_Memory.Memory[v]).Value);
         }
 
         /// <summary>
@@ -1938,10 +1720,7 @@ namespace NES
         /// </param>
         public static void EOR_45(byte zp)
         {
-            var temp = NES_Register.A ^ ((Adress)NES_Memory.Memory[zp]).Value;
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Math.EOR(((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value);
         }
 
         /// <summary>
@@ -1958,12 +1737,7 @@ namespace NES
         /// </param>
         public static void EOR_41(byte zpx)
         {
-            short address = (short)(zpx + NES_Register.X);
-            var temp = (short)((((Adress)NES_Memory.Memory[address]).Value) | (((Adress)NES_Memory.Memory[address + 1]).Value << 8));
-            var temp2 = NES_Register.A ^ ((Adress)NES_Memory.Memory[((Adress)NES_Memory.Memory[temp]).Value]).Value;
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Math.EOR(((Adress)NES_Memory.Memory[Parameter.zpx1(zpx)]).Value);
         }
 
         /// <summary>
@@ -1972,7 +1746,7 @@ namespace NES
         /// Flags: N, Z
         ///</summary>
         /// <param name="zpx">
-        /// Zero Page Indexed with X: zp,x[edit]
+        /// Zero Page Indexed with X: zp,x
         /// The value in X is added to the specified zero page address for a sum address. The value at the sum address is used to perform the computation.
         /// Example
         /// The value $02 in X is added to $01 for a sum of $03. The value $A5 at address $0003 is loaded into the Accumulator.
@@ -1980,10 +1754,7 @@ namespace NES
         /// </param>
         public static void EOR_55(byte zpx)
         {
-            var temp = NES_Register.A ^ ((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value;
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Math.EOR(((Adress)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value);
         }
 
         /// <summary>
@@ -1999,11 +1770,7 @@ namespace NES
         /// </param>
         public static void EOR_51(byte zpy)
         {
-            var temp = ((Adress)NES_Memory.Memory[zpy]).Value | ((Adress)NES_Memory.Memory[zpy + 1]).Value << 8;
-            var temp2 = NES_Register.A ^ ((Adress)NES_Memory.Memory[((Adress)NES_Memory.Memory[temp]).Value]).Value;
-            NES_Register.A = (byte)temp;
-            NES_Register.P.Negative = (NES_Register.A & 0x80) != 0;
-            NES_Register.P.Zero = NES_Register.A == 0;
+            Math.EOR(((Adress)NES_Memory.Memory[Parameter.zpy1(zpy)]).Value);
         }
         #endregion
         #endregion
@@ -2033,8 +1800,7 @@ namespace NES
         /// </param>
         public static void CMP_CD(ushort a)
         {
-            var temp = ((Adress)NES_Memory.Memory[a]).Value;
-            Math.CMP(temp);
+            Math.CMP(((Adress)NES_Memory.Memory[a]).Value);
         }
 
         /// <summary>
@@ -2051,8 +1817,7 @@ namespace NES
         /// </param>
         public static void CMP_DD(ushort ax)
         {
-            var temp = ((Adress)NES_Memory.Memory[ax + NES_Register.X]).Value;
-            Math.CMP(temp);
+            Math.CMP(((Adress)NES_Memory.Memory[Parameter.ax(ax)]).Value);
         }
 
         /// <summary>
@@ -2069,8 +1834,7 @@ namespace NES
         /// </param>
         public static void CMP_D9(ushort ay)
         {
-            var temp = ((Adress)NES_Memory.Memory[ay + NES_Register.Y]).Value;
-            Math.CMP(temp);
+            Math.CMP(((Adress)NES_Memory.Memory[Parameter.ay(ay)]).Value);
         }
 
         /// <summary>
@@ -2103,8 +1867,7 @@ namespace NES
         /// </param>
         public static void CMP_C5(byte zp)
         {
-            var temp = ((Adress)NES_Memory.Memory[zp]).Value;
-            Math.CMP(temp);
+            Math.CMP(((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value);
         }
 
         /// <summary>
@@ -2121,8 +1884,7 @@ namespace NES
         /// </param>
         public static void CMP_C1(byte zpx)
         {
-            var temp = ((Adress)NES_Memory.Memory[((Adress)NES_Memory.Memory[Parameter.zpx1(zpx)]).Value]).Value;
-            Math.CMP(temp);
+            Math.CMP(((Adress)NES_Memory.Memory[Parameter.zpx1(zpx)]).Value);
         }
 
         /// <summary>
@@ -2131,7 +1893,7 @@ namespace NES
         /// Flags: N, Z, C
         ///</summary>
         /// <param name="zpx">
-        /// Zero Page Indexed with X: zp,x[edit]
+        /// Zero Page Indexed with X: zp,x
         /// The value in X is added to the specified zero page address for a sum address. The value at the sum address is used to perform the computation.
         /// Example
         /// The value $02 in X is added to $01 for a sum of $03. The value $A5 at address $0003 is loaded into the Accumulator.
@@ -2139,8 +1901,7 @@ namespace NES
         /// </param>
         public static void CMP_D5(byte zpx)
         {
-            var temp = ((Adress)NES_Memory.Memory[zpx + NES_Register.X]).Value;
-            Math.CMP(temp);
+            Math.CMP(((Adress)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value);
         }
 
         /// <summary>
@@ -2156,9 +1917,7 @@ namespace NES
         /// </param>
         public static void CMP_D1(byte zpy)
         {
-            var temp2 = ((Adress)NES_Memory.Memory[zpy]).Value | ((Adress)NES_Memory.Memory[zpy + 1]).Value << 8;
-            var temp = ((Adress)NES_Memory.Memory[((Adress)NES_Memory.Memory[temp2]).Value]).Value;
-            Math.CMP(temp);
+            Math.CMP(((Adress)NES_Memory.Memory[Parameter.zpy1(zpy)]).Value);
         }
         #endregion
 
@@ -2178,26 +1937,7 @@ namespace NES
         /// </param>
         public static void CPX_EC(ushort a)
         {
-            var temp = ((Adress)NES_Memory.Memory[a]).Value;
-
-            if (NES_Register.X < temp)
-            {
-                NES_Register.P.Negative = true;
-                NES_Register.P.Zero = false;
-                NES_Register.P.Carry = false;
-            }
-            if (NES_Register.X == temp)
-            {
-                NES_Register.P.Negative = false;
-                NES_Register.P.Zero = true;
-                NES_Register.P.Carry = true;
-            }
-            if (NES_Register.X > temp)
-            {
-                NES_Register.P.Negative = false;
-                NES_Register.P.Zero = false;
-                NES_Register.P.Carry = true;
-            }
+            Math.CPX(((Adress)NES_Memory.Memory[a]).Value);
         }
 
         /// <summary>
@@ -2214,26 +1954,7 @@ namespace NES
         /// </param>
         public static void CPX_E0(byte v)
         {
-            var temp = v;
-
-            if (NES_Register.X < temp)
-            {
-                NES_Register.P.Negative = true;
-                NES_Register.P.Zero = false;
-                NES_Register.P.Carry = false;
-            }
-            if (NES_Register.X == temp)
-            {
-                NES_Register.P.Negative = false;
-                NES_Register.P.Zero = true;
-                NES_Register.P.Carry = true;
-            }
-            if (NES_Register.X > temp)
-            {
-                NES_Register.P.Negative = false;
-                NES_Register.P.Zero = false;
-                NES_Register.P.Carry = true;
-            }
+            Math.CPX(v);
         }
 
         /// <summary>
@@ -2249,26 +1970,7 @@ namespace NES
         /// </param>
         public static void CPX_E4(byte zp)
         {
-            var temp = ((Adress)NES_Memory.Memory[zp]).Value;
-
-            if (NES_Register.X < temp)
-            {
-                NES_Register.P.Negative = true;
-                NES_Register.P.Zero = false;
-                NES_Register.P.Carry = false;
-            }
-            if (NES_Register.X == temp)
-            {
-                NES_Register.P.Negative = false;
-                NES_Register.P.Zero = true;
-                NES_Register.P.Carry = true;
-            }
-            if (NES_Register.X > temp)
-            {
-                NES_Register.P.Negative = false;
-                NES_Register.P.Zero = false;
-                NES_Register.P.Carry = true;
-            }
+            Math.CPX(((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value);
         }
         #endregion
 
@@ -2288,26 +1990,7 @@ namespace NES
         /// </param>
         public static void CPY_CC(ushort a)
         {
-            var temp = ((Adress)NES_Memory.Memory[a]).Value;
-
-            if (NES_Register.Y < temp)
-            {
-                NES_Register.P.Negative = true;
-                NES_Register.P.Zero = false;
-                NES_Register.P.Carry = false;
-            }
-            if (NES_Register.Y == temp)
-            {
-                NES_Register.P.Negative = false;
-                NES_Register.P.Zero = true;
-                NES_Register.P.Carry = true;
-            }
-            if (NES_Register.Y > temp)
-            {
-                NES_Register.P.Negative = false;
-                NES_Register.P.Zero = false;
-                NES_Register.P.Carry = true;
-            }
+            Math.CPY(((Adress)NES_Memory.Memory[a]).Value);
         }
 
         /// <summary>
@@ -2324,26 +2007,7 @@ namespace NES
         /// </param>
         public static void CPY_C0(byte v)
         {
-            var temp = v;
-
-            if (NES_Register.Y < temp)
-            {
-                NES_Register.P.Negative = true;
-                NES_Register.P.Zero = false;
-                NES_Register.P.Carry = false;
-            }
-            if (NES_Register.Y == temp)
-            {
-                NES_Register.P.Negative = false;
-                NES_Register.P.Zero = true;
-                NES_Register.P.Carry = true;
-            }
-            if (NES_Register.Y > temp)
-            {
-                NES_Register.P.Negative = false;
-                NES_Register.P.Zero = false;
-                NES_Register.P.Carry = true;
-            }
+            Math.CPY(v);
         }
 
         /// <summary>
@@ -2359,26 +2023,7 @@ namespace NES
         /// </param>
         public static void CPY_C4(byte zp)
         {
-            var temp = ((Adress)NES_Memory.Memory[zp]).Value;
-
-            if (NES_Register.Y < temp)
-            {
-                NES_Register.P.Negative = true;
-                NES_Register.P.Zero = false;
-                NES_Register.P.Carry = false;
-            }
-            if (NES_Register.Y == temp)
-            {
-                NES_Register.P.Negative = false;
-                NES_Register.P.Zero = true;
-                NES_Register.P.Carry = true;
-            }
-            if (NES_Register.Y > temp)
-            {
-                NES_Register.P.Negative = false;
-                NES_Register.P.Zero = false;
-                NES_Register.P.Carry = true;
-            }
+            Math.CPY(((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value);
         }
         #endregion
 
@@ -2398,11 +2043,7 @@ namespace NES
         /// </param>
         public static void BIT_2C(ushort a)
         {
-            var temp = ((Adress)NES_Memory.Memory[a]).Value & NES_Register.A;
-
-            NES_Register.P.Negative = (temp & 0x80) > 0;
-            NES_Register.P.Zero = temp == 0;
-            NES_Register.P.Overflow = (temp & 0x40) > 0;
+            Math.BIT(((Adress)NES_Memory.Memory[a]).Value);
         }
 
         /// <summary>
@@ -2419,11 +2060,7 @@ namespace NES
         /// </param>
         public static void BIT_89(byte v)
         {
-            var temp = v & NES_Register.A;
-
-            NES_Register.P.Negative = (temp & 0x80) > 0;
-            NES_Register.P.Zero = temp == 0;
-            NES_Register.P.Overflow = (temp & 0x40) > 0;
+            Math.BIT(v);
         }
 
         /// <summary>
@@ -2439,11 +2076,7 @@ namespace NES
         /// </param>
         public static void BIT_24(byte zp)
         {
-            var temp = ((Adress)NES_Memory.Memory[zp]).Value & NES_Register.A;
-
-            NES_Register.P.Negative = (temp & 0x80) > 0;
-            NES_Register.P.Zero = temp == 0;
-            NES_Register.P.Overflow = (temp & 0x40) > 0;
+            Math.BIT(((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value);
         }
         #endregion
         #endregion
@@ -2464,7 +2097,7 @@ namespace NES
         public static void BCC_90(sbyte r)
         {
             if (!NES_Register.P.Carry)
-                NES_Register.PC = (ushort)(NES_Register.PC + r);
+                Math.Branch(r);
         }
 
         /// <summary>
@@ -2481,7 +2114,7 @@ namespace NES
         public static void BCS_B0(sbyte r)
         {
             if (NES_Register.P.Carry)
-                NES_Register.PC = (ushort)(NES_Register.PC + r);
+                Math.Branch(r);
         }
 
         /// <summary>
@@ -2498,7 +2131,7 @@ namespace NES
         public static void BEQ_F0(sbyte r)
         {
             if (NES_Register.P.Zero)
-                NES_Register.PC = (ushort)(NES_Register.PC + r);
+                Math.Branch(r);
         }
 
         /// <summary>
@@ -2515,7 +2148,7 @@ namespace NES
         public static void BMI_30(sbyte r)
         {
             if (NES_Register.P.Negative)
-                NES_Register.PC = (ushort)(NES_Register.PC + r);
+                Math.Branch(r);
         }
 
         /// <summary>
@@ -2532,7 +2165,7 @@ namespace NES
         public static void BNE_D0(sbyte r)
         {
             if (!NES_Register.P.Zero)
-                NES_Register.PC = (ushort)(NES_Register.PC + r);
+                Math.Branch(r);
         }
 
         /// <summary>
@@ -2549,7 +2182,7 @@ namespace NES
         public static void BPL_10(sbyte r)
         {
             if (!NES_Register.P.Negative)
-                NES_Register.PC = (ushort)(NES_Register.PC + r);
+                Math.Branch(r);
         }
 
         /// <summary>
@@ -2566,7 +2199,7 @@ namespace NES
         public static void BVC_50(sbyte r)
         {
             if (!NES_Register.P.Carry)
-                NES_Register.PC = (ushort)(NES_Register.PC + r);
+                Math.Branch(r);
         }
 
         /// <summary>
@@ -2583,7 +2216,7 @@ namespace NES
         public static void BVS_70(sbyte r)
         {
             if (NES_Register.P.Carry)
-                NES_Register.PC = (ushort)(NES_Register.PC + r);
+                Math.Branch(r);
         }
         #endregion
 
@@ -2663,7 +2296,7 @@ namespace NES
         /// </summary>
         public static void PHA_48()
         {
-            ((Adress)NES_Memory.Stack[NES_Register.S--]).Value = NES_Register.A;
+             Stack.PushToStack(NES_Register.A);
         }
 
         /// <summary>
@@ -2673,7 +2306,7 @@ namespace NES
         /// </summary>
         public static void PLA_68()
         {
-            NES_Register.A = ((Adress)NES_Memory.Stack[++NES_Register.S]).Value;
+            NES_Register.A = Stack.PopFromStack();
         }
 
         /// <summary>
@@ -2683,7 +2316,7 @@ namespace NES
         /// </summary>
         public static void PHP_08()
         {
-            ((Adress)NES_Memory.Stack[NES_Register.S--]).Value = (byte)(NES_Register.P.P | 0x30);
+            Stack.PushToStack((byte)(NES_Register.P.P | 0x30));
         }
 
         /// <summary>
@@ -2731,7 +2364,7 @@ namespace NES
         /// </param>
         public static void JMP_6C(ushort a)
         {
-            NES_Register.PC = (ushort)((((Adress)NES_Memory.Memory[a]).Value) | (((Adress)NES_Memory.Memory[a + 1]).Value << 8));
+            NES_Register.PC = Parameter.MemoryValueToAdress(a);
         }
         #endregion
 

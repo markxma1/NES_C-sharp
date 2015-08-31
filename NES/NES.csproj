@@ -63,9 +63,9 @@
   <ItemGroup>
     <Compile Include="CPU\Interrupt.cs" />
     <Compile Include="CPU\Math.cs" />
-    <Compile Include="CPU\NoAssemby.cs" />
+    <Compile Include="Exception\NoAssemby.cs" />
     <Compile Include="CPU\Parameter.cs" />
-    <Compile Include="CPU\Stack.cs" />
+    <Compile Include="NES_Memorys\Stack.cs" />
     <Compile Include="CPU\Status.cs" />
     <Compile Include="GUI\Form1.cs">
       <SubType>Form</SubType>
