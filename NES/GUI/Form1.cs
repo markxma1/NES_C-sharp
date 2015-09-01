@@ -48,7 +48,7 @@ namespace NES
         {
             pictureBox1.Image = NES_PPU.PatternTable(PN);
             pictureBox2.Image = NES_PPU.PaletteTable();
-            BackColor = NES_PPU.UniversalBackgroundColor();
+            BackColor = NES_PPU_Palette.UniversalBackgroundColor();
         }
     }
 }

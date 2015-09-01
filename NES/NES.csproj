@@ -61,7 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NES_Memorys\Interrupt.cs" />
+    <Compile Include="NES_Memorys_Folder\Interrupt.cs" />
     <Compile Include="CPU\Math.cs" />
     <Compile Include="Exception\NoAssemby.cs" />
     <Compile Include="CPU\Parameter.cs" />
@@ -71,8 +71,10 @@
     <Compile Include="GUI\Monitor.Designer.cs">
       <DependentUpon>Monitor.cs</DependentUpon>
     </Compile>
-    <Compile Include="NES_PPU\NES_PPU_Register.cs" />
-    <Compile Include="NES_Memorys\Stack.cs" />
+    <Compile Include="NES_PPU_Folder\NES_PPU_AttributeTable.cs" />
+    <Compile Include="NES_PPU_Folder\NES_PPU_Palette.cs" />
+    <Compile Include="NES_PPU_Folder\NES_PPU_Register.cs" />
+    <Compile Include="NES_Memorys_Folder\Stack.cs" />
     <Compile Include="CPU\Status.cs" />
     <Compile Include="GUI\Form1.cs">
       <SubType>Form</SubType>
@@ -92,13 +94,13 @@
     <Compile Include="Helper\INES.cs" />
     <Compile Include="CPU\NES_CPU.cs" />
     <Compile Include="Helper\NES_ROM.cs" />
-    <Compile Include="NES_Memorys\NES-Memory.cs" />
-    <Compile Include="NES_PPU\NES_PPU_Memory.cs" />
-    <Compile Include="NES_PPU\NES_PPU_OAM.cs" />
-    <Compile Include="NES_PPU\NES_PPU.cs" />
+    <Compile Include="NES_Memorys_Folder\NES-Memory.cs" />
+    <Compile Include="NES_PPU_Folder\NES_PPU_Memory.cs" />
+    <Compile Include="NES_PPU_Folder\NES_PPU_OAM.cs" />
+    <Compile Include="NES_PPU_Folder\NES_PPU.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="NES_Memorys\NES-Register.cs" />
+    <Compile Include="NES_Memorys_Folder\NES-Register.cs" />
     <EmbeddedResource Include="GUI\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

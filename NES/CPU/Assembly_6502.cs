@@ -1567,7 +1567,7 @@ namespace NES
         /// </param>
         public static void ORA_09(byte v)
         {
-            Math.ORA(((Adress)NES_Memory.Memory[v]).Value);
+            Math.ORA(v);
         }
 
         /// <summary>

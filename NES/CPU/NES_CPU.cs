@@ -54,7 +54,7 @@ namespace NES
             NES_Register.P.Interrupt = false;
             Interrupt.POWER = true;
 
-            NES_PPU.InitialAtPower();
+            NES_PPU_Register.InitialAtPower();
             DateTime t2 = DateTime.Now;
 
             while (Interrupt.POWER)
