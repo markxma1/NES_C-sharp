@@ -289,5 +289,25 @@
             PPUSTATUS.adress = (Adress)NES_Memory.Memory[0x2002];
             PPUSTATUS.adress.afterGet = delegate () { PPUSTATUS.adress.value = (byte)(PPUSTATUS.adress.value & 0x7F); PPUSCROLL.Value = 0; PPUADDR.Value = 0; };
         }
+
+        public static void InitialAtPower()
+        {
+            PPUCTRL.adress.value = 0;
+            PPUMASK.adress.value = 0;
+            PPUSTATUS.adress.value = 0xA0;
+            OAMADDR.value = 0;
+            PPUSCROLL.value = 0;
+            PPUADDR.value = 0;
+            PPUDATA.value = 0;
+        }
+
+        public static void InitialOnReset()
+        {
+            PPUCTRL.adress.value = 0;
+            PPUMASK.adress.value = 0;
+            PPUSTATUS.adress.value = (byte)(PPUSTATUS.adress.value & 0x80);
+            PPUSCROLL.value = 0;
+            PPUDATA.value = 0;
+        }
     }
 }
