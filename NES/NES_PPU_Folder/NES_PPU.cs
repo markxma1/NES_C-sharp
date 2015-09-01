@@ -104,24 +104,24 @@ namespace NES
             if (NES_PPU_Register.PPUCTRL.V)
             {
                 Graphics g = Graphics.FromImage(bitmap);
-                DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(0), NES_PPU_Memory.NameTable0, 0, 30, 0, 32);
-                DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(2), NES_PPU_Memory.NameTable2, 30, 60, 0, 32);
-                DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(1), NES_PPU_Memory.NameTable1, 0, 30, 32, 64);
-                DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(3), NES_PPU_Memory.NameTable3, 30, 60, 32, 64);
+                DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(0), 0, 0, 0);
+                DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(1), 1, 0, 32);
+                DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(2), 2, 30, 0);
+                DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(3), 3, 30, 32);
                 g.DrawRectangle(Pens.Red, XScroll, YScroll, 256, 240);
             }
             return bitmap;
         }
 
-        private static void DrowOneNameTable(Graphics g, ArrayList Attribute, ArrayList Table, ushort XStart, ushort XStop, ushort YStart, ushort YStop)
+        private static void DrowOneNameTable(Graphics g, ArrayList Attribute, int Nr , ushort X, ushort Y)
         {
             int k = 0;
-            for (ushort i = XStart; i < XStop; i++)
+            for (ushort i = X; i < X+30; i++)
             {
-                for (ushort j = YStart; j < YStop; j++)
+                for (ushort j = Y; j < Y+32; j++)
                 {
                     int c = (int)Attribute[k];
-                    int t = ((Adress)Table[k++]).value;
+                    int t = ((Adress)NES_PPU_Memory.NameTableN[Nr][k++]).value;
                     g.DrawImage(Tile((ushort)(t), c), j * 8, i * 8);
                 }
             }
