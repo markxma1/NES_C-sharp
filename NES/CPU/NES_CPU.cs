@@ -21,7 +21,7 @@ namespace NES
         private static ushort lastPC3 = 0;
         private static ushort lastPC4 = 0;
         private static ushort lastPC5 = 0;
-        private static byte changed = 0;
+        //private static byte changed = 0;
 
         #region PAL/NTSC Speed
         public static double cpuspeed;
@@ -52,12 +52,12 @@ namespace NES
         {
             NES_Register.RessetPointer();
             NES_Register.P.Interrupt = false;
-            NES_Register.POWER = true;
+            Interrupt.POWER = true;
 
             NES_PPU.InitialAtPower();
             DateTime t2 = DateTime.Now;
 
-            while (NES_Register.POWER)
+            while (Interrupt.POWER)
             {
                 cpuspeed = Sleep((mod == Mod.PAL) ? (PAL) : (NTSC), delegate
                 {
@@ -94,7 +94,7 @@ namespace NES
             return sw.Elapsed.TotalMilliseconds * 1000;
         }
 
-        public static void Stop() { NES_Register.POWER = false; }
+        public static void Stop() { Interrupt.POWER = false; }
 
     }
 }

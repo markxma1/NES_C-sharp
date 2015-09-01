@@ -17,7 +17,9 @@ namespace NES
             //NES_ROM.LoadRom(@"F:\roms\Dendy\FCEUX\test.nes");
             backgroundWorker1.RunWorkerAsync();
             Form2 f = new Form2();
+            Monitor m = new Monitor();
             f.Show();
+            m.Show();
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
@@ -36,15 +38,15 @@ namespace NES
 
         private void Start_Click(object sender, EventArgs e)
         {
-            if (NES_Register.POWER)
-                NES_Register.POWER = false;
+            if (Interrupt.POWER)
+                Interrupt.POWER = false;
             else
                 backgroundWorker1.RunWorkerAsync();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            pictureBox1.Image = NES_PPU.Patterntable(PN);
+            pictureBox1.Image = NES_PPU.PatternTable(PN);
             pictureBox2.Image = NES_PPU.PaletteTable();
             BackColor = NES_PPU.UniversalBackgroundColor();
         }

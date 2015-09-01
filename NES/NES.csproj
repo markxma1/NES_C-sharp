@@ -61,10 +61,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CPU\Interrupt.cs" />
+    <Compile Include="NES_Memorys\Interrupt.cs" />
     <Compile Include="CPU\Math.cs" />
     <Compile Include="Exception\NoAssemby.cs" />
     <Compile Include="CPU\Parameter.cs" />
+    <Compile Include="GUI\Monitor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Monitor.Designer.cs">
+      <DependentUpon>Monitor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NES_PPU\NES_PPU_Register.cs" />
     <Compile Include="NES_Memorys\Stack.cs" />
     <Compile Include="CPU\Status.cs" />
     <Compile Include="GUI\Form1.cs">
@@ -86,8 +93,8 @@
     <Compile Include="CPU\NES_CPU.cs" />
     <Compile Include="Helper\NES_ROM.cs" />
     <Compile Include="NES_Memorys\NES-Memory.cs" />
-    <Compile Include="NES_Memorys\NES_PPU_Memory.cs" />
-    <Compile Include="NES_Memorys\NES_PPU_OAM.cs" />
+    <Compile Include="NES_PPU\NES_PPU_Memory.cs" />
+    <Compile Include="NES_PPU\NES_PPU_OAM.cs" />
     <Compile Include="NES_PPU\NES_PPU.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -97,6 +104,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Form2.resx">
       <DependentUpon>Form2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Monitor.resx">
+      <DependentUpon>Monitor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
