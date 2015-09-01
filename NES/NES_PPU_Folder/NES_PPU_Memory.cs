@@ -31,10 +31,7 @@ namespace NES
         static public ArrayList PatternTable0 = new ArrayList();
         static public ArrayList PatternTable1 = new ArrayList();
         static public ArrayList NameTable = new ArrayList();
-        static public ArrayList NameTable0 = new ArrayList();
-        static public ArrayList NameTable1 = new ArrayList();
-        static public ArrayList NameTable2 = new ArrayList();
-        static public ArrayList NameTable3 = new ArrayList();
+        static public ArrayList[] NameTableN;
         static public ArrayList AttributeTable = new ArrayList();
         static public ArrayList AttributeTable0 = new ArrayList();
         static public ArrayList AttributeTable1 = new ArrayList();
@@ -55,14 +52,23 @@ namespace NES
 
         private static void InitPaletteRAMIndexes()
         {
-            for (int i = 0x3F00; i <= (0x3F00 + 0x10 - 1); i++)
-            {
-                BGPalette.Add(Memory[i]);
-            }
+            InitBGPalette();
+            InitSpritePalette();
+        }
 
-            for (int i = 0x3F10; i <= (0x3F10 + 0x10 - 1); i++)
+        private static void InitSpritePalette()
+        {
+            for (int i = 0x3F10; i < (0x3F10 + 0x10); i++)
             {
                 SpritePalette.Add(Memory[i]);
+            }
+        }
+
+        private static void InitBGPalette()
+        {
+            for (int i = 0x3F00; i < (0x3F00 + 0x10); i++)
+            {
+                BGPalette.Add(Memory[i]);
             }
         }
 
@@ -128,61 +134,88 @@ namespace NES
 
         private static void InitNameTable()
         {
-            for (int i = 0x2000; i <= (0x2000 + 0x3C0 - 1); i++)
-            {
-                NameTable.Add(Memory[i]);
-                NameTable0.Add(Memory[i]);
-            }
-            for (int i = 0x2400; i <= (0x2400 + 0x3C0 - 1); i++)
-            {
-                switch (INES.arrangement)
-                {
-                    case INES.Mirror.vertical:
-                        NameTable.Add(NameTable0[i - 0x2400]);
-                        NameTable1.Add(NameTable0[i - 0x2400]);
-                        Memory[i] = NameTable0[i - 0x2400];
-                        break;
-                    default:
-                        NameTable.Add(Memory[i]);
-                        NameTable1.Add(Memory[i]);
-                        break;
-                }
-            }
-            for (int i = 0x2800; i <= (0x2800 + 0x3C0 - 1); i++)
-            {
-                switch (INES.arrangement)
-                {
-                    case INES.Mirror.horisontal:
-                        NameTable.Add(NameTable0[i - 0x2800]);
-                        NameTable2.Add(NameTable0[i - 0x2800]);
-                        Memory[i] = NameTable0[i - 0x2800];
-                        break;
-                    default:
-                        NameTable.Add(Memory[i]);
-                        NameTable2.Add(Memory[i]);
-                        break;
-                }
-            }
+            InitNameTableN();
+            InitNameTable0();
+            InitNameTable1();
+            InitNameTable2();
+            InitNameTable3();
+        }
+
+        private static void InitNameTable3()
+        {
             for (int i = 0x2C00; i <= (0x2C00 + 0x3C0 - 1); i++)
             {
                 switch (INES.arrangement)
                 {
                     case INES.Mirror.vertical:
-                        NameTable.Add(NameTable2[i - 0x2C00]);
-                        NameTable3.Add(NameTable2[i - 0x2C00]);
-                        Memory[i] = NameTable2[i - 0x2C00];
+                        NameTableMirror(i, 3, 2, 0x2C00);
                         break;
                     case INES.Mirror.horisontal:
-                        NameTable.Add(NameTable1[i - 0x2C00]);
-                        NameTable3.Add(NameTable1[i - 0x2C00]);
-                        Memory[i] = NameTable1[i - 0x2C00];
+                        NameTableMirror(i, 3, 1, 0x2C00);
                         break;
                     default:
                         NameTable.Add(Memory[i]);
-                        NameTable3.Add(Memory[i]);
+                        NameTableN[3].Add(Memory[i]);
                         break;
                 }
             }
+        }
+
+        private static void NameTableMirror(int i, int MirrorTable, int OrigenalTable, int StartAddress)
+        {
+            NameTable.Add(NameTableN[OrigenalTable][i - StartAddress]);
+            NameTableN[MirrorTable].Add(NameTableN[OrigenalTable][i - StartAddress]);
+            Memory[i] = NameTableN[OrigenalTable][i - StartAddress];
+        }
+
+        private static void InitNameTable2()
+        {
+            for (int i = 0x2800; i <= (0x2800 + 0x3C0 - 1); i++)
+            {
+                switch (INES.arrangement)
+                {
+                    case INES.Mirror.horisontal:
+                        NameTableMirror(i, 2, 0, 0x2800);
+                        break;
+                    default:
+                        NameTable.Add(Memory[i]);
+                        NameTableN[2].Add(Memory[i]);
+                        break;
+                }
+            }
+        }
+
+        private static void InitNameTable1()
+        {
+            for (int i = 0x2400; i <= (0x2400 + 0x3C0 - 1); i++)
+            {
+                switch (INES.arrangement)
+                {
+                    case INES.Mirror.vertical:
+                        NameTableMirror(i, 1, 0, 0x2400);
+                        break;
+                    default:
+                        NameTable.Add(Memory[i]);
+                        NameTableN[1].Add(Memory[i]);
+                        break;
+                }
+            }
+        }
+
+        private static void InitNameTable0()
+        {
+            for (int i = 0x2000; i <= (0x2000 + 0x3C0 - 1); i++)
+            {
+                NameTable.Add(Memory[i]);
+                NameTableN[0].Add(Memory[i]);
+            }
+        }
+
+        private static void InitNameTableN()
+        {
+            NameTableN = new ArrayList[4];
+            for (int i = 0; i < 4; i++)
+                NameTableN[i] = new ArrayList();
         }
 
         private static void InitPatternTable()
@@ -207,9 +240,9 @@ namespace NES
                     Memory.Add(Memory[i - 0x1000]);
                 else
                     if (i >= 0x3F20 && i < 0x3F20 + 0xE0)
-                        Memory.Add(Memory[i - 0x20]);
-                    else
-                        Memory.Add(new Adress(i));
+                    Memory.Add(Memory[i - 0x20]);
+                else
+                    Memory.Add(new Adress(i));
             }
         }
 
@@ -221,18 +254,8 @@ namespace NES
                     Memory[i] = (Memory[i - 0x1000]);
                 else
                     if (i >= 0x3F20 && i < 0x3F20 + 0xE0)
-                        Memory[i] = (Memory[i - 0x20]);
+                    Memory[i] = (Memory[i - 0x20]);
             }
-
-
-            //var query = Memory.ToArray().Select((value, index) => new { value, index }).
-            //    Where(ad => ad.value.ToString().Contains("2212")).Select(a=> a.ToString());
-
-            //var temp = query.ToList();
-            //var temp2=Memory.IndexOf(temp[0]);
-            //var temp3 = Memory.IndexOf(temp[1]);
-            //var temp4 = Memory.IndexOf(temp[2]);
-            //var temp5 = Memory.IndexOf(temp[3]);
         }
     }
 }
