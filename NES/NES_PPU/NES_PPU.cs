@@ -7,9 +7,15 @@ namespace NES
     {
 
         public static Color[] PPUpalettes = new Color[0x40];
+        public static int XScroll = 0;
+        public static int YScroll = 0;
+        private static Bitmap TempDisplay = new Bitmap(256, 240);
+        private static Bitmap TempNameTable = new Bitmap(64 * 8, 60 * 8);
+        private static Bitmap TempPatternTable = new Bitmap(128 * 2, 128);
 
         public NES_PPU()
         {
+            new NES_PPU_Register();
             new NES_PPU_OAM();
             new NES_PPU_Memory();
             InitPalletes2C03and2C05();
@@ -50,7 +56,7 @@ namespace NES
             byte[,] pattern = new byte[8, 8];
             Color[] color = getPalette(pallete);
             var PatternTable = NES_PPU_Memory.PatternTable0;
-            if (NES_Register.PPUCTRL.B)
+            if (NES_PPU_Register.PPUCTRL.B)
                 PatternTable = NES_PPU_Memory.PatternTable1;
             for (int j = 0; j < 8; j++)
             {
@@ -65,26 +71,29 @@ namespace NES
             return bitmap;
         }
 
-        public static Bitmap Patterntable(int PN)
+        public static Bitmap PatternTable(int PN)
         {
-            Bitmap bitmap = new Bitmap(128 * 2, 128);
-            Graphics g = Graphics.FromImage(bitmap);
-            int k = 0;
-            for (ushort i = 0; i < 16; i++)
+            Bitmap bitmap = TempPatternTable;
+            if (NES_PPU_Register.PPUCTRL.V)
             {
-                for (ushort j = 0; j < 16; j++)
+                Graphics g = Graphics.FromImage(bitmap);
+                int k = 0;
+                for (ushort i = 0; i < 16; i++)
                 {
-                    int t = (k++) * 16;
-                    g.DrawImage(Tile_StartAdress((ushort)(t), PN), j * 8, i * 8);
+                    for (ushort j = 0; j < 16; j++)
+                    {
+                        int t = (k++) * 16;
+                        g.DrawImage(Tile_StartAdress((ushort)(t), PN), j * 8, i * 8);
+                    }
                 }
-            }
 
-            for (ushort i = 0; i < 16; i++)
-            {
-                for (ushort j = 16; j < 32; j++)
+                for (ushort i = 0; i < 16; i++)
                 {
-                    int t = (k++) * 16;
-                    g.DrawImage(Tile_StartAdress((ushort)(t), PN), j * 8, i * 8);
+                    for (ushort j = 16; j < 32; j++)
+                    {
+                        int t = (k++) * 16;
+                        g.DrawImage(Tile_StartAdress((ushort)(t), PN), j * 8, i * 8);
+                    }
                 }
             }
             return bitmap;
@@ -142,53 +151,72 @@ namespace NES
 
         public static Bitmap NameTabele()
         {
-            Bitmap bitmap = new Bitmap(64 * 8, 60 * 8);
-            Graphics g = Graphics.FromImage(bitmap);
-            ArrayList Attribute = AttributeTable(0);
-            int k = 0;
-            for (ushort i = 0; i < 30; i++)
+            Bitmap bitmap = TempNameTable;
+            if (NES_PPU_Register.PPUCTRL.V)
             {
-                for (ushort j = 0; j < 32; j++)
+                Graphics g = Graphics.FromImage(bitmap);
+                ArrayList Attribute = AttributeTable(0);
+                int k = 0;
+                for (ushort i = 0; i < 30; i++)
                 {
-                    int c = (int)Attribute[k];
-                    int t = ((Adress)NES_PPU_Memory.NameTable0[k++]).value;
-                    g.DrawImage(Tile((ushort)(t), c), j * 8, i * 8);
+                    for (ushort j = 0; j < 32; j++)
+                    {
+                        int c = (int)Attribute[k];
+                        int t = ((Adress)NES_PPU_Memory.NameTable0[k++]).value;
+                        g.DrawImage(Tile((ushort)(t), c), j * 8, i * 8);
+                    }
                 }
-            }
-            Attribute = AttributeTable(2);
-            k = 0;
-            for (ushort i = 30; i < 60; i++)
-            {
-                for (ushort j = 0; j < 32; j++)
+                Attribute = AttributeTable(2);
+                k = 0;
+                for (ushort i = 30; i < 60; i++)
                 {
-                    int c = (int)Attribute[k];
-                    int t = ((Adress)NES_PPU_Memory.NameTable2[k++]).value;
-                    g.DrawImage(Tile((ushort)(t), c), j * 8, i * 8);
+                    for (ushort j = 0; j < 32; j++)
+                    {
+                        int c = (int)Attribute[k];
+                        int t = ((Adress)NES_PPU_Memory.NameTable2[k++]).value;
+                        g.DrawImage(Tile((ushort)(t), c), j * 8, i * 8);
+                    }
                 }
-            }
-            Attribute = AttributeTable(1);
-            k = 0;
-            for (ushort i = 0; i < 30; i++)
-            {
-                for (ushort j = 32; j < 64; j++)
+                Attribute = AttributeTable(1);
+                k = 0;
+                for (ushort i = 0; i < 30; i++)
                 {
-                    int c = (int)Attribute[k];
-                    int t = ((Adress)NES_PPU_Memory.NameTable1[k++]).value;
-                    g.DrawImage(Tile((ushort)(t), c), j * 8, i * 8);
+                    for (ushort j = 32; j < 64; j++)
+                    {
+                        int c = (int)Attribute[k];
+                        int t = ((Adress)NES_PPU_Memory.NameTable1[k++]).value;
+                        g.DrawImage(Tile((ushort)(t), c), j * 8, i * 8);
+                    }
                 }
-            }
-            Attribute = AttributeTable(3);
-            k = 0;
-            for (ushort i = 30; i < 60; i++)
-            {
-                for (ushort j = 32; j < 64; j++)
+                Attribute = AttributeTable(3);
+                k = 0;
+                for (ushort i = 30; i < 60; i++)
                 {
-                    int c = (int)Attribute[k];
-                    int t = ((Adress)NES_PPU_Memory.NameTable3[k++]).value;
-                    g.DrawImage(Tile((ushort)(t), c), j * 8, i * 8);
+                    for (ushort j = 32; j < 64; j++)
+                    {
+                        int c = (int)Attribute[k];
+                        int t = ((Adress)NES_PPU_Memory.NameTable3[k++]).value;
+                        g.DrawImage(Tile((ushort)(t), c), j * 8, i * 8);
+                    }
                 }
+                g.DrawRectangle(Pens.Red, XScroll, YScroll, 256, 240);
             }
             return bitmap;
+        }
+
+        public static Bitmap Display()
+        {
+            Bitmap Display = TempDisplay;
+            if (NES_PPU_Register.PPUCTRL.V)
+            {
+                Interrupt.NMI = true;
+                Rectangle cropRect = new Rectangle(XScroll, YScroll, 257, 241);
+                Graphics g = Graphics.FromImage(Display);
+                Bitmap NameTabeleT = NameTabele();
+                g.DrawImage(NameTabeleT, new Rectangle(0, 0, Display.Width, Display.Height), cropRect, GraphicsUnit.Pixel);
+                TempDisplay = Display;
+            }
+            return Display;
         }
 
         public static Bitmap PaletteTable()
@@ -311,22 +339,22 @@ namespace NES
 
         public static void InitialAtPower()
         {
-            NES_Register.PPUCTRL.adress.value = 0;
-            NES_Register.PPUMASK.adress.value = 0;
-            NES_Register.PPUSTATUS.adress.value = 0xA0;
-            NES_Register.OAMADDR.value = 0;
-            NES_Register.PPUSCROLL.value = 0;
-            NES_Register.PPUADDR.value = 0;
-            NES_Register.PPUDATA.value = 0;
+            NES_PPU_Register.PPUCTRL.adress.value = 0;
+            NES_PPU_Register.PPUMASK.adress.value = 0;
+            NES_PPU_Register.PPUSTATUS.adress.value = 0xA0;
+            NES_PPU_Register.OAMADDR.value = 0;
+            NES_PPU_Register.PPUSCROLL.value = 0;
+            NES_PPU_Register.PPUADDR.value = 0;
+            NES_PPU_Register.PPUDATA.value = 0;
         }
 
         public static void InitialOnReset()
         {
-            NES_Register.PPUCTRL.adress.value = 0;
-            NES_Register.PPUMASK.adress.value = 0;
-            NES_Register.PPUSTATUS.adress.value = (byte)(NES_Register.PPUSTATUS.adress.value & 0x80);
-            NES_Register.PPUSCROLL.value = 0;
-            NES_Register.PPUDATA.value = 0;
+            NES_PPU_Register.PPUCTRL.adress.value = 0;
+            NES_PPU_Register.PPUMASK.adress.value = 0;
+            NES_PPU_Register.PPUSTATUS.adress.value = (byte)(NES_PPU_Register.PPUSTATUS.adress.value & 0x80);
+            NES_PPU_Register.PPUSCROLL.value = 0;
+            NES_PPU_Register.PPUDATA.value = 0;
         }
 
         public static void InitPalletes2C03and2C05()

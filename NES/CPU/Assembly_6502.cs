@@ -2478,7 +2478,7 @@ namespace NES
         /// </summary>
         public static void BRK_00()
         {
-            NES_Register.BRK = true;
+            Interrupt.BRK = true;
         }
         #endregion
     }
