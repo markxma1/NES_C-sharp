@@ -287,7 +287,13 @@
         {
             PPUSTATUS = new PPUSTATUSFlags();
             PPUSTATUS.adress = (Address)NES_Memory.Memory[0x2002];
-            PPUSTATUS.adress.afterGet = delegate () { PPUSTATUS.adress.value = (byte)(PPUSTATUS.adress.value & 0x7F); PPUSCROLL.Value = 0; PPUADDR.Value = 0; };
+            PPUSTATUS.adress.afterGet = delegate ()
+            {
+                PPUSTATUS.adress.value = (byte)(PPUSTATUS.adress.value & 0x7F);
+                PPUSCROLL.Value = 0;
+                PPUSCROLL.Value = 0;
+                PPUADDR.Value = 0;
+            };
         }
 
         public static void InitialAtPower()
