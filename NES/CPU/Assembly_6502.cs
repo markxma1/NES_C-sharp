@@ -23,7 +23,7 @@ namespace NES
         /// </param>
         public static void LDA_AD(ushort a)
         {
-            NES_Register.A = ((Adress)NES_Memory.Memory[a]).Value;
+            NES_Register.A = ((Address)NES_Memory.Memory[a]).Value;
             Status.NZ(NES_Register.A);
         }
 
@@ -41,7 +41,7 @@ namespace NES
         /// </param>
         public static void LDA_BD(ushort ax)
         {
-            NES_Register.A = ((Adress)NES_Memory.Memory[Parameter.ax(ax)]).Value;
+            NES_Register.A = ((Address)NES_Memory.Memory[Parameter.ax(ax)]).Value;
             Status.NZ(NES_Register.A);
         }
 
@@ -59,7 +59,7 @@ namespace NES
         /// </param>
         public static void LDA_B9(ushort ay)
         {
-            NES_Register.A = ((Adress)NES_Memory.Memory[Parameter.ay(ay)]).Value;
+            NES_Register.A = ((Address)NES_Memory.Memory[Parameter.ay(ay)]).Value;
             Status.NZ(NES_Register.A);
         }
 
@@ -94,7 +94,7 @@ namespace NES
         /// </param>
         public static void LDA_A5(byte zp)
         {
-            NES_Register.A = ((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value;
+            NES_Register.A = ((Address)NES_Memory.Memory[Parameter.zp(zp)]).Value;
             Status.NZ(NES_Register.A);
         }
 
@@ -113,7 +113,7 @@ namespace NES
         public static void LDA_A1(byte zpx)
         {
 
-            NES_Register.A = ((Adress)NES_Memory.Memory[Parameter.zpx1(zpx)]).Value;
+            NES_Register.A = ((Address)NES_Memory.Memory[Parameter.zpx1(zpx)]).Value;
             Status.NZ(NES_Register.A);
         }
 
@@ -131,7 +131,7 @@ namespace NES
         /// </param>
         public static void LDA_B5(byte zpx)
         {
-            NES_Register.A = ((Adress)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value;
+            NES_Register.A = ((Address)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value;
             Status.NZ(NES_Register.A);
         }
 
@@ -148,7 +148,7 @@ namespace NES
         /// </param>
         public static void LDA_B1(byte zpy)
         {
-            NES_Register.A = ((Adress)NES_Memory.Memory[Parameter.zpy1(zpy)]).Value;
+            NES_Register.A = ((Address)NES_Memory.Memory[Parameter.zpy1(zpy)]).Value;
             Status.NZ(NES_Register.A);
         }
         #endregion
@@ -169,7 +169,7 @@ namespace NES
         /// </param>
         public static void LDX_AE(ushort a)
         {
-            NES_Register.X = ((Adress)NES_Memory.Memory[a]).Value;
+            NES_Register.X = ((Address)NES_Memory.Memory[a]).Value;
             Status.NZ(NES_Register.X);
         }
 
@@ -187,7 +187,7 @@ namespace NES
         /// </param>
         public static void LDX_BE(ushort ay)
         {
-            NES_Register.X = ((Adress)NES_Memory.Memory[Parameter.ay(ay)]).Value;
+            NES_Register.X = ((Address)NES_Memory.Memory[Parameter.ay(ay)]).Value;
             Status.NZ(NES_Register.X);
         }
 
@@ -222,7 +222,7 @@ namespace NES
         /// </param>
         public static void LDX_A6(byte zp)
         {
-            NES_Register.X = ((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value;
+            NES_Register.X = ((Address)NES_Memory.Memory[Parameter.zp(zp)]).Value;
             Status.NZ(NES_Register.X);
         }
 
@@ -239,7 +239,7 @@ namespace NES
         /// </param>
         public static void LDX_B6(byte zpy)
         {
-            NES_Register.X = ((Adress)NES_Memory.Memory[Parameter.zpy2(zpy)]).Value;
+            NES_Register.X = ((Address)NES_Memory.Memory[Parameter.zpy2(zpy)]).Value;
             Status.NZ(NES_Register.X);
         }
         #endregion
@@ -260,7 +260,7 @@ namespace NES
         /// </param>
         public static void LDY_AC(ushort a)
         {
-            NES_Register.Y = ((Adress)NES_Memory.Memory[a]).Value;
+            NES_Register.Y = ((Address)NES_Memory.Memory[a]).Value;
             Status.NZ(NES_Register.Y);
         }
 
@@ -278,7 +278,7 @@ namespace NES
         /// </param>
         public static void LDY_BC(ushort ax)
         {
-            NES_Register.Y = ((Adress)NES_Memory.Memory[Parameter.ax(ax)]).Value;
+            NES_Register.Y = ((Address)NES_Memory.Memory[Parameter.ax(ax)]).Value;
             Status.NZ(NES_Register.Y);
         }
 
@@ -313,7 +313,7 @@ namespace NES
         /// </param>
         public static void LDY_A4(byte zp)
         {
-            NES_Register.Y = ((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value;
+            NES_Register.Y = ((Address)NES_Memory.Memory[Parameter.zp(zp)]).Value;
             Status.NZ(NES_Register.Y);
         }
 
@@ -331,7 +331,7 @@ namespace NES
         /// </param>
         public static void LDY_B4(byte zpx)
         {
-            NES_Register.Y = ((Adress)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value;
+            NES_Register.Y = ((Address)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value;
             Status.NZ(NES_Register.Y);
         }
         #endregion
@@ -354,7 +354,7 @@ namespace NES
         /// </param>
         public static void STA_8D(ushort a)
         {
-            ((Adress)NES_Memory.Memory[a]).Value = NES_Register.A;
+            ((Address)NES_Memory.Memory[a]).Value = NES_Register.A;
         }
 
         /// <summary>
@@ -370,7 +370,7 @@ namespace NES
         /// </param>
         public static void STA_9D(ushort ax)
         {
-            ((Adress)NES_Memory.Memory[Parameter.ax(ax)]).Value = NES_Register.A;
+            ((Address)NES_Memory.Memory[Parameter.ax(ax)]).Value = NES_Register.A;
         }
 
         /// <summary>
@@ -386,7 +386,7 @@ namespace NES
         /// </param>
         public static void STA_99(ushort ay)
         {
-            ((Adress)NES_Memory.Memory[Parameter.ay(ay)]).Value = NES_Register.A;
+            ((Address)NES_Memory.Memory[Parameter.ay(ay)]).Value = NES_Register.A;
         }
 
         /// <summary>
@@ -401,7 +401,7 @@ namespace NES
         /// </param>
         public static void STA_85(byte zp)
         {
-            ((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value = NES_Register.A;
+            ((Address)NES_Memory.Memory[Parameter.zp(zp)]).Value = NES_Register.A;
         }
 
         /// <summary>
@@ -417,7 +417,7 @@ namespace NES
         /// </param>
         public static void STA_81(byte zpx)
         {
-            ((Adress)NES_Memory.Memory[Parameter.zpx1(zpx)]).Value = NES_Register.A;
+            ((Address)NES_Memory.Memory[Parameter.zpx1(zpx)]).Value = NES_Register.A;
         }
 
         /// <summary>
@@ -433,7 +433,7 @@ namespace NES
         /// </param>
         public static void STA_95(byte zpx)
         {
-            ((Adress)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value = NES_Register.A;
+            ((Address)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value = NES_Register.A;
         }
 
         /// <summary>
@@ -448,7 +448,7 @@ namespace NES
         /// </param>
         public static void STA_91(byte zpy)
         {
-            ((Adress)NES_Memory.Memory[Parameter.zpy1(zpy)]).Value = NES_Register.A;
+            ((Address)NES_Memory.Memory[Parameter.zpy1(zpy)]).Value = NES_Register.A;
         }
         #endregion
 
@@ -467,7 +467,7 @@ namespace NES
         /// </param>
         public static void STX_8E(ushort a)
         {
-            ((Adress)NES_Memory.Memory[a]).Value = NES_Register.X;
+            ((Address)NES_Memory.Memory[a]).Value = NES_Register.X;
         }
 
         /// <summary>
@@ -482,7 +482,7 @@ namespace NES
         /// </param>
         public static void STX_86(byte zp)
         {
-            ((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value = NES_Register.X;
+            ((Address)NES_Memory.Memory[Parameter.zp(zp)]).Value = NES_Register.X;
         }
 
         /// <summary>
@@ -497,7 +497,7 @@ namespace NES
         /// </param>
         public static void STX_96(byte zpy)
         {
-            ((Adress)NES_Memory.Memory[Parameter.zpy2(zpy)]).Value = NES_Register.X;
+            ((Address)NES_Memory.Memory[Parameter.zpy2(zpy)]).Value = NES_Register.X;
         }
         #endregion
 
@@ -516,7 +516,7 @@ namespace NES
         /// </param>
         public static void STY_8C(ushort a)
         {
-            ((Adress)NES_Memory.Memory[a]).Value = NES_Register.Y;
+            ((Address)NES_Memory.Memory[a]).Value = NES_Register.Y;
         }
 
         /// <summary>
@@ -532,7 +532,7 @@ namespace NES
         /// </param>
         public static void STY_84(byte zp)
         {
-            ((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value = NES_Register.Y;
+            ((Address)NES_Memory.Memory[Parameter.zp(zp)]).Value = NES_Register.Y;
         }
 
         /// <summary>
@@ -548,7 +548,7 @@ namespace NES
         /// </param>
         public static void STY_94(byte zpx)
         {
-            ((Adress)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value = NES_Register.Y;
+            ((Address)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value = NES_Register.Y;
         }
         #endregion
         #endregion
@@ -572,7 +572,7 @@ namespace NES
         /// </param>
         public static void ADC_6D(ushort a)
         {
-            NES_Register.A = Math.ADC(NES_Register.A, ((Adress)NES_Memory.Memory[a]).Value);
+            NES_Register.A = Math.ADC(NES_Register.A, ((Address)NES_Memory.Memory[a]).Value);
         }
 
         /// <summary>
@@ -589,7 +589,7 @@ namespace NES
         /// </param>
         public static void ADC_7D(ushort ax)
         {
-            NES_Register.A = Math.ADC(NES_Register.A, ((Adress)NES_Memory.Memory[Parameter.ax(ax)]).Value);
+            NES_Register.A = Math.ADC(NES_Register.A, ((Address)NES_Memory.Memory[Parameter.ax(ax)]).Value);
         }
 
         /// <summary>
@@ -606,7 +606,7 @@ namespace NES
         /// </param>
         public static void ADC_79(ushort ay)
         {
-            NES_Register.A = Math.ADC(NES_Register.A, ((Adress)NES_Memory.Memory[Parameter.ay(ay)]).Value);
+            NES_Register.A = Math.ADC(NES_Register.A, ((Address)NES_Memory.Memory[Parameter.ay(ay)]).Value);
         }
 
         /// <summary>
@@ -639,7 +639,7 @@ namespace NES
         /// </param>
         public static void ADC_65(byte zp)
         {
-            NES_Register.A = Math.ADC(NES_Register.A, ((Adress)NES_Memory.Memory[zp]).Value);
+            NES_Register.A = Math.ADC(NES_Register.A, ((Address)NES_Memory.Memory[zp]).Value);
         }
 
         /// <summary>
@@ -656,7 +656,7 @@ namespace NES
         /// </param>
         public static void ADC_61(byte zpx)
         {
-            NES_Register.A = Math.ADC(NES_Register.A, ((Adress)NES_Memory.Memory[Parameter.zpx1(zpx)]).Value);
+            NES_Register.A = Math.ADC(NES_Register.A, ((Address)NES_Memory.Memory[Parameter.zpx1(zpx)]).Value);
         }
 
         /// <summary>
@@ -673,7 +673,7 @@ namespace NES
         /// </param>
         public static void ADC_75(byte zpx)
         {
-            NES_Register.A = Math.ADC(NES_Register.A, ((Adress)NES_Memory.Memory[Parameter.zpy2(zpx)]).Value);
+            NES_Register.A = Math.ADC(NES_Register.A, ((Address)NES_Memory.Memory[Parameter.zpy2(zpx)]).Value);
         }
 
         /// <summary>
@@ -689,7 +689,7 @@ namespace NES
         /// </param>
         public static void ADC_71(byte zpy)
         {
-            NES_Register.A = Math.ADC(NES_Register.A, ((Adress)NES_Memory.Memory[Parameter.zpy1(zpy)]).Value);
+            NES_Register.A = Math.ADC(NES_Register.A, ((Address)NES_Memory.Memory[Parameter.zpy1(zpy)]).Value);
         }
         #endregion
 
@@ -709,7 +709,7 @@ namespace NES
         /// </param>
         public static void SBC_ED(ushort a)
         {
-            NES_Register.A = Math.SBC(NES_Register.A, ((Adress)NES_Memory.Memory[a]).Value);
+            NES_Register.A = Math.SBC(NES_Register.A, ((Address)NES_Memory.Memory[a]).Value);
         }
 
         /// <summary>
@@ -726,7 +726,7 @@ namespace NES
         /// </param>
         public static void SBC_FD(ushort ax)
         {
-            NES_Register.A = Math.SBC(NES_Register.A, ((Adress)NES_Memory.Memory[Parameter.ay(ax)]).Value);
+            NES_Register.A = Math.SBC(NES_Register.A, ((Address)NES_Memory.Memory[Parameter.ay(ax)]).Value);
         }
 
         /// <summary>
@@ -743,7 +743,7 @@ namespace NES
         /// </param>
         public static void SBC_F9(ushort ay)
         {
-            NES_Register.A = Math.SBC(NES_Register.A, ((Adress)NES_Memory.Memory[Parameter.ay(ay)]).Value);
+            NES_Register.A = Math.SBC(NES_Register.A, ((Address)NES_Memory.Memory[Parameter.ay(ay)]).Value);
         }
 
         /// <summary>
@@ -776,7 +776,7 @@ namespace NES
         /// </param>
         public static void SBC_E5(byte zp)
         {
-            NES_Register.A = Math.SBC(NES_Register.A, ((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value);
+            NES_Register.A = Math.SBC(NES_Register.A, ((Address)NES_Memory.Memory[Parameter.zp(zp)]).Value);
         }
 
         /// <summary>
@@ -793,7 +793,7 @@ namespace NES
         /// </param>
         public static void SBC_E1(byte zpx)
         {
-            NES_Register.A = Math.SBC(NES_Register.A, ((Adress)NES_Memory.Memory[Parameter.zpx1(zpx)]).Value);
+            NES_Register.A = Math.SBC(NES_Register.A, ((Address)NES_Memory.Memory[Parameter.zpx1(zpx)]).Value);
         }
 
         /// <summary>
@@ -810,7 +810,7 @@ namespace NES
         /// </param>
         public static void SBC_F5(byte zpx)
         {
-            NES_Register.A = Math.SBC(NES_Register.A, ((Adress)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value);
+            NES_Register.A = Math.SBC(NES_Register.A, ((Address)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value);
         }
 
         /// <summary>
@@ -826,7 +826,7 @@ namespace NES
         /// </param>
         public static void SBC_F1(byte zpy)
         {
-            NES_Register.A = Math.SBC(NES_Register.A, ((Adress)NES_Memory.Memory[Parameter.zpy1(zpy)]).Value);
+            NES_Register.A = Math.SBC(NES_Register.A, ((Address)NES_Memory.Memory[Parameter.zpy1(zpy)]).Value);
         }
         #endregion
         #endregion
@@ -849,7 +849,7 @@ namespace NES
         /// </param>
         public static void INC_EE(ushort a)
         {
-            Status.NZ(++((Adress)NES_Memory.Memory[a]).Value);
+            Status.NZ(++((Address)NES_Memory.Memory[a]).Value);
         }
 
         /// <summary>
@@ -866,7 +866,7 @@ namespace NES
         /// </param>
         public static void INC_FE(ushort ax)
         {
-            Status.NZ(++((Adress)NES_Memory.Memory[Parameter.ax(ax)]).Value);
+            Status.NZ(++((Address)NES_Memory.Memory[Parameter.ax(ax)]).Value);
         }
 
         /// <summary>
@@ -882,7 +882,7 @@ namespace NES
         /// </param>
         public static void INC_E6(byte zp)
         {
-            Status.NZ(++((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value);
+            Status.NZ(++((Address)NES_Memory.Memory[Parameter.zp(zp)]).Value);
         }
 
         /// <summary>
@@ -899,7 +899,7 @@ namespace NES
         /// </param>
         public static void INC_F6(byte zpx)
         {
-            Status.NZ(++((Adress)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value);
+            Status.NZ(++((Address)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value);
         }
         #endregion
 
@@ -939,7 +939,7 @@ namespace NES
         /// </param>
         public static void DEC_CE(ushort a)
         {
-            Status.NZ(--((Adress)NES_Memory.Memory[a]).Value);
+            Status.NZ(--((Address)NES_Memory.Memory[a]).Value);
         }
 
         /// <summary>
@@ -956,7 +956,7 @@ namespace NES
         /// </param>
         public static void DEC_DE(ushort ax)
         {
-            Status.NZ(--((Adress)NES_Memory.Memory[Parameter.ax(ax)]).Value);
+            Status.NZ(--((Address)NES_Memory.Memory[Parameter.ax(ax)]).Value);
         }
 
         /// <summary>
@@ -972,7 +972,7 @@ namespace NES
         /// </param>
         public static void DEC_C6(byte zp)
         {
-            Status.NZ(--((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value);
+            Status.NZ(--((Address)NES_Memory.Memory[Parameter.zp(zp)]).Value);
         }
 
         /// <summary>
@@ -989,7 +989,7 @@ namespace NES
         /// </param>
         public static void DEC_D6(byte zpx)
         {
-            Status.NZ(--((Adress)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value);
+            Status.NZ(--((Address)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value);
         }
         #endregion
 
@@ -1379,7 +1379,7 @@ namespace NES
         /// </param>
         public static void AND_2D(ushort a)
         {
-            Math.AND(((Adress)NES_Memory.Memory[a]).Value);
+            Math.AND(((Address)NES_Memory.Memory[a]).Value);
         }
 
         /// <summary>
@@ -1396,7 +1396,7 @@ namespace NES
         /// </param>
         public static void AND_3D(ushort ax)
         {
-            Math.AND(((Adress)NES_Memory.Memory[Parameter.ax(ax)]).Value);
+            Math.AND(((Address)NES_Memory.Memory[Parameter.ax(ax)]).Value);
         }
 
         /// <summary>
@@ -1413,7 +1413,7 @@ namespace NES
         /// </param>
         public static void AND_39(ushort ay)
         {
-            Math.AND(((Adress)NES_Memory.Memory[Parameter.ay(ay)]).Value);
+            Math.AND(((Address)NES_Memory.Memory[Parameter.ay(ay)]).Value);
         }
 
         /// <summary>
@@ -1446,7 +1446,7 @@ namespace NES
         /// </param>
         public static void AND_25(byte zp)
         {
-            Math.AND(((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value);
+            Math.AND(((Address)NES_Memory.Memory[Parameter.zp(zp)]).Value);
         }
 
         /// <summary>
@@ -1463,7 +1463,7 @@ namespace NES
         /// </param>
         public static void AND_21(byte zpx)
         {
-            Math.AND(((Adress)NES_Memory.Memory[Parameter.zpx1(zpx)]).Value);
+            Math.AND(((Address)NES_Memory.Memory[Parameter.zpx1(zpx)]).Value);
         }
 
         /// <summary>
@@ -1480,7 +1480,7 @@ namespace NES
         /// </param>
         public static void AND_35(byte zpx)
         {
-            Math.AND(((Adress)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value);
+            Math.AND(((Address)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value);
         }
 
         /// <summary>
@@ -1496,7 +1496,7 @@ namespace NES
         /// </param>
         public static void AND_31(byte zpy)
         {
-            Math.AND(((Adress)NES_Memory.Memory[Parameter.zpy1(zpy)]).Value);
+            Math.AND(((Address)NES_Memory.Memory[Parameter.zpy1(zpy)]).Value);
         }
         #endregion
 
@@ -1516,7 +1516,7 @@ namespace NES
         /// </param>
         public static void ORA_0D(ushort a)
         {
-            Math.ORA(((Adress)NES_Memory.Memory[a]).Value);
+            Math.ORA(((Address)NES_Memory.Memory[a]).Value);
         }
 
         /// <summary>
@@ -1533,7 +1533,7 @@ namespace NES
         /// </param>
         public static void ORA_1D(ushort ax)
         {
-            Math.ORA(((Adress)NES_Memory.Memory[Parameter.ax(ax)]).Value);
+            Math.ORA(((Address)NES_Memory.Memory[Parameter.ax(ax)]).Value);
         }
 
         /// <summary>
@@ -1550,7 +1550,7 @@ namespace NES
         /// </param>
         public static void ORA_19(ushort ay)
         {
-            Math.ORA(((Adress)NES_Memory.Memory[Parameter.ay(ay)]).Value);
+            Math.ORA(((Address)NES_Memory.Memory[Parameter.ay(ay)]).Value);
         }
 
         /// <summary>
@@ -1583,7 +1583,7 @@ namespace NES
         /// </param>
         public static void ORA_05(byte zp)
         {
-            Math.ORA(((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value);
+            Math.ORA(((Address)NES_Memory.Memory[Parameter.zp(zp)]).Value);
         }
 
         /// <summary>
@@ -1600,7 +1600,7 @@ namespace NES
         /// </param>
         public static void ORA_01(byte zpx)
         {
-            Math.ORA(((Adress)NES_Memory.Memory[Parameter.zpx1(zpx)]).Value);
+            Math.ORA(((Address)NES_Memory.Memory[Parameter.zpx1(zpx)]).Value);
         }
 
         /// <summary>
@@ -1617,7 +1617,7 @@ namespace NES
         /// </param>
         public static void ORA_15(byte zpx)
         {
-            Math.ORA(((Adress)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value);
+            Math.ORA(((Address)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value);
         }
 
         /// <summary>
@@ -1633,7 +1633,7 @@ namespace NES
         /// </param>
         public static void ORA_11(byte zpy)
         {
-            Math.ORA(((Adress)NES_Memory.Memory[Parameter.zpy1(zpy)]).Value);
+            Math.ORA(((Address)NES_Memory.Memory[Parameter.zpy1(zpy)]).Value);
         }
         #endregion
 
@@ -1653,7 +1653,7 @@ namespace NES
         /// </param>
         public static void EOR_4D(ushort a)
         {
-            Math.EOR(((Adress)NES_Memory.Memory[a]).Value);
+            Math.EOR(((Address)NES_Memory.Memory[a]).Value);
         }
 
         /// <summary>
@@ -1670,7 +1670,7 @@ namespace NES
         /// </param>
         public static void EOR_5D(ushort ax)
         {
-            Math.EOR(((Adress)NES_Memory.Memory[Parameter.ax(ax)]).Value);
+            Math.EOR(((Address)NES_Memory.Memory[Parameter.ax(ax)]).Value);
         }
 
         /// <summary>
@@ -1687,7 +1687,7 @@ namespace NES
         /// </param>
         public static void EOR_59(ushort ay)
         {
-            Math.EOR(((Adress)NES_Memory.Memory[Parameter.ay(ay)]).Value);
+            Math.EOR(((Address)NES_Memory.Memory[Parameter.ay(ay)]).Value);
         }
 
         /// <summary>
@@ -1704,7 +1704,7 @@ namespace NES
         /// </param>
         public static void EOR_49(byte v)
         {
-            Math.EOR(((Adress)NES_Memory.Memory[v]).Value);
+            Math.EOR(((Address)NES_Memory.Memory[v]).Value);
         }
 
         /// <summary>
@@ -1720,7 +1720,7 @@ namespace NES
         /// </param>
         public static void EOR_45(byte zp)
         {
-            Math.EOR(((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value);
+            Math.EOR(((Address)NES_Memory.Memory[Parameter.zp(zp)]).Value);
         }
 
         /// <summary>
@@ -1737,7 +1737,7 @@ namespace NES
         /// </param>
         public static void EOR_41(byte zpx)
         {
-            Math.EOR(((Adress)NES_Memory.Memory[Parameter.zpx1(zpx)]).Value);
+            Math.EOR(((Address)NES_Memory.Memory[Parameter.zpx1(zpx)]).Value);
         }
 
         /// <summary>
@@ -1754,7 +1754,7 @@ namespace NES
         /// </param>
         public static void EOR_55(byte zpx)
         {
-            Math.EOR(((Adress)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value);
+            Math.EOR(((Address)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value);
         }
 
         /// <summary>
@@ -1770,7 +1770,7 @@ namespace NES
         /// </param>
         public static void EOR_51(byte zpy)
         {
-            Math.EOR(((Adress)NES_Memory.Memory[Parameter.zpy1(zpy)]).Value);
+            Math.EOR(((Address)NES_Memory.Memory[Parameter.zpy1(zpy)]).Value);
         }
         #endregion
         #endregion
@@ -1800,7 +1800,7 @@ namespace NES
         /// </param>
         public static void CMP_CD(ushort a)
         {
-            Math.CMP(((Adress)NES_Memory.Memory[a]).Value);
+            Math.CMP(((Address)NES_Memory.Memory[a]).Value);
         }
 
         /// <summary>
@@ -1817,7 +1817,7 @@ namespace NES
         /// </param>
         public static void CMP_DD(ushort ax)
         {
-            Math.CMP(((Adress)NES_Memory.Memory[Parameter.ax(ax)]).Value);
+            Math.CMP(((Address)NES_Memory.Memory[Parameter.ax(ax)]).Value);
         }
 
         /// <summary>
@@ -1834,7 +1834,7 @@ namespace NES
         /// </param>
         public static void CMP_D9(ushort ay)
         {
-            Math.CMP(((Adress)NES_Memory.Memory[Parameter.ay(ay)]).Value);
+            Math.CMP(((Address)NES_Memory.Memory[Parameter.ay(ay)]).Value);
         }
 
         /// <summary>
@@ -1867,7 +1867,7 @@ namespace NES
         /// </param>
         public static void CMP_C5(byte zp)
         {
-            Math.CMP(((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value);
+            Math.CMP(((Address)NES_Memory.Memory[Parameter.zp(zp)]).Value);
         }
 
         /// <summary>
@@ -1884,7 +1884,7 @@ namespace NES
         /// </param>
         public static void CMP_C1(byte zpx)
         {
-            Math.CMP(((Adress)NES_Memory.Memory[Parameter.zpx1(zpx)]).Value);
+            Math.CMP(((Address)NES_Memory.Memory[Parameter.zpx1(zpx)]).Value);
         }
 
         /// <summary>
@@ -1901,7 +1901,7 @@ namespace NES
         /// </param>
         public static void CMP_D5(byte zpx)
         {
-            Math.CMP(((Adress)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value);
+            Math.CMP(((Address)NES_Memory.Memory[Parameter.zpx2(zpx)]).Value);
         }
 
         /// <summary>
@@ -1917,7 +1917,7 @@ namespace NES
         /// </param>
         public static void CMP_D1(byte zpy)
         {
-            Math.CMP(((Adress)NES_Memory.Memory[Parameter.zpy1(zpy)]).Value);
+            Math.CMP(((Address)NES_Memory.Memory[Parameter.zpy1(zpy)]).Value);
         }
         #endregion
 
@@ -1937,7 +1937,7 @@ namespace NES
         /// </param>
         public static void CPX_EC(ushort a)
         {
-            Math.CPX(((Adress)NES_Memory.Memory[a]).Value);
+            Math.CPX(((Address)NES_Memory.Memory[a]).Value);
         }
 
         /// <summary>
@@ -1970,7 +1970,7 @@ namespace NES
         /// </param>
         public static void CPX_E4(byte zp)
         {
-            Math.CPX(((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value);
+            Math.CPX(((Address)NES_Memory.Memory[Parameter.zp(zp)]).Value);
         }
         #endregion
 
@@ -1990,7 +1990,7 @@ namespace NES
         /// </param>
         public static void CPY_CC(ushort a)
         {
-            Math.CPY(((Adress)NES_Memory.Memory[a]).Value);
+            Math.CPY(((Address)NES_Memory.Memory[a]).Value);
         }
 
         /// <summary>
@@ -2023,7 +2023,7 @@ namespace NES
         /// </param>
         public static void CPY_C4(byte zp)
         {
-            Math.CPY(((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value);
+            Math.CPY(((Address)NES_Memory.Memory[Parameter.zp(zp)]).Value);
         }
         #endregion
 
@@ -2043,7 +2043,7 @@ namespace NES
         /// </param>
         public static void BIT_2C(ushort a)
         {
-            Math.BIT(((Adress)NES_Memory.Memory[a]).Value);
+            Math.BIT(((Address)NES_Memory.Memory[a]).Value);
         }
 
         /// <summary>
@@ -2076,7 +2076,7 @@ namespace NES
         /// </param>
         public static void BIT_24(byte zp)
         {
-            Math.BIT(((Adress)NES_Memory.Memory[Parameter.zp(zp)]).Value);
+            Math.BIT(((Address)NES_Memory.Memory[Parameter.zp(zp)]).Value);
         }
         #endregion
         #endregion

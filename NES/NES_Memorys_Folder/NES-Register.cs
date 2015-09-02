@@ -75,7 +75,7 @@ namespace NES
 
         public static void RessetPointer()
         {
-            PC = (ushort)(((Adress)NES_Memory.POR[0]).Value | (((Adress)NES_Memory.POR[1]).Value << 8));
+            PC = (ushort)(((Address)NES_Memory.POR[0]).Value | (((Address)NES_Memory.POR[1]).Value << 8));
         }
     }
 }

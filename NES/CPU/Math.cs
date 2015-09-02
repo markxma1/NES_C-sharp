@@ -40,7 +40,7 @@
         /// <param name="a">Absolute: a</param>
         public static void ASL(ushort a)
         {
-            var temp = (Adress)NES_Memory.Memory[a];
+            var temp = (Address)NES_Memory.Memory[a];
             temp.Value = ASL(temp.Value);
             Status.NZ(temp.Value);
         }
@@ -89,7 +89,7 @@
         /// <param name="a">Absolute: a</param>
         public static void LSR(ushort a)
         {
-            var temp = (Adress)NES_Memory.Memory[a];
+            var temp = (Address)NES_Memory.Memory[a];
             temp.Value = LSR(temp.Value);
             Status.NZ(temp.Value);
         }
@@ -138,7 +138,7 @@
         /// <param name="a">Absolute: a</param>
         public static void ROL(ushort a)
         {
-            var temp = ((Adress)NES_Memory.Memory[a]);
+            var temp = ((Address)NES_Memory.Memory[a]);
             temp.Value = ASL(temp.Value);
             temp.Value = (byte)(temp.Value | Status.Carry());
             Status.NZ(temp.Value);
@@ -170,7 +170,7 @@
         /// <param name="a">Absolute: a</param>
         public static void ROR(ushort a)
         {
-            var temp = ((Adress)NES_Memory.Memory[a]);
+            var temp = ((Address)NES_Memory.Memory[a]);
             temp.Value = LSR(temp.Value);
             temp.Value = (byte)(temp.Value | (Status.Carry() << 8));
             Status.NZ(temp.Value);

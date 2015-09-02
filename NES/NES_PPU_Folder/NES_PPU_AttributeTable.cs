@@ -49,19 +49,13 @@ namespace NES
         {
             for (int r = 0; r < 2; r++)
             {
-                AL.Add(((Adress)AttributeTable[j + i * 8]).value >> shift1 & 3);
+                AL.Add(((Address)AttributeTable[j + i * 8]).value >> shift1 & 3);
             }
         }
 
         private static ArrayList getTable(int NR)
         {
-            switch (NR)
-            {
-                case 0: return NES_PPU_Memory.AttributeTable0;
-                case 1: return NES_PPU_Memory.AttributeTable1;
-                case 2: return NES_PPU_Memory.AttributeTable2;
-                default: return NES_PPU_Memory.AttributeTable3;
-            }
+            return NES_PPU_Memory.AttributeTableN[NR];
         }
     }
 }
