@@ -45,7 +45,7 @@ namespace NES
 
         public static List<byte> MemTest(ArrayList list)
         {
-            return list.Cast<Adress>().Select(a => a.value).ToList<byte>();
+            return list.Cast<Address>().Select(a => a.value).ToList<byte>();
         }
 
         public NES_Memory()
@@ -72,28 +72,28 @@ namespace NES
             {
                 IO.Add(Memory[i]);
                 Memory[i + 0x2007] = Memory[i];
-                ((Adress)Memory[i]).value = 0;
+                ((Address)Memory[i]).value = 0;
             }
 
             for (int i = 0x4000; i <= 0x401F; i++)
             {
                 IO.Add(Memory[i]);
-                ((Adress)Memory[i]).value = 0xFF;
+                ((Address)Memory[i]).value = 0xFF;
             }
 
             for (int i = 0x4020; i <= 0x5FFF; i++)
             {
                 EROM.Add(Memory[i]);
                 if (i < 0x5000)
-                    ((Adress)Memory[i]).value = 0xFF;
+                    ((Address)Memory[i]).value = 0xFF;
                 else
-                    ((Adress)Memory[i]).value = 0;
+                    ((Address)Memory[i]).value = 0;
             }
 
             for (int i = 0x6000; i <= 0x7FFF; i++)
             {
                 SRAM.Add(Memory[i]);
-                ((Adress)Memory[i]).value = 0;
+                ((Address)Memory[i]).value = 0;
             }
 
             for (int i = 0x8000; i <= 0xFFFF; i++)
@@ -131,9 +131,9 @@ namespace NES
                             Memory.Add(Memory[i - 0x1800]);
                         else
                             if ((i & 4) == 0)
-                                Memory.Add(new Adress(0x00,i));
+                                Memory.Add(new Address(0x00,i));
                             else
-                                Memory.Add(new Adress(0xFF,i));
+                                Memory.Add(new Address(0xFF,i));
             }
         }
     }

@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace NES
 {
-    public class Adress
+    public class Address
     {
         int ID = 0;
         public delegate void func();
@@ -26,14 +26,14 @@ namespace NES
         /// Create an empty Adress and Gives an ID to it. 
         /// </summary>
         /// <param name="ID">Adress ID</param>
-        public Adress(int ID) { this.ID = ID; }
+        public Address(int ID) { this.ID = ID; }
 
         /// <summary>
         /// Create an Adress with new value and Gives an ID to it. 
         /// </summary>
         /// <param name="value">Value that was saved on that Adress</param>
         /// <param name="ID">Adress ID</param>
-        public Adress(byte value, int ID)
+        public Address(byte value, int ID)
         {
             this.value = value;
             this.ID = ID;
@@ -46,7 +46,7 @@ namespace NES
             return HEXValue + ": (" + HEXID + ")";
         }
 
-        public static explicit operator Adress(ArrayList v)
+        public static explicit operator Address(ArrayList v)
         {
             throw new NotImplementedException();
         }

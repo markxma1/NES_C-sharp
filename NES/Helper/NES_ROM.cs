@@ -32,7 +32,7 @@ namespace NES
             for (int i = begin; i <= end; i++)
             {
                 var test = i - begin;
-                ((Adress)NES_Memory.PRGROM[i - begin]).Value = b[i];
+                ((Address)NES_Memory.PRGROM[i - begin]).Value = b[i];
                 if (INES.PRGROMSize <= 16384)
                 {
                     NES_Memory.PRGROM[16384 + i - begin] = NES_Memory.PRGROM[i - begin];
@@ -44,7 +44,7 @@ namespace NES
 
             for (int i = begin; i <= end; i++)
             {
-                ((Adress)NES_PPU_Memory.PatternTable[i - begin]).Value = b[i];
+                ((Address)NES_PPU_Memory.PatternTable[i - begin]).Value = b[i];
             }
 
             byte[] byteArray = (byte[])(b.Skip(end).ToArray());

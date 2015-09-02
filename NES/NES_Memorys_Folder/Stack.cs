@@ -36,12 +36,12 @@ namespace NES
 
         public static void PushToStack(byte value)
         {
-            ((Adress)NES_Memory.Stack[NES_Register.S--]).Value = value;
+            ((Address)NES_Memory.Stack[NES_Register.S--]).Value = value;
         }
 
         public static byte PopFromStack()
         {
-            return ((Adress)NES_Memory.Stack[++NES_Register.S]).Value;
+            return ((Address)NES_Memory.Stack[++NES_Register.S]).Value;
         }
     }
 }

@@ -44,22 +44,22 @@ namespace NES
 
         private void Input8Byte(Func8 func)
         {
-            byte b = ((Adress)NES_Memory.Memory[++NES_Register.PC]).Value;
+            byte b = ((Address)NES_Memory.Memory[++NES_Register.PC]).Value;
             NES_Register.PC++;
             func(b);
         }
 
         private void Inputs8Byte(Funcs8 func)
         {
-            sbyte b = (sbyte)((Adress)NES_Memory.Memory[++NES_Register.PC]).Value;
+            sbyte b = (sbyte)((Address)NES_Memory.Memory[++NES_Register.PC]).Value;
             NES_Register.PC++;
             func(b);
         }
 
         private void Input16Byte(Func16 func)
         {
-            ushort b = ((Adress)NES_Memory.Memory[++NES_Register.PC]).Value;
-            b = (ushort)((((Adress)NES_Memory.Memory[++NES_Register.PC]).Value << 8) | (b & 0xFF));
+            ushort b = ((Address)NES_Memory.Memory[++NES_Register.PC]).Value;
+            b = (ushort)((((Address)NES_Memory.Memory[++NES_Register.PC]).Value << 8) | (b & 0xFF));
             NES_Register.PC++;
             func(b);
         }

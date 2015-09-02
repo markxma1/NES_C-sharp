@@ -25,7 +25,7 @@ namespace NES
             /// </summary>
             public byte Number { get { return (byte)(adress.Value & 0xFE); } set { adress.Value = (byte)((adress.Value & ~0xFE) | value & 0xFE); } }
 
-            public Adress adress;
+            public Address adress;
         }
 
         public struct Byte2
@@ -50,7 +50,7 @@ namespace NES
             /// </summary>
             public bool FlipV { get { return (bool)((adress.Value & 0x80) > 0); } set { adress.Value = (byte)(adress.Value & ~0x80); if (value)adress.Value = (byte)(adress.Value | 0x80); } }
 
-            public Adress adress;
+            public Address adress;
         }
 
         static public ArrayList Memory = new ArrayList();
@@ -118,7 +118,7 @@ namespace NES
         {
             for (int i = 0; i <= 0xFF; i++)
             {
-                Memory.Add(new Adress(i));
+                Memory.Add(new Address(i));
             }
             InitBytes();
         }
@@ -134,12 +134,12 @@ namespace NES
                 SpriteYc.Add(Memory[i]);
                 {
                     var temp = new Byte1();
-                    temp.adress = ((Adress)Memory[i + 1]);
+                    temp.adress = ((Address)Memory[i + 1]);
                     SpriteTile.Add(temp);
                 }
                 {
                     var temp = new Byte2();
-                    temp.adress = ((Adress)Memory[i + 2]);
+                    temp.adress = ((Address)Memory[i + 2]);
                     SpriteAttribute.Add(temp);
                 }
                 SpriteXc.Add(Memory[i + 3]);

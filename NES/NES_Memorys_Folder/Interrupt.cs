@@ -27,7 +27,7 @@
                 {
                     Stack.ProcessorstatusToStack(false, true);
                     Stack.PcToStack();
-                    NES_Register.PC = (ushort)(((Adress)NES_Memory.Stack[0xfffe]).Value | (((Adress)NES_Memory.Stack[0xffff]).Value << 8));
+                    NES_Register.PC = (ushort)(((Address)NES_Memory.Stack[0xfffe]).Value | (((Address)NES_Memory.Stack[0xffff]).Value << 8));
                     IRQ = false;
                     SevenClock = 7;
                 }
@@ -39,7 +39,7 @@
                 {
                     Stack.ProcessorstatusToStack(true, true);
                     Stack.PcToStack();
-                    NES_Register.PC = (ushort)(((Adress)NES_Memory.Memory[0xfffe]).Value | (((Adress)NES_Memory.Memory[0xffff]).Value << 8));
+                    NES_Register.PC = (ushort)(((Address)NES_Memory.Memory[0xfffe]).Value | (((Address)NES_Memory.Memory[0xffff]).Value << 8));
                     BRK = false;
                     SevenClock = 7;
                 }
@@ -51,14 +51,14 @@
                 {
                     Stack.ProcessorstatusToStack(false, true);
                     Stack.PcToStack();
-                    NES_Register.PC = (ushort)(((Adress)NES_Memory.Memory[0xfffa]).Value | (((Adress)NES_Memory.Memory[0xfffb]).Value << 8));
+                    NES_Register.PC = (ushort)(((Address)NES_Memory.Memory[0xfffa]).Value | (((Address)NES_Memory.Memory[0xfffb]).Value << 8));
                     NMI = false;
                     SevenClock = 7;
                 }
             }
             if (RESET)
             {
-                NES_Register.PC = (ushort)(((Adress)NES_Memory.Memory[0xfffc]).Value | (((Adress)NES_Memory.Memory[0xfffd]).Value << 8));
+                NES_Register.PC = (ushort)(((Address)NES_Memory.Memory[0xfffc]).Value | (((Address)NES_Memory.Memory[0xfffd]).Value << 8));
             }
         }
     }

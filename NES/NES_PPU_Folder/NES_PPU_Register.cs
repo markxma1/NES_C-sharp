@@ -53,7 +53,7 @@
         /// </summary>
         public bool V { get { return (adress.value & 0x80) > 0; } set { adress.value = (byte)(adress.value & ~0x80); if (value) adress.value = (byte)(adress.value | 0x80); Interrupt.NMI = value; } }
 
-        public Adress adress;
+        public Address adress;
     }
 
     public struct PPUMASKFlags
@@ -99,7 +99,7 @@
         /// </summary>
         public byte BGR { get { return (byte)(adress.value & 0xE0); } set { adress.value = (byte)(adress.value & ~0xE0); adress.value = (byte)(adress.value | (value & 0xE0)); } }
 
-        public Adress adress;
+        public Address adress;
     }
 
     public struct PPUSTATUSFlags
@@ -139,7 +139,7 @@
         /// </summary>
         public bool V { get { return (adress.value & 0x80) > 0; } set { adress.value = (byte)(adress.value & ~0x80); if (value) adress.value = (byte)(adress.value | 0x80); } }
 
-        public Adress adress;
+        public Address adress;
     }
 
     /// <summary>
@@ -180,37 +180,37 @@
         /// aaaa aaaa 	
         /// OAM read/write address 
         /// </summary>
-        public static Adress OAMADDR = (Adress)NES_Memory.Memory[0x2003];
+        public static Address OAMADDR = (Address)NES_Memory.Memory[0x2003];
 
         /// <summary>
         ///  	dddd dddd 	
         ///  	OAM data read/write 
         /// </summary>
-        public static Adress OAMDATA = (Adress)NES_Memory.Memory[0x2004];
+        public static Address OAMDATA = (Address)NES_Memory.Memory[0x2004];
 
         /// <summary>
         /// xxxx xxxx 	
         /// fine scroll position (two writes: X, Y) 
         /// </summary>
-        public static Adress PPUSCROLL = (Adress)NES_Memory.Memory[0x2005];
+        public static Address PPUSCROLL = (Address)NES_Memory.Memory[0x2005];
 
         /// <summary>
         ///  	aaaa aaaa 	
         ///  	PPU read/write address (two writes: MSB, LSB) 
         /// </summary>
-        public static Adress PPUADDR = (Adress)NES_Memory.Memory[0x2006];
+        public static Address PPUADDR = (Address)NES_Memory.Memory[0x2006];
 
         /// <summary>
         /// dddd dddd 	
         /// PPU data read/write 
         /// </summary>
-        public static Adress PPUDATA = (Adress)NES_Memory.Memory[0x2007];
+        public static Address PPUDATA = (Address)NES_Memory.Memory[0x2007];
 
         /// <summary>
         /// aaaa aaaa 	
         /// OAM DMA high address 
         /// </summary>
-        public static Adress OAMDMA = (Adress)NES_Memory.Memory[0x4014];
+        public static Address OAMDMA = (Address)NES_Memory.Memory[0x4014];
 
         /// <summary>
         /// Adress Of  PPU Program Counter
@@ -240,7 +240,7 @@
         private static void INITPPUMASK()
         {
             PPUMASK = new PPUMASKFlags();
-            PPUMASK.adress = (Adress)NES_Memory.Memory[0x2001];
+            PPUMASK.adress = (Address)NES_Memory.Memory[0x2001];
         }
 
         private static void INITPPUADDR()
@@ -263,20 +263,20 @@
         {
             PPUDATA.afterSet = delegate (byte value)
             {
-                ((Adress)NES_PPU_Memory.Memory[PPUPCADDR]).Value = value;
+                ((Address)NES_PPU_Memory.Memory[PPUPCADDR]).Value = value;
                 PPUPCADDR += (ushort)((PPUCTRL.I) ? (32) : (1));
                 if (PPUPCADDR == 0x4000) PPUPCADDR = 0;
             };
             PPUDATA.beforGet = delegate ()
             {
-                PPUDATA.value = ((Adress)NES_PPU_Memory.Memory[PPUPCADDR]).value;
+                PPUDATA.value = ((Address)NES_PPU_Memory.Memory[PPUPCADDR]).value;
             };
         }
 
         private static void INITPPUCTRL()
         {
             PPUCTRL = new PPUCTRLFlags();
-            PPUCTRL.adress = (Adress)NES_Memory.Memory[0x2000];
+            PPUCTRL.adress = (Address)NES_Memory.Memory[0x2000];
             PPUCTRL.adress.afterSet = delegate (byte value)
             {
                 PPUCTRL.V = PPUCTRL.V;
@@ -286,7 +286,7 @@
         private static void INITPPUSTATUS()
         {
             PPUSTATUS = new PPUSTATUSFlags();
-            PPUSTATUS.adress = (Adress)NES_Memory.Memory[0x2002];
+            PPUSTATUS.adress = (Address)NES_Memory.Memory[0x2002];
             PPUSTATUS.adress.afterGet = delegate () { PPUSTATUS.adress.value = (byte)(PPUSTATUS.adress.value & 0x7F); PPUSCROLL.Value = 0; PPUADDR.Value = 0; };
         }
 

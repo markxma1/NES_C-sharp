@@ -56,7 +56,7 @@
         public static ushort zpx1(int zpx)
         {
             short address = (short)(zpx + NES_Register.X);
-            return (ushort)((((Adress)NES_Memory.Memory[address]).Value) | ((Adress)NES_Memory.Memory[address + 1]).Value << 8);
+            return (ushort)((((Address)NES_Memory.Memory[address]).Value) | ((Address)NES_Memory.Memory[address + 1]).Value << 8);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@
         /// <returns>Address from (zp),Y </returns>
         public static ushort zpy1(byte zpy)
         {
-            var temp = ((Adress)NES_Memory.Memory[zpy]).Value | ((Adress)NES_Memory.Memory[zpy + 1]).Value << 8;
+            var temp = ((Address)NES_Memory.Memory[zpy]).Value | ((Address)NES_Memory.Memory[zpy + 1]).Value << 8;
             return (ushort)(temp + NES_Register.Y);
         }
 
@@ -108,7 +108,7 @@
         public static ushort MemoryValueToAdress(ushort a)
         {
 
-            return (ushort)((((Adress)NES_Memory.Memory[a]).Value) | (((Adress)NES_Memory.Memory[a + 1]).Value << 8));
+            return (ushort)((((Address)NES_Memory.Memory[a]).Value) | (((Address)NES_Memory.Memory[a + 1]).Value << 8));
         }
     }
 }

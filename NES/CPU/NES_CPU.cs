@@ -76,8 +76,8 @@ namespace NES
                     lastPC3 = lastPC2;
                     lastPC2 = lastPC;
                     lastPC = NES_Register.PC;
-                    try { Assembly.assembly[((Adress)NES_Memory.Memory[NES_Register.PC]).Value](); }
-                    catch (Exception ex) { System.Windows.Forms.MessageBox.Show(ex.Message + ((Adress)NES_Memory.Memory[lastPC]).Value.ToString("X")); }
+                    try { Assembly.assembly[((Address)NES_Memory.Memory[NES_Register.PC]).Value](); }
+                    catch (Exception ex) { System.Windows.Forms.MessageBox.Show(ex.Message + ((Address)NES_Memory.Memory[lastPC]).Value.ToString("X")); }
                     Interrupt.Check();
                 });
             }
