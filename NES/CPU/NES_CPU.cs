@@ -61,8 +61,11 @@ namespace NES
             {
                 cpuspeed = Sleep((mod == Mod.PAL) ? (PAL) : (NTSC), delegate
                 {
+                    
+                    if (NES_Register.PC == 0xC27C)//0xC0c8
+                    { }
 
-                    if (NES_Register.PC == 0xC1EA)//0xC0c8
+                    if (NES_Register.PC == 0xC281)//0xC0c8
                     { }
 
                     //if (NES_Register.PPUPCADDR == 0x2212)

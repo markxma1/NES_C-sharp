@@ -182,6 +182,7 @@ namespace NES
                     DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(2), 2, 30, 0);
                     DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(3), 3, 30, 32);
                     g.DrawRectangle(Pens.Red, XScroll, YScroll, 256, 240);
+                    g.DrawRectangle(Pens.Green, 0, 0, 64 * 8-1, 60 * 8-1);
                     TempNameTable = bitmap;
                 }
             return bitmap;
