@@ -52,7 +52,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="NES_PPU_Folder\NES_PPU_MemoryTests.cs" />
+    <Compile Include="NES_PPU_MEMORY_TEST.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
