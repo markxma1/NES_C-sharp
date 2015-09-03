@@ -22,6 +22,7 @@ namespace NES
         private static ushort lastPC4 = 0;
         private static ushort lastPC5 = 0;
         //private static byte changed = 0;
+        //private static int count = 0;
 
         #region PAL/NTSC Speed
         public static double cpuspeed;
@@ -55,17 +56,20 @@ namespace NES
             Interrupt.POWER = true;
 
             NES_PPU_Register.InitialAtPower();
-            DateTime t2 = DateTime.Now;
+            DateTime timer = DateTime.Now;
 
             while (Interrupt.POWER)
             {
                 cpuspeed = Sleep((mod == Mod.PAL) ? (PAL) : (NTSC), delegate
                 {
                     
-                    if (NES_Register.PC == 0xC27C)//0xC0c8
+                    if (NES_Register.PC == 0xCDB7)//0xC0c8
                     { }
 
-                    if (NES_Register.PC == 0xC281)//0xC0c8
+                    if (NES_Register.PC == 0xCDCC)//0xC0c8
+                    { }
+
+                    if (NES_Register.PC == 0xEBDE)//0xC0c8
                     { }
 
                     //if (NES_Register.PPUPCADDR == 0x2212)

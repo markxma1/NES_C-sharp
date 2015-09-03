@@ -8,6 +8,7 @@ namespace NES
         #region Init
 
         static private List<Action> Assembly = new List<Action>();
+        static public List<string> debug = new List<string>();
 
         public List<Action> assembly { get { return Assembly; } }
 
@@ -30,6 +31,13 @@ namespace NES
 
         #endregion
 
+        private static void Debug(ushort PC, int b)
+        {
+            debug.Add("0X"+PC.ToString("X") + ": 0X" + b.ToString("X"));
+            if (debug.Count > 20)
+                debug.RemoveAt(0);
+        }
+
         #region Delegates
         public delegate void Func();
         private delegate void Func8(byte b);
@@ -38,29 +46,39 @@ namespace NES
 
         private void NoInput(Func func)
         {
+            var PC = NES_Register.PC;
             NES_Register.PC++;
+            Debug(PC, 0);
             func();
         }
 
         private void Input8Byte(Func8 func)
         {
+            var PC = NES_Register.PC;
             byte b = ((Address)NES_Memory.Memory[++NES_Register.PC]).Value;
             NES_Register.PC++;
+            Debug(PC, b);
             func(b);
         }
 
+
+
         private void Inputs8Byte(Funcs8 func)
         {
+            var PC = NES_Register.PC;
             sbyte b = (sbyte)((Address)NES_Memory.Memory[++NES_Register.PC]).Value;
             NES_Register.PC++;
+            Debug(PC, b);
             func(b);
         }
 
         private void Input16Byte(Func16 func)
         {
+            var PC = NES_Register.PC;
             ushort b = ((Address)NES_Memory.Memory[++NES_Register.PC]).Value;
             b = (ushort)((((Address)NES_Memory.Memory[++NES_Register.PC]).Value << 8) | (b & 0xFF));
             NES_Register.PC++;
+            Debug(PC, b);
             func(b);
         }
         #endregion
