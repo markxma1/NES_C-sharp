@@ -61,5 +61,7 @@
                 NES_Register.PC = (ushort)(((Address)NES_Memory.Memory[0xfffc]).Value | (((Address)NES_Memory.Memory[0xfffd]).Value << 8));
             }
         }
+
+        public static void Stop() { POWER = false; }
     }
 }

@@ -35,6 +35,9 @@ namespace NES
         static public ArrayList ZeroPage = new ArrayList();
         static public ArrayList Stack = new ArrayList();
         static public ArrayList RAM = new ArrayList();
+        static public ArrayList PPU = new ArrayList();
+        static public ArrayList APU = new ArrayList();
+        static public ArrayList Joystick = new ArrayList();
         static public ArrayList IO = new ArrayList();
         static public ArrayList EROM = new ArrayList();
         static public ArrayList SRAM = new ArrayList();
@@ -50,37 +53,92 @@ namespace NES
 
         public NES_Memory()
         {
-
             InitMemory();
+            InitZeroPage();
+            InitStack();
+            InitRAM();
+            InitPPU();
+            InitAPU();
+            InitJoystick();
+            InitIO();
+            InitEROM();
+            InitSRAM();
+            InitPRGROM();
+            InitNMI();
+            InitPOR();
+            InitBRK();
+        }
 
-            for (int i = 0x00; i <= 0x00FF; i++)
-            {
-                ZeroPage.Add(Memory[i]);
-            }
-
-            for (int i = 0x0100; i <= 0x01FF; i++)
-            {
-                Stack.Add(Memory[i]);
-            }
-
-            for (int i = 0x0200; i <= 0x07FF; i++)
-            {
-                RAM.Add(Memory[i]);
-            }
-
-            for (int i = 0x2000; i <= 0x2007; i++)
-            {
-                IO.Add(Memory[i]);
-                Memory[i + 0x2007] = Memory[i];
-                ((Address)Memory[i]).value = 0;
-            }
-
-            for (int i = 0x4000; i <= 0x401F; i++)
+        private static void InitIO()
+        {
+            for (int i = 0x4018; i <= 0x401F; i++)
             {
                 IO.Add(Memory[i]);
                 ((Address)Memory[i]).value = 0xFF;
             }
+        }
 
+        private static void InitJoystick()
+        {
+            for (int i = 0x4016; i <= 0x4017; i++)
+            {
+                Joystick.Add(Memory[i]);
+                ((Address)Memory[i]).value = 0xFF;
+            }
+        }
+
+        private static void InitAPU()
+        {
+            for (int i = 0x4000; i <= 0x4015; i++)
+            {
+                APU.Add(Memory[i]);
+                ((Address)Memory[i]).value = 0xFF;
+            }
+        }
+
+        private static void InitBRK()
+        {
+            for (int i = 0xFFFE; i <= 0xFFFF; i++)
+            {
+                BRK.Add(Memory[i]);
+            }
+        }
+
+        private static void InitPOR()
+        {
+            for (int i = 0xFFFC; i <= 0xFFFD; i++)
+            {
+                POR.Add(Memory[i]);
+            }
+        }
+
+        private static void InitNMI()
+        {
+            for (int i = 0xFFFA; i <= 0xFFFB; i++)
+            {
+                NMI.Add(Memory[i]);
+            }
+        }
+
+        private static void InitPRGROM()
+        {
+            for (int i = 0x8000; i <= 0xFFFF; i++)
+            {
+                PRGROM.Add(Memory[i]);
+            }
+        }
+
+        private static void InitSRAM()
+        {
+            for (int i = 0x6000; i <= 0x7FFF; i++)
+            {
+                SRAM.Add(Memory[i]);
+                ((Address)Memory[i]).value = 0;
+            }
+        }
+
+        private static void InitEROM()
+        {
             for (int i = 0x4020; i <= 0x5FFF; i++)
             {
                 EROM.Add(Memory[i]);
@@ -89,31 +147,39 @@ namespace NES
                 else
                     ((Address)Memory[i]).value = 0;
             }
+        }
 
-            for (int i = 0x6000; i <= 0x7FFF; i++)
+        private static void InitPPU()
+        {
+            for (int i = 0x2000; i <= 0x2007; i++)
             {
-                SRAM.Add(Memory[i]);
+                PPU.Add(Memory[i]);
+                Memory[i + 0x08] = Memory[i];
                 ((Address)Memory[i]).value = 0;
             }
+        }
 
-            for (int i = 0x8000; i <= 0xFFFF; i++)
+        private static void InitRAM()
+        {
+            for (int i = 0x0200; i <= 0x07FF; i++)
             {
-                PRGROM.Add(Memory[i]);
+                RAM.Add(Memory[i]);
             }
+        }
 
-            for (int i = 0xFFFA; i <= 0xFFFB; i++)
+        private static void InitStack()
+        {
+            for (int i = 0x0100; i <= 0x01FF; i++)
             {
-                NMI.Add(Memory[i]);
+                Stack.Add(Memory[i]);
             }
+        }
 
-            for (int i = 0xFFFC; i <= 0xFFFD; i++)
+        private static void InitZeroPage()
+        {
+            for (int i = 0x00; i <= 0x00FF; i++)
             {
-                POR.Add(Memory[i]);
-            }
-
-            for (int i = 0xFFFE; i <= 0xFFFF; i++)
-            {
-                BRK.Add(Memory[i]);
+                ZeroPage.Add(Memory[i]);
             }
         }
 
