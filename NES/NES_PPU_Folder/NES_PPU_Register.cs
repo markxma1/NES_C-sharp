@@ -102,13 +102,15 @@
         public Address adress;
     }
 
+    /// <summary>
+    /// VSO- ---- 
+    /// read resets write pair for $2005/2006 
+    ///
+    /// Least significant bits previously written into a PPU register
+    /// (due to register not being updated for this address)
+    /// </summary>
     public struct PPUSTATUSFlags
     {
-        //VSO- ---- 
-        //read resets write pair for $2005/2006 
-
-        //Least significant bits previously written into a PPU register
-        //(due to register not being updated for this address)
 
         /// <summary>
         /// sprite overflow (O)
@@ -232,8 +234,7 @@
         {
             PPUSCROLL.afterSet = delegate (byte value)
             {
-                NES_PPU.XScroll = NES_PPU.YScroll;
-                NES_PPU.YScroll = value;
+                NES_PPU.Scroll = value;
             };
         }
 
@@ -290,30 +291,35 @@
             PPUSTATUS.adress.afterGet = delegate ()
             {
                 PPUSTATUS.adress.value = (byte)(PPUSTATUS.adress.value & 0x7F);
-                PPUSCROLL.Value = 0;
-                PPUSCROLL.Value = 0;
+                PPUSCROLLRESSET();
                 PPUADDR.Value = 0;
             };
         }
 
         public static void InitialAtPower()
         {
-            PPUCTRL.adress.value = 0;
-            PPUMASK.adress.value = 0;
-            PPUSTATUS.adress.value = 0xA0;
-            OAMADDR.value = 0;
-            PPUSCROLL.value = 0;
-            PPUADDR.value = 0;
-            PPUDATA.value = 0;
+            PPUCTRL.adress.Value = 0;
+            PPUMASK.adress.Value = 0;
+            PPUSTATUS.adress.Value = 0xA0;
+            OAMADDR.Value = 0;
+            PPUSCROLLRESSET();
+            PPUADDR.Value = 0;
+            PPUDATA.Value = 0;
         }
 
         public static void InitialOnReset()
         {
-            PPUCTRL.adress.value = 0;
-            PPUMASK.adress.value = 0;
-            PPUSTATUS.adress.value = (byte)(PPUSTATUS.adress.value & 0x80);
-            PPUSCROLL.value = 0;
-            PPUDATA.value = 0;
+            PPUCTRL.adress.Value = 0;
+            PPUMASK.adress.Value = 0;
+            PPUSTATUS.adress.Value = (byte)(PPUSTATUS.adress.value & 0x80);
+            PPUSCROLLRESSET();
+            PPUDATA.Value = 0;
+        }
+
+        private static void PPUSCROLLRESSET()
+        {
+            //PPUSCROLL.Value = 0;
+            //PPUSCROLL.Value = 0;
         }
     }
 }

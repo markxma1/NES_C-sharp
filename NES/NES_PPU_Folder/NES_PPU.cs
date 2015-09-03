@@ -5,46 +5,66 @@ namespace NES
 {
     class NES_PPU
     {
-
+        private static bool ScrollXoY = true;//false y ture x
         private static bool draw = false;
         private static int xScrollTemp = 0;
         private static int yScrollTemp = 0;
-        private static int xScroll = 0;
-        private static int yScroll = 0;
+        public static int xScroll = 0;
+        public static int yScroll = 0;
         private static Bitmap TempDisplay = new Bitmap(256, 240);
         private static Bitmap TempNameTable = new Bitmap(64 * 8, 60 * 8);
         private static Bitmap TempPatternTable = new Bitmap(128 * 2, 128);
         private static Bitmap TempPaletteTable = new Bitmap(16 * 20, 2 * 20);
 
-        public static int XScroll
+        public static byte Scroll
+        {
+            get { return 0; }
+
+            set
+            {
+                if (ScrollXoY)
+                {
+                    XScroll = value;
+                }
+                else
+                {
+                    if (value > 239)
+                        value -= 255;
+                    YScroll = value;
+                }
+                ScrollXoY = !ScrollXoY;
+            }
+        }
+
+        private static int XScroll
         {
             get
             {
-                return xScroll;
+                return xScrollTemp;
             }
 
             set
             {
                 AddxScroll(value);
+                xScroll = value;
                 if (!Draw)
-                    xScroll = value;
-                xScrollTemp = value;
+                    xScrollTemp = value;
             }
         }
 
-        public static int YScroll
+        private static int YScroll
         {
             get
             {
-                return yScroll;
+                return yScrollTemp;
             }
 
             set
             {
                 value = AddyScroll(value);
+                yScroll = value;
                 if (!Draw)
-                    yScroll = value;
-                yScrollTemp = value;
+                    yScrollTemp = value;
             }
         }
 
@@ -62,7 +82,7 @@ namespace NES
             return value;
         }
 
-        public static bool Draw
+        private static bool Draw
         {
             get
             {
@@ -76,8 +96,8 @@ namespace NES
                 else
                 {
                     draw = value;
-                    xScroll = xScrollTemp;
-                    yScroll = yScrollTemp;
+                    xScrollTemp = xScroll;
+                    yScrollTemp = yScroll;
                 }
             }
         }
@@ -182,7 +202,7 @@ namespace NES
                     DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(2), 2, 30, 0);
                     DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(3), 3, 30, 32);
                     g.DrawRectangle(Pens.Red, XScroll, YScroll, 256, 240);
-                    g.DrawRectangle(Pens.Green, 0, 0, 64 * 8-1, 60 * 8-1);
+                    g.DrawRectangle(Pens.Green, 0, 0, 64 * 8 - 1, 60 * 8 - 1);
                     TempNameTable = bitmap;
                 }
             return bitmap;
@@ -205,7 +225,7 @@ namespace NES
         public static Bitmap Display()
         {
             Bitmap Display = new Bitmap(TempDisplay);
-            NES_PPU_Register.PPUSTATUS.V = true;
+
             if (NES_PPU_Register.PPUCTRL.V)
             {
                 Draw = true;
@@ -216,6 +236,7 @@ namespace NES
                 g.DrawImage(NameTabeleT, new Rectangle(0, 0, Display.Width, Display.Height), cropRect, GraphicsUnit.Pixel);
                 TempDisplay = Display;
                 Draw = false;
+                NES_PPU_Register.PPUSTATUS.V = true;
             }
 
             return Display;

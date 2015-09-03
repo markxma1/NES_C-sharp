@@ -61,8 +61,6 @@ namespace NES
             func(b);
         }
 
-
-
         private void Inputs8Byte(Funcs8 func)
         {
             var PC = NES_Register.PC;
