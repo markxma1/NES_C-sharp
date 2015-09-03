@@ -100,8 +100,5 @@ namespace NES
             sw.Stop();
             return sw.Elapsed.TotalMilliseconds * 1000;
         }
-
-        public static void Stop() { Interrupt.POWER = false; }
-
     }
 }
