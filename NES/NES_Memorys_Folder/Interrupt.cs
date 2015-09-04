@@ -15,51 +15,74 @@
 
         private static int SevenClock = 7;
 
+        /// <summary>
+        /// $FFFA–$FFFB 	2 bytes 	Address of Non Maskable Interrupt (NMI) handler routine
+        /// $FFFC–$FFFD 	2 bytes 	Address of Power on reset handler routine
+        /// $FFFE–$FFFF 	2 bytes 	Address of Break (BRK instruction) handler routine
+        /// </summary>
         public static void Check()
         {
-            // $FFFA–$FFFB 	2 bytes 	Address of Non Maskable Interrupt (NMI) handler routine
-            // $FFFC–$FFFD 	2 bytes 	Address of Power on reset handler routine
-            // $FFFE–$FFFF 	2 bytes 	Address of Break (BRK instruction) handler routine
+            isIRQ();
+            isBRK();
+            isNMI();
+            isRESET();
+        }
+
+        private static void isIRQ()
+        {
             if (IRQ && !NES_Register.P.Interrupt)
             {
                 NES_Register.P.Interrupt = true;
                 if (SevenClock-- < 0)
                 {
-                    Stack.ProcessorstatusToStack(false, true);
-                    Stack.PcToStack();
-                    NES_Register.PC = (ushort)(((Address)NES_Memory.Stack[0xfffe]).Value | (((Address)NES_Memory.Stack[0xffff]).Value << 8));
+                    ReplacePC(0xfffe, false, true);
                     IRQ = false;
                     SevenClock = 7;
                 }
             }
+        }
+
+        private static void isBRK()
+        {
             if (BRK)
             {
                 NES_Register.P.Interrupt = true;
                 if (SevenClock-- < 0)
                 {
-                    Stack.ProcessorstatusToStack(true, true);
-                    Stack.PcToStack();
-                    NES_Register.PC = (ushort)(((Address)NES_Memory.Memory[0xfffe]).Value | (((Address)NES_Memory.Memory[0xffff]).Value << 8));
+                    ReplacePC(0xfffe, true, true);
                     BRK = false;
                     SevenClock = 7;
                 }
             }
+        }
+
+        private static void isNMI()
+        {
             if (NMI)
             {
                 NES_Register.P.Interrupt = true;
                 if (SevenClock-- < 0)
                 {
-                    Stack.ProcessorstatusToStack(false, true);
-                    Stack.PcToStack();
-                    NES_Register.PC = (ushort)(((Address)NES_Memory.Memory[0xfffa]).Value | (((Address)NES_Memory.Memory[0xfffb]).Value << 8));
+                    ReplacePC(0xfffa, false, true);
                     NMI = false;
                     SevenClock = 7;
                 }
             }
+        }
+
+        private static void isRESET()
+        {
             if (RESET)
             {
                 NES_Register.PC = (ushort)(((Address)NES_Memory.Memory[0xfffc]).Value | (((Address)NES_Memory.Memory[0xfffd]).Value << 8));
             }
+        }
+
+        private static void ReplacePC(int Address, bool b, bool u)
+        {
+            Stack.ProcessorstatusToStack(b, u);
+            Stack.PcToStack();
+            NES_Register.PC = (ushort)(((Address)NES_Memory.Stack[Address]).Value | (((Address)NES_Memory.Stack[Address + 1]).Value << 8));
         }
 
         public static void Stop() { POWER = false; }
