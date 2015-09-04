@@ -239,6 +239,7 @@
     <Content Include="FCEUX\luaScripts\UsingLuaScripting-ListofFunctions.txt" />
     <Content Include="FCEUX\snaps\Galaga-0.png" />
     <Content Include="FCEUX\tools\taseditor_patterns.txt" />
+    <Content Include="Palleres\2C03and2C05.bmp" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="FCEUX\cheats\" />
