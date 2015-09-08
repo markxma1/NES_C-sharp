@@ -72,6 +72,9 @@ namespace NES
                     if (NES_Register.PC == 0xEBDE)//0xC0c8
                     { }
 
+                    if (NES_Register.PC == 0xC079)//0xC0c8
+                    { }
+
                     //if (NES_Register.PPUPCADDR == 0x2212)
                     //{ }
 
