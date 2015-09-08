@@ -82,7 +82,7 @@
         {
             Stack.ProcessorstatusToStack(b, u);
             Stack.PcToStack();
-            NES_Register.PC = (ushort)(((Address)NES_Memory.Stack[Address]).Value | (((Address)NES_Memory.Stack[Address + 1]).Value << 8));
+            NES_Register.PC = (ushort)(((Address)NES_Memory.Memory[Address]).Value | (((Address)NES_Memory.Memory[Address + 1]).Value << 8));
         }
 
         public static void Stop() { POWER = false; }
