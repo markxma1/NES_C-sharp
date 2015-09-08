@@ -34,7 +34,7 @@ namespace NES
             int begin = end;
             end += INES.CHRROMSize;
 
-            for (int i = begin; i <= end; i++)
+            for (int i = begin; i < end; i++)
             {
                 ((Address)NES_PPU_Memory.PatternTable[i - begin]).Value = b[i];
             }
