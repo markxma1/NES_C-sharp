@@ -21,7 +21,7 @@ namespace NES
         private static ushort lastPC3 = 0;
         private static ushort lastPC4 = 0;
         private static ushort lastPC5 = 0;
-        //private static byte changed = 0;
+        private static byte changed = 0;
         //private static int count = 0;
 
         #region PAL/NTSC Speed
@@ -63,7 +63,10 @@ namespace NES
                 cpuspeed = Sleep((mod == Mod.PAL) ? (PAL) : (NTSC), delegate
                 {
                     
-                    if (NES_Register.PC == 0xCDB7)//0xC0c8
+                    if (NES_Register.PC == 0xC063)//0xC0c8
+                    { }
+
+                    if (NES_Register.PC == 0xCDB9)//0xC0c8
                     { }
 
                     if (NES_Register.PC == 0xCDCC)//0xC0c8
@@ -72,14 +75,20 @@ namespace NES
                     if (NES_Register.PC == 0xEBDE)//0xC0c8
                     { }
 
-                    if (NES_Register.PC == 0xC079)//0xC0c8
+                    if (NES_Register.PC == 0xC5D3)//0xC0c8
+                    { }
+
+                    if (NES_Register.PC == 0xCDCA)//0xC0c8
+                    { }
+
+                    if (NES_Register.PC == 0xC2ED)//0xC0c8
                     { }
 
                     //if (NES_Register.PPUPCADDR == 0x2212)
                     //{ }
 
-                    //if (((Adress)NES_Memory.Memory[0xb6cd]).value != changed)
-                    //{ changed = ((Adress)NES_Memory.Memory[0xb6cd]).value; }
+                    if (((Address)NES_Memory.Memory[0x46]).value != changed)
+                    { changed = ((Address)NES_Memory.Memory[0x46]).value; }
 
                     lastPC5 = lastPC4;
                     lastPC4 = lastPC3;
