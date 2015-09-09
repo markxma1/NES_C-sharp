@@ -60,7 +60,7 @@ namespace NES
             return color;
         }
 
-        private static Color[] getBGColorPalette(int start)
+        public static Color[] getBGColorPalette(int start)
         {
             Color[] color = {
                 UniversalBackgroundColor(),
@@ -70,10 +70,10 @@ namespace NES
             return color;
         }
 
-        private static Color[] getSpriteColorPalette(int start)
+        public static Color[] getSpriteColorPalette(int start)
         {
             Color[] color = {
-             Color.LightGreen,
+             Color.Transparent,
              getSpriteColorAsRGB(start * 4 + 1),
              getSpriteColorAsRGB(start * 4 + 2),
              getSpriteColorAsRGB(start * 4 + 3)};

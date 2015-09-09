@@ -161,6 +161,26 @@ namespace NES
             return bitmap;
         }
 
+        public static Bitmap Tile(ushort spriteID, int pallete, int bankID)
+        {
+            int startAdress = spriteID * 16;
+            Bitmap bitmap = new Bitmap(8, 8);
+            byte[,] pattern = new byte[8, 8];
+            Color[] color = NES_PPU_Palette.getSpriteColorPalette(pallete);
+            var PatternTable = NES_PPU_Memory.PatternTableN[bankID];
+            for (int j = 0; j < 8; j++)
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    var a = (((Address)PatternTable[startAdress + i]).Value >> j) & (0x01);
+                    var b = ((((Address)PatternTable[startAdress + i + 8]).Value >> j) & (0x01)) << 1;
+                    pattern[7 - j, i] = (byte)(a | b);
+                    bitmap.SetPixel(7 - j, i, color[pattern[7 - j, i]]);
+                }
+            }
+            return bitmap;
+        }
+
         public static Bitmap PatternTable(int PN)
         {
             Bitmap bitmap = new Bitmap(TempPatternTable);
@@ -193,10 +213,10 @@ namespace NES
         public static Bitmap NameTabele(bool display = true)
         {
             Bitmap bitmap = new Bitmap(TempNameTable);
+            Graphics g = Graphics.FromImage(bitmap);
             if (display)
                 if (NES_PPU_Register.PPUCTRL.V)
                 {
-                    Graphics g = Graphics.FromImage(bitmap);
                     DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(0), 0, 0, 0);
                     DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(1), 1, 0, 32);
                     DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(2), 2, 30, 0);
@@ -234,11 +254,18 @@ namespace NES
                 Graphics g = Graphics.FromImage(Display);
                 Bitmap NameTabeleT = NameTabele();
                 g.DrawImage(NameTabeleT, new Rectangle(0, 0, Display.Width, Display.Height), cropRect, GraphicsUnit.Pixel);
+                for (int i = 0; i < NES_PPU_OAM.SpriteTile.Count; i++)
+                {
+                    g.DrawImage(Tile(((NES_PPU_OAM.Byte1)NES_PPU_OAM.SpriteTile[i]).Number,
+                                                        ((NES_PPU_OAM.Byte2)NES_PPU_OAM.SpriteAttribute[i]).Palette,
+                                                        (((NES_PPU_OAM.Byte1)NES_PPU_OAM.SpriteTile[i]).Bank) ? (1) : (0)),
+                                                        ((Address)NES_PPU_OAM.SpriteXc[i]).Value,
+                                                        ((Address)NES_PPU_OAM.SpriteYc[i]).Value);
+                }
                 TempDisplay = Display;
                 Draw = false;
                 NES_PPU_Register.PPUSTATUS.V = true;
             }
-
             return Display;
         }
 
