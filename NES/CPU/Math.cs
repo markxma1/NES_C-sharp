@@ -78,7 +78,7 @@
         /// <param name="value"></param>
         private static void getASLCarry(byte value)
         {
-            NES_Register.P.Carry = ((value & ~(0x80)) > 0);
+            NES_Register.P.Carry = ((value & (0x80)) > 0);
         }
 
         /// <summary>
@@ -116,7 +116,7 @@
         /// <param name="value"></param>
         private static void getLSRCarry(byte value)
         {
-            NES_Register.P.Carry = ((value & ~(0x1)) > 0);
+            NES_Register.P.Carry = ((value & (0x1)) > 0);
         }
 
         /// <summary>

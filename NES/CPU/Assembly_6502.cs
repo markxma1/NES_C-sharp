@@ -1704,7 +1704,7 @@ namespace NES
         /// </param>
         public static void EOR_49(byte v)
         {
-            Math.EOR(((Address)NES_Memory.Memory[v]).Value);
+            Math.EOR(v);
         }
 
         /// <summary>
