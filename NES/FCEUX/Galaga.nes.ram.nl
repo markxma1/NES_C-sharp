@@ -1,2 +1,2 @@
 $200F#PPU#
-$0046#Error!! soll am anfang 0 sein#
+$0046#46 ERROR #
