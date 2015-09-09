@@ -5,7 +5,7 @@ namespace NES
     class NES_PPU_OAM
     {
 
-        // $00-$0C (0 of 4)	$40	Sprite Y coordinate
+        // $00-$0C (0 of 4)$40	Sprite Y coordinate
         // $01-$0D (1 of 4)	$40	Sprite tile #
         // $02-$0E (2 of 4)	$40	Sprite attribute
         // $03-$0F (3 of 4)	$40	Sprite X coordinate
@@ -113,7 +113,6 @@ namespace NES
         /// </summary>
         static public ArrayList SpriteXc = new ArrayList();
 
-
         public NES_PPU_OAM()
         {
             for (int i = 0; i <= 0xFF; i++)
@@ -125,25 +124,36 @@ namespace NES
 
         private static void InitBytes()
         {
+            InitArrays();
+            for (int i = 0; i < 0xff; i += 4)
+            {
+                SpriteYc.Add(Memory[i]);
+                InitSpriteTile(i);
+                InitSpriteAttribute(i);
+                SpriteXc.Add(Memory[i + 3]);
+            }
+        }
+
+        private static void InitArrays()
+        {
             SpriteYc = new ArrayList();
             SpriteTile = new ArrayList();
             SpriteAttribute = new ArrayList();
             SpriteXc = new ArrayList();
-            for (int i = 0; i < 0xff; i += 4)
-            {
-                SpriteYc.Add(Memory[i]);
-                {
-                    var temp = new Byte1();
-                    temp.adress = ((Address)Memory[i + 1]);
-                    SpriteTile.Add(temp);
-                }
-                {
-                    var temp = new Byte2();
-                    temp.adress = ((Address)Memory[i + 2]);
-                    SpriteAttribute.Add(temp);
-                }
-                SpriteXc.Add(Memory[i + 3]);
-            }
+        }
+
+        private static void InitSpriteAttribute(int i)
+        {
+            var temp = new Byte2();
+            temp.adress = ((Address)Memory[i + 2]);
+            SpriteAttribute.Add(temp);
+        }
+
+        private static void InitSpriteTile(int i)
+        {
+            var temp = new Byte1();
+            temp.adress = ((Address)Memory[i + 1]);
+            SpriteTile.Add(temp);
         }
 
         /// <summary>
