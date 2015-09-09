@@ -1,5 +1,7 @@
-﻿using System;
+﻿#define DEBUG
+using System;
 using System.Diagnostics;
+
 
 namespace NES
 {
@@ -12,17 +14,21 @@ namespace NES
 
     class NES_CPU
     {
-
         #region Init
         delegate void Func();
         public static AssemblyList Assembly = new AssemblyList();
+
+        #region Debug
+#if DEBUG
         private static ushort lastPC = 0;
         private static ushort lastPC2 = 0;
         private static ushort lastPC3 = 0;
         private static ushort lastPC4 = 0;
         private static ushort lastPC5 = 0;
-        //private static byte changed = 0;
-        //private static int count = 0;
+        private static byte changed = 0;
+        private static int count = 0;
+#endif 
+        #endregion
 
         #region PAL/NTSC Speed
         public static double cpuspeed;
@@ -62,8 +68,13 @@ namespace NES
             {
                 cpuspeed = Sleep((mod == Mod.PAL) ? (PAL) : (NTSC), delegate
                 {
-                    
-                    if (NES_Register.PC == 0xCDB7)//0xC0c8
+                    #region Debug
+#if DEBUG
+
+                    if (NES_Register.PC == 0xC063)//0xC0c8
+                    { }
+
+                    if (NES_Register.PC == 0xCDB9)//0xC0c8
                     { }
 
                     if (NES_Register.PC == 0xCDCC)//0xC0c8
@@ -72,20 +83,29 @@ namespace NES
                     if (NES_Register.PC == 0xEBDE)//0xC0c8
                     { }
 
-                    if (NES_Register.PC == 0xC079)//0xC0c8
+                    if (NES_Register.PC == 0xC5D3)//0xC0c8
+                    { }
+
+                    if (NES_Register.PC == 0xCDCA)//0xC0c8
+                    { }
+
+                    if (NES_Register.PC == 0xC2F5)//0xC0c8
                     { }
 
                     //if (NES_Register.PPUPCADDR == 0x2212)
                     //{ }
 
-                    //if (((Adress)NES_Memory.Memory[0xb6cd]).value != changed)
-                    //{ changed = ((Adress)NES_Memory.Memory[0xb6cd]).value; }
+                    if (((Address)NES_Memory.Memory[0x46]).value != changed)
+                    { changed = ((Address)NES_Memory.Memory[0x46]).value; }
 
                     lastPC5 = lastPC4;
                     lastPC4 = lastPC3;
                     lastPC3 = lastPC2;
                     lastPC2 = lastPC;
                     lastPC = NES_Register.PC;
+#endif
+                    #endregion
+
                     try { Assembly.assembly[((Address)NES_Memory.Memory[NES_Register.PC]).Value](); }
                     catch (Exception ex) { System.Windows.Forms.MessageBox.Show(ex.Message + ((Address)NES_Memory.Memory[lastPC]).Value.ToString("X")); }
                     Interrupt.Check();
