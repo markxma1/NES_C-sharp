@@ -208,7 +208,7 @@ namespace NES
         private void ORAU8()
         {
             Assembly[0x09] = delegate () { Input8Byte(Assembly_6502.ORA_09); };
-            Assembly[0x25] = delegate () { Input8Byte(Assembly_6502.ORA_05); }; 
+            Assembly[0x05] = delegate () { Input8Byte(Assembly_6502.ORA_05); }; 
              Assembly[0x21] = delegate () { Input8Byte(Assembly_6502.ORA_01); };
             Assembly[0x35] = delegate () { Input8Byte(Assembly_6502.ORA_15); };
             Assembly[0x31] = delegate () { Input8Byte(Assembly_6502.ORA_11); };
