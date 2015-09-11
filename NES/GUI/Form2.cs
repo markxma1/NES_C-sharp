@@ -12,7 +12,7 @@ namespace NES
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            pictureBox1.Image = NES_PPU.NameTabele();
+            pictureBox1.Image = NES_PPU.NameTabele(false);
             BackColor = NES_PPU_Palette.UniversalBackgroundColor();
         }
     }
