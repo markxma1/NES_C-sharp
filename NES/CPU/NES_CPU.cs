@@ -9,7 +9,7 @@ namespace NES
     {
         NTSC,
         PAL,
-        PAL2
+        none
     };
 
     class NES_CPU
@@ -34,7 +34,8 @@ namespace NES
         public static double cpuspeed;
         private static int NTSC = 559;//1.789773 MHz (~559 ns per cycle)
         private static int PAL = 601;//1.662607 MHz (~601 ns per cycle)
-        public static Mod mod = Mod.PAL;
+        private static int none = 0;//1.662607 MHz (~601 ns per cycle)
+        public static Mod mod = Mod.none;
         #endregion
 
         /// <summary>
@@ -66,7 +67,7 @@ namespace NES
 
             while (Interrupt.POWER)
             {
-                cpuspeed = Sleep((mod == Mod.PAL) ? (PAL) : (NTSC), delegate
+                cpuspeed = Sleep(SleepTime(), delegate
                 {
                     #region Debug
 #if DEBUG
@@ -110,6 +111,19 @@ namespace NES
                     catch (Exception ex) { System.Windows.Forms.MessageBox.Show(ex.Message + ((Address)NES_Memory.Memory[lastPC]).Value.ToString("X")); }
                     Interrupt.Check();
                 });
+            }
+        }
+
+        private static int SleepTime()
+        {
+            switch (mod)
+            {
+                case Mod.NTSC:
+                    return NTSC;
+                case Mod.PAL:
+                    return PAL;
+                default :
+                    return none;
             }
         }
 
