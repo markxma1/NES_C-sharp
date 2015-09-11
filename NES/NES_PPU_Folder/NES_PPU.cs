@@ -213,10 +213,12 @@ namespace NES
         public static Bitmap NameTabele(bool display = true)
         {
             Bitmap bitmap = new Bitmap(TempNameTable);
-            Graphics g = Graphics.FromImage(bitmap);
+
             if (display)
                 if (NES_PPU_Register.PPUCTRL.V)
                 {
+                    bitmap = new Bitmap(TempNameTable.Size.Width, TempNameTable.Size.Height);
+                    Graphics g = Graphics.FromImage(bitmap);
                     DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(0), 0, 0, 0);
                     DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(1), 1, 0, 32);
                     DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(2), 2, 30, 0);
@@ -249,22 +251,41 @@ namespace NES
             if (NES_PPU_Register.PPUCTRL.V)
             {
                 Draw = true;
+                Display = new Bitmap(TempDisplay.Size.Width, TempDisplay.Size.Height);
                 Interrupt.NMI = true;
                 Rectangle cropRect = new Rectangle(XScroll, YScroll, 257, 241);
                 Graphics g = Graphics.FromImage(Display);
                 Bitmap NameTabeleT = NameTabele();
+                g.DrawImage(InsetObect(false),0,0);
                 g.DrawImage(NameTabeleT, new Rectangle(0, 0, Display.Width, Display.Height), cropRect, GraphicsUnit.Pixel);
-                for (int i = 0; i < NES_PPU_OAM.SpriteTile.Count; i++)
-                {
-                    g.DrawImage(Tile(((NES_PPU_OAM.Byte1)NES_PPU_OAM.SpriteTile[i]).Number,
-                                                        ((NES_PPU_OAM.Byte2)NES_PPU_OAM.SpriteAttribute[i]).Palette,
-                                                        (((NES_PPU_OAM.Byte1)NES_PPU_OAM.SpriteTile[i]).Bank) ? (1) : (0)),
-                                                        ((Address)NES_PPU_OAM.SpriteXc[i]).Value,
-                                                        ((Address)NES_PPU_OAM.SpriteYc[i]).Value);
-                }
+                g.DrawImage(InsetObect(true),0,0);
                 TempDisplay = Display;
                 Draw = false;
                 NES_PPU_Register.PPUSTATUS.V = true;
+            }
+            return Display;
+        }
+
+        private static Bitmap InsetObect(bool Priory)
+        {
+            Bitmap Display = new Bitmap(TempDisplay.Width, TempDisplay.Height);
+            Graphics g = Graphics.FromImage(Display);
+            for (int i = 0; i < NES_PPU_OAM.SpriteTile.Count; i++)
+            {
+                if (Priory== ((NES_PPU_OAM.Byte2)NES_PPU_OAM.SpriteAttribute[i]).Priority)
+                {
+                    Bitmap tile = Tile(((NES_PPU_OAM.Byte1)NES_PPU_OAM.SpriteTile[i]).Number,
+                                                   ((NES_PPU_OAM.Byte2)NES_PPU_OAM.SpriteAttribute[i]).Palette,
+                                                   (((NES_PPU_OAM.Byte1)NES_PPU_OAM.SpriteTile[i]).Bank) ? (1) : (0));
+
+                    if (((NES_PPU_OAM.Byte2)NES_PPU_OAM.SpriteAttribute[i]).FlipH)
+                        tile.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                    if (((NES_PPU_OAM.Byte2)NES_PPU_OAM.SpriteAttribute[i]).FlipV)
+                        tile.RotateFlip(RotateFlipType.RotateNoneFlipY);
+
+                    g.DrawImage(tile, ((Address)NES_PPU_OAM.SpriteXc[i]).Value - 8,
+                                                        ((Address)NES_PPU_OAM.SpriteYc[i]).Value - 1); 
+                }
             }
             return Display;
         }
@@ -275,6 +296,7 @@ namespace NES
             if (NES_PPU_Register.PPUCTRL.V)
             {
                 Graphics g = Graphics.FromImage(bitmap);
+                g.FillRectangle(new SolidBrush(NES_PPU_Palette.UniversalBackgroundColor()), 0,0,bitmap.Size.Width, bitmap.Size.Height);
                 int k = 0;
                 for (ushort i = 0; i < 2; i++)
                 {
@@ -284,6 +306,9 @@ namespace NES
                         var color = NES_PPU_Palette.getPalette(k++);
                         for (int h = 0; h < 4; h++)
                         {
+                            if (color[h] == Color.Transparent)
+                                g.FillRectangle(new SolidBrush(NES_PPU_Palette.UniversalBackgroundColor()), o * 20, i * 20, ++o * 20, (i + 1) * 20);
+                            else
                             g.FillRectangle(new SolidBrush(color[h]), o * 20, i * 20, ++o * 20, (i + 1) * 20);
                         }
                     }
