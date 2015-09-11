@@ -63,7 +63,7 @@ namespace NES
         public static Color[] getBGColorPalette(int start)
         {
             Color[] color = {
-                UniversalBackgroundColor(),
+                Color.Transparent,
                 getBGColorAsRGB(start * 4 + 1),
                 getBGColorAsRGB(start * 4 + 2),
                 getBGColorAsRGB(start * 4 + 3) };
