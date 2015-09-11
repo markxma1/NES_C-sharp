@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\GamePad.cs" />
     <Compile Include="NES_Memorys_Folder\Interrupt.cs" />
     <Compile Include="CPU\Math.cs" />
     <Compile Include="Exception\NoAssemby.cs" />
