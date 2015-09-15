@@ -318,8 +318,8 @@
 
         private static void PPUSCROLLRESSET()
         {
-            //PPUSCROLL.Value = 0;
-            //PPUSCROLL.Value = 0;
+            PPUSCROLL.Value = 0;
+            PPUSCROLL.Value = 0;
         }
     }
 }
