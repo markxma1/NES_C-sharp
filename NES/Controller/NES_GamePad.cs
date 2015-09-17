@@ -27,9 +27,21 @@ namespace NES
     public class OutputFlags
     {
 
-        public bool SerialControllerData { get { return (address.value & 0x01) > 0; } set { address.value = (byte)(address.value & ~0x01); if (value) address.value = (byte)(address.value | 0x01); } }
+        public bool SerialControllerData
+        {
+            get { return (address.value & 0x01) > 0; }
+            set
+            {
+                address.value = (byte)(address.value & ~0x01);
+                if (value) address.value |= (byte)((value) ? (1) : (0) & 0x01);
+            }
+        }
 
-        public byte OpenBus { get { return (byte)(address.value & 0xE0); } set { address.value = (byte)(address.value & ~0xE0); address.value = (byte)(address.value | 0xE0); } }
+        public byte OpenBus
+        {
+            get { return (byte)(address.value & 0xE0); }
+            set { address.value = (byte)(address.value & ~0xE0); address.value |= (byte)(value & 0xE0); }
+        }
 
         public Address address;
     }
@@ -55,8 +67,8 @@ namespace NES
             {
                 Button.Add("A", false);
                 Button.Add("B", false);
-                Button.Add("SELECT", false);
-                Button.Add("START", true);
+                Button.Add("SELECT", true);
+                Button.Add("START", false);
                 Button.Add("L", false);
                 Button.Add("R", false);
                 Button.Add("U", false);
@@ -71,7 +83,7 @@ namespace NES
 
         private static InputFlags input4016 = new InputFlags();
         private static OutputFlags output4016 = new OutputFlags();
-        private int P1BID=0;
+        private int P1BID = 0;
 
         public static InputFlags Input4016
         {
@@ -104,11 +116,13 @@ namespace NES
         {
             output4016.address = (Address)NES_Memory.Memory[4016];
             output4016.address.beforGet = delegate { getButton(); };
+            output4016.address.afterGet = delegate { output4016.address.value=0; };
         }
 
         private void getButton()
         {
-            output4016.SerialControllerData = Player1.Button.ElementAt(P1BID).Value; if (++P1BID > 7) P1BID = 0;
+            output4016.SerialControllerData = Player1.Button.ElementAt(P1BID).Value;
+            if (++P1BID > 7) P1BID = 0;
         }
     }
 }
