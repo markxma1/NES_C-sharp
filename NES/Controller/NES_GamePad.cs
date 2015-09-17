@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace NES.Controller
+namespace NES
 {
     /// <summary>
     /// Input ($4016 write)
@@ -48,22 +46,21 @@ namespace NES.Controller
 
     }
 
-    class GamePad
+    class NES_GamePad
     {
         public class Controller
         {
             public Dictionary<string, bool> Button = new Dictionary<string, bool>();
             public Controller()
             {
-                Button.Add("A", true);
-                Button.Add("B", true);
-                Button.Add("A", true);
-                Button.Add("SELECT", true);
+                Button.Add("A", false);
+                Button.Add("B", false);
+                Button.Add("SELECT", false);
                 Button.Add("START", true);
-                Button.Add("L", true);
-                Button.Add("R", true);
-                Button.Add("U", true);
-                Button.Add("D", true);
+                Button.Add("L", false);
+                Button.Add("R", false);
+                Button.Add("U", false);
+                Button.Add("D", false);
             }
         }
 
@@ -92,7 +89,7 @@ namespace NES.Controller
             }
         }
 
-        public GamePad()
+        public NES_GamePad()
         {
             InitInput4016();
             InitOutput4016();
@@ -111,7 +108,7 @@ namespace NES.Controller
 
         private void getButton()
         {
-            output4016.SerialControllerData = Player1.Button.ElementAt(P1BID).Value; if (P1BID++ > 7) P1BID = 0;
+            output4016.SerialControllerData = Player1.Button.ElementAt(P1BID).Value; if (++P1BID > 7) P1BID = 0;
         }
     }
 }
