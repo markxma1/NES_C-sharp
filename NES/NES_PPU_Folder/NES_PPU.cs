@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Drawing;
+using System.Threading.Tasks;
 
 namespace NES
 {
@@ -232,16 +233,22 @@ namespace NES
 
         private static void DrowOneNameTable(Graphics g, ArrayList Attribute, int Nr, ushort X, ushort Y)
         {
-            int k = 0;
-            for (ushort i = X; i < X + 30; i++)
-            {
-                for (ushort j = Y; j < Y + 32; j++)
+            Parallel.For(X, X + 30 - 1, i =>
                 {
-                    int c = (int)Attribute[k];
-                    int t = ((Address)NES_PPU_Memory.NameTableN[Nr][k++]).value;
-                    g.DrawImage(Tile((ushort)(t), c), j * 8, i * 8);
-                }
-            }
+                    int k = 0;
+                    try
+                    {
+                        for (ushort j = Y; j < Y + 32; j++)
+                        {
+                            k = (i - X) + (j - Y) * 30;
+                            int c = (int)Attribute[k];
+                            int t = ((Address)NES_PPU_Memory.NameTableN[Nr][k]).value;
+                            g.DrawImage(Tile((ushort)(t), c), j * 8, i * 8);
+                        }
+                    }
+                    catch (System.Exception ex)
+                    { k = k + 1 - 1; }
+                });
         }
 
         public static Bitmap Display()
@@ -256,9 +263,9 @@ namespace NES
                 Rectangle cropRect = new Rectangle(XScroll, YScroll, 257, 241);
                 Graphics g = Graphics.FromImage(Display);
                 Bitmap NameTabeleT = NameTabele();
-                g.DrawImage(InsetObect(false),0,0);
+                g.DrawImage(InsetObect(false), 0, 0);
                 g.DrawImage(NameTabeleT, new Rectangle(0, 0, Display.Width, Display.Height), cropRect, GraphicsUnit.Pixel);
-                g.DrawImage(InsetObect(true),0,0);
+                g.DrawImage(InsetObect(true), 0, 0);
                 TempDisplay = Display;
                 Draw = false;
                 NES_PPU_Register.PPUSTATUS.V = true;
@@ -272,7 +279,7 @@ namespace NES
             Graphics g = Graphics.FromImage(Display);
             for (int i = 0; i < NES_PPU_OAM.SpriteTile.Count; i++)
             {
-                if (Priory== ((NES_PPU_OAM.Byte2)NES_PPU_OAM.SpriteAttribute[i]).Priority)
+                if (Priory == ((NES_PPU_OAM.Byte2)NES_PPU_OAM.SpriteAttribute[i]).Priority)
                 {
                     Bitmap tile = Tile(((NES_PPU_OAM.Byte1)NES_PPU_OAM.SpriteTile[i]).Number,
                                                    ((NES_PPU_OAM.Byte2)NES_PPU_OAM.SpriteAttribute[i]).Palette,
@@ -284,7 +291,7 @@ namespace NES
                         tile.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
                     g.DrawImage(tile, ((Address)NES_PPU_OAM.SpriteXc[i]).Value - 8,
-                                                        ((Address)NES_PPU_OAM.SpriteYc[i]).Value - 1); 
+                                                        ((Address)NES_PPU_OAM.SpriteYc[i]).Value - 1);
                 }
             }
             return Display;
@@ -296,7 +303,7 @@ namespace NES
             if (NES_PPU_Register.PPUCTRL.V)
             {
                 Graphics g = Graphics.FromImage(bitmap);
-                g.FillRectangle(new SolidBrush(NES_PPU_Palette.UniversalBackgroundColor()), 0,0,bitmap.Size.Width, bitmap.Size.Height);
+                g.FillRectangle(new SolidBrush(NES_PPU_Palette.UniversalBackgroundColor()), 0, 0, bitmap.Size.Width, bitmap.Size.Height);
                 int k = 0;
                 for (ushort i = 0; i < 2; i++)
                 {
@@ -309,7 +316,7 @@ namespace NES
                             if (color[h] == Color.Transparent)
                                 g.FillRectangle(new SolidBrush(NES_PPU_Palette.UniversalBackgroundColor()), o * 20, i * 20, ++o * 20, (i + 1) * 20);
                             else
-                            g.FillRectangle(new SolidBrush(color[h]), o * 20, i * 20, ++o * 20, (i + 1) * 20);
+                                g.FillRectangle(new SolidBrush(color[h]), o * 20, i * 20, ++o * 20, (i + 1) * 20);
                         }
                     }
 

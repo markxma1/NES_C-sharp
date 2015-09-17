@@ -70,49 +70,51 @@ namespace NES
             {
                 cpuspeed = Sleep(SleepTime(), delegate
                 {
-                    #region Debug
-#if DEBUG
-
-                    if (NES_Register.PC == 0xC063)//0xC0c8
-                    { }
-
-                    if (NES_Register.PC == 0xCDB9)//0xC0c8
-                    { }
-
-                    if (NES_Register.PC == 0xCDCC)//0xC0c8
-                    { }
-
-                    if (NES_Register.PC == 0xEBDE)//0xC0c8
-                    { }
-
-                    if (NES_Register.PC == 0xC5D3)//0xC0c8
-                    { }
-
-                    if (NES_Register.PC == 0xCDCA)//0xC0c8
-                    { }
-
-                    if (NES_Register.PC == 0xC2F5)//0xC0c8
-                    { }
-
-                    //if (NES_Register.PPUPCADDR == 0x2212)
-                    //{ }
-
-                    if (((Address)NES_Memory.Memory[0x46]).value != changed)
-                    { changed = ((Address)NES_Memory.Memory[0x46]).value; }
-
-                    lastPC5 = lastPC4;
-                    lastPC4 = lastPC3;
-                    lastPC3 = lastPC2;
-                    lastPC2 = lastPC;
-                    lastPC = NES_Register.PC;
-#endif
-                    #endregion
-
+                    Debug();
                     try { Assembly.assembly[((Address)NES_Memory.Memory[NES_Register.PC]).Value](); }
                     catch (Exception ex) { System.Windows.Forms.MessageBox.Show(ex.Message + ((Address)NES_Memory.Memory[lastPC]).Value.ToString("X")); }
                     Interrupt.Check();
                 });
             }
+        }
+
+        private static void Debug()
+        {
+#if DEBUG
+
+            if (NES_Register.PC == 0xC063)//0xC0c8
+            { }
+
+            if (NES_Register.PC == 0xCDB9)//0xC0c8
+            { }
+
+            if (NES_Register.PC == 0xCDCC)//0xC0c8
+            { }
+
+            if (NES_Register.PC == 0xEBDE)//0xC0c8
+            { }
+
+            if (NES_Register.PC == 0xC5D3)//0xC0c8
+            { }
+
+            if (NES_Register.PC == 0xCDCA)//0xC0c8
+            { }
+
+            if (NES_Register.PC == 0xC2F5)//0xC0c8
+            { }
+
+            //if (NES_Register.PPUPCADDR == 0x2212)
+            //{ }
+
+            if (((Address)NES_Memory.Memory[0x4016]).value != changed)
+            { changed = ((Address)NES_Memory.Memory[0x4016]).value; }
+
+            lastPC5 = lastPC4;
+            lastPC4 = lastPC3;
+            lastPC3 = lastPC2;
+            lastPC2 = lastPC;
+            lastPC = NES_Register.PC;
+#endif
         }
 
         private static int SleepTime()
@@ -123,7 +125,7 @@ namespace NES
                     return NTSC;
                 case Mod.PAL:
                     return PAL;
-                default :
+                default:
                     return none;
             }
         }
