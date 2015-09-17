@@ -52,6 +52,7 @@ namespace NES
             new Assembly_6502();
             new NES_PPU();
             new NES_Register();
+            new NES_GamePad();
         }
 
         #endregion
