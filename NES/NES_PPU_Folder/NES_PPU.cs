@@ -1,10 +1,13 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NES
 {
-    class NES_PPU
+
+    public class NES_PPU
     {
         private static bool ScrollXoY = true;//false y ture x
         private static bool draw = false;
@@ -220,35 +223,53 @@ namespace NES
                 {
                     bitmap = new Bitmap(TempNameTable.Size.Width, TempNameTable.Size.Height);
                     Graphics g = Graphics.FromImage(bitmap);
-                    DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(0), 0, 0, 0);
-                    DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(1), 1, 0, 32);
-                    DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(2), 2, 30, 0);
-                    DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(3), 3, 30, 32);
+                    Parallel.For(0, 4, i =>
+                            {
+                                switch (i)
+                                {
+                                    case 0:
+                                        DrowOneNameTable(g,NES_PPU_AttributeTable.AttributeTable(0), 0, 0, 0);
+                                        break;
+                                    case 1:
+                                        DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(1), 1, 0, 32);
+                                        break;
+                                    case 2:
+                                        DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(2), 2, 30, 0);
+                                        break;
+                                    default:
+                                        DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(3), 3, 30, 32);
+                                        break;
+                                }
+                            });
                     g.DrawRectangle(Pens.Red, XScroll, YScroll, 256, 240);
                     g.DrawRectangle(Pens.Green, 0, 0, 64 * 8 - 1, 60 * 8 - 1);
+                    g.Dispose();
                     TempNameTable = bitmap;
                 }
             return bitmap;
         }
 
-        private static void DrowOneNameTable(Graphics g, ArrayList Attribute, int Nr, ushort X, ushort Y)
+        private static void DrowOneNameTable(Graphics g,ArrayList Attribute, int Nr, ushort X, ushort Y)
         {
             Parallel.For(X, X + 30 - 1, i =>
                 {
-                    int k = 0;
-                    try
+                    for (int j = Y; j < Y + 32; j++)
                     {
-                        for (ushort j = Y; j < Y + 32; j++)
+                        int k = K(X, Y, i, j);
+                        int c = (int)Attribute[k];
+                        int t = ((Address)NES_PPU_Memory.NameTableN[Nr][k]).value;
+                        Bitmap temp = Tile((ushort)(t), c);
+                        lock (g)
                         {
-                            k = (i - X) + (j - Y) * 30;
-                            int c = (int)Attribute[k];
-                            int t = ((Address)NES_PPU_Memory.NameTableN[Nr][k]).value;
-                            g.DrawImage(Tile((ushort)(t), c), j * 8, i * 8);
+                            g.DrawImage(temp, j * 8, i * 8);
                         }
                     }
-                    catch (System.Exception ex)
-                    { k = k + 1 - 1; }
                 });
+        }
+
+        private static int K(ushort X, ushort Y, int i, int j)
+        {
+            return ((i - X) * 32) + (j - Y);
         }
 
         public static Bitmap Display()
@@ -337,5 +358,24 @@ namespace NES
             return bitmap;
         }
 
+        private class BitPos
+        {
+            public int x, y;
+            public Bitmap bitmap;
+
+            public BitPos(Bitmap bitmap, int x, int y)
+            {
+                this.bitmap = bitmap;
+                this.x = x;
+                this.y = y;
+            }
+
+            public BitPos()
+            {
+                this.bitmap = new Bitmap(10, 10);
+                this.x = 0;
+                this.y = 0;
+            }
+        }
     }
 }
