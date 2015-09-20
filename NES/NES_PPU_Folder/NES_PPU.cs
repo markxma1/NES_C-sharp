@@ -125,16 +125,19 @@ namespace NES
             Bitmap bitmap = new Bitmap(8, 8);
             byte[,] pattern = new byte[8, 8];
             Color[] color = NES_PPU_Palette.getPalette(pallete);
-            for (int j = 0; j < 8; j++)
+            Parallel.For(0, 8, j =>
             {
-                for (int i = 0; i < 8; i++)
+                Parallel.For(0, 8, i =>
                 {
                     var a = (((Address)NES_PPU_Memory.Memory[i + startAdress]).Value >> j) & (0x01);
                     var b = ((((Address)NES_PPU_Memory.Memory[startAdress + i + 8]).Value >> j) & (0x01)) << 1;
                     pattern[7 - j, i] = (byte)(a | b);
-                    bitmap.SetPixel(7 - j, i, color[pattern[7 - j, i]]);
-                }
-            }
+                    lock (bitmap)
+                    {
+                        bitmap.SetPixel(7 - j, i, color[pattern[7 - j, i]]);
+                    }
+            });
+            });
             return bitmap;
         }
 
@@ -168,6 +171,11 @@ namespace NES
             return bitmap;
         }
 
+        /// <summary>
+        /// converts Tiles from Memory to Bitmap. With ID, BankID and  Backgrount Tile Select.
+        /// </summary>
+        /// <param name="spriteID">ID of Sprite  </param>
+        /// <returns></returns>
         public static Bitmap Tile(ushort spriteID, int pallete, int bankID)
         {
             int startAdress = spriteID * 16;
@@ -362,26 +370,6 @@ namespace NES
                 TempPaletteTable = bitmap;
             }
             return bitmap;
-        }
-
-        private class BitPos
-        {
-            public int x, y;
-            public Bitmap bitmap;
-
-            public BitPos(Bitmap bitmap, int x, int y)
-            {
-                this.bitmap = bitmap;
-                this.x = x;
-                this.y = y;
-            }
-
-            public BitPos()
-            {
-                this.bitmap = new Bitmap(10, 10);
-                this.x = 0;
-                this.y = 0;
-            }
         }
     }
 }
