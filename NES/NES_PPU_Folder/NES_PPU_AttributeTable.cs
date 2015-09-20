@@ -7,7 +7,7 @@ namespace NES
     /// </summary>
     /// <param name="NR">Attribute tabellenummer</param>
     /// <returns>decoded table</returns>
-    class NES_PPU_AttributeTable
+    public class NES_PPU_AttributeTable
     {
 
         public static ArrayList AttributeTable(int NR)
@@ -22,8 +22,8 @@ namespace NES
             ArrayList AL = new ArrayList();
             for (int i = 0; i < 0x8; i++)
             {
-                Repeate(AL, AttributeTable, i, 0, 2);
-                Repeate(AL, AttributeTable, i, 4, 6);
+                Repeate(AL, AttributeTable, i, 0, 1);
+                Repeate(AL, AttributeTable, i, 2, 3);
             }
             return AL;
         }
@@ -34,7 +34,7 @@ namespace NES
             {
                 for (int j = 0; j < 0x8; j++)
                 {
-                    Block(AL, AttributeTable, i, j, 0, 2);
+                    Block(AL, AttributeTable, i, j, shift1, shift2);
                 }
             }
         }
@@ -49,8 +49,13 @@ namespace NES
         {
             for (int r = 0; r < 2; r++)
             {
-                AL.Add(((Address)AttributeTable[j + i * 8]).value >> shift1 & 3);
+                AL.Add(SplitAttribute(shift1, ((Address)AttributeTable[j + i * 8]).value));
             }
+        }
+
+        private static int SplitAttribute(int shift1, byte value)
+        {
+            return value >> shift1*2 & 3;
         }
 
         private static ArrayList getTable(int NR)

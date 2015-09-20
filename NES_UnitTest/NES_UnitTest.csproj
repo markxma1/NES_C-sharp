@@ -53,6 +53,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="NES_PPU_Folder\NES_PPU_AttributeTableTests.cs" />
     <Compile Include="NES_PPU_Folder\NES_PPU_MemoryTests.cs" />
     <Compile Include="NES_PPU_MEMORY_TEST.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
