@@ -12,6 +12,7 @@ namespace NES
         public func afterGet = delegate () { };
         public func beforSet = delegate () { };
         public funcOut afterSet = delegate (byte value) { };
+        public bool changed = false;
 
         public bool busy = false;
 
@@ -19,7 +20,7 @@ namespace NES
         public byte Value
         {
             get { beforGet(); byte temp = value; afterGet(); return temp; }
-            set { beforSet(); this.value = value; afterSet(value); }
+            set { beforSet(); this.value = value; afterSet(value); changed = true; }
         }
 
         /// <summary>
