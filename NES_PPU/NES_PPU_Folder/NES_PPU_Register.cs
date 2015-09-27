@@ -147,7 +147,7 @@
     /// <summary>
     ///Stored to Mamory $2000–$2007 and $4014
     /// </summary>
-    class NES_PPU_Register
+    public class NES_PPU_Register
     {
 
         /// <summary>

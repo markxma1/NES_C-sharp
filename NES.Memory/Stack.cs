@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NES
 {
-    class Stack
+    public class Stack
     {
 
         public static void ProcessorstatusToStack(bool b, bool u)

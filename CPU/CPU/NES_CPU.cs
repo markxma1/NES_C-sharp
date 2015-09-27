@@ -49,11 +49,6 @@ namespace NES
 
         public static void Run()
         {
-            NES_Register.RessetPointer();
-            NES_Register.P.Interrupt = false;
-            Interrupt.POWER = true;
-
-            NES_PPU_Register.InitialAtPower();
             DateTime timer = DateTime.Now;
 
             while (Interrupt.POWER)
@@ -62,7 +57,7 @@ namespace NES
                 {
                     Debug();
                     try { Assembly.assembly[((Address)NES_Memory.Memory[NES_Register.PC]).Value](); }
-                    catch (Exception ex) { System.Windows.Forms.MessageBox.Show(ex.Message + ((Address)NES_Memory.Memory[lastPC]).Value.ToString("X")); }
+                    catch (Exception ex) { string Messege=ex.Message + ((Address)NES_Memory.Memory[lastPC]).Value.ToString("X"); }
                     Interrupt.Check();
                 });
             }

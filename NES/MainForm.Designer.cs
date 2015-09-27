@@ -35,6 +35,7 @@
             this.Display = new System.Windows.Forms.Button();
             this.NameTable = new System.Windows.Forms.Button();
             this.PatternTable = new System.Windows.Forms.Button();
+            this.Initbtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Stop
@@ -103,11 +104,23 @@
             this.PatternTable.UseVisualStyleBackColor = true;
             this.PatternTable.Click += new System.EventHandler(this.PatternTable_Click);
             // 
+            // Initbtn
+            // 
+            this.Initbtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.Initbtn.Location = new System.Drawing.Point(105, 117);
+            this.Initbtn.Name = "Initbtn";
+            this.Initbtn.Size = new System.Drawing.Size(75, 23);
+            this.Initbtn.TabIndex = 10;
+            this.Initbtn.Text = "Init";
+            this.Initbtn.UseVisualStyleBackColor = true;
+            this.Initbtn.Click += new System.EventHandler(this.Initbtn_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 256);
+            this.Controls.Add(this.Initbtn);
             this.Controls.Add(this.Display);
             this.Controls.Add(this.NameTable);
             this.Controls.Add(this.PatternTable);
@@ -116,7 +129,6 @@
             this.Controls.Add(this.Stop);
             this.Name = "MainForm";
             this.Text = "MainForm";
-            this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
 
         }
@@ -130,5 +142,6 @@
         private System.Windows.Forms.Button Display;
         private System.Windows.Forms.Button NameTable;
         private System.Windows.Forms.Button PatternTable;
+        private System.Windows.Forms.Button Initbtn;
     }
 }

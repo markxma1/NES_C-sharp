@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,6 +51,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Palletes\2C03and2C05.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\INES\INES.csproj">
+      <Project>{24bb7f3e-8fca-4765-870c-ffeb302bff5b}</Project>
+      <Name>INES</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NES.Memory\NES.Memory.csproj">
+      <Project>{95dc085f-21f1-4e41-a53f-b156237aff4a}</Project>
+      <Name>NES.Memory</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
