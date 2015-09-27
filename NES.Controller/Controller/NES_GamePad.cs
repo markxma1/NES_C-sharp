@@ -58,7 +58,7 @@ namespace NES
 
     }
 
-    class NES_GamePad
+    public class NES_GamePad
     {
         public class Controller
         {

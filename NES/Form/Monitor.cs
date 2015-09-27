@@ -12,8 +12,8 @@ namespace NES
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-                pictureBox1.Image = NES_PPU.Display();
-                BackColor = NES_PPU_Palette.UniversalBackgroundColor();
+                pictureBox1.Image = NES_Console.getDisplay();
+                BackColor = NES_Console.getUniversalBackgroundColor();
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Linq;
 ///https://en.wikibooks.org/wiki/NES_Programming
 namespace NES
 {
-    class NES_Memory
+    public class NES_Memory
     {
 
         ////Address Range (Hexadecimal)	Size	Notes (Page size is 256 bytes)

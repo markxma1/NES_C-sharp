@@ -3,17 +3,17 @@ using System.Windows.Forms;
 
 namespace NES
 {
-    public partial class Form2 : Form
+    public partial class NameTable : Form
     {
-        public Form2()
+        public NameTable()
         {
             InitializeComponent();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            pictureBox1.Image = NES_PPU.NameTabele(false);
-            BackColor = NES_PPU_Palette.UniversalBackgroundColor();
+            pictureBox1.Image = NES_Console.getNameTabele(false);
+            BackColor = NES_Console.getUniversalBackgroundColor();
         }
     }
 }

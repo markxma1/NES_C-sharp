@@ -1,6 +1,6 @@
 ﻿namespace NES
 {
-    class INES
+    public class INES
     {
         #region INIT
         public enum TV

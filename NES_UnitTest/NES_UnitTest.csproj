@@ -59,9 +59,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NES\NES.csproj">
+    <ProjectReference Include="..\NES\GUI.csproj">
       <Project>{a6a02790-95fc-4d84-9808-d82588dde2d4}</Project>
-      <Name>NES</Name>
+      <Name>GUI</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

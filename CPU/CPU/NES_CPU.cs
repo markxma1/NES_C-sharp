@@ -12,11 +12,11 @@ namespace NES
         none
     };
 
-    class NES_CPU
+   public class NES_CPU
     {
         #region Init
         delegate void Func();
-        public static AssemblyList Assembly = new AssemblyList();
+        private static AssemblyList Assembly = new AssemblyList();
 
         #region Debug
 #if DEBUG
@@ -35,7 +35,7 @@ namespace NES
         private static int NTSC = 559;//1.789773 MHz (~559 ns per cycle)
         private static int PAL = 601;//1.662607 MHz (~601 ns per cycle)
         private static int none = 0;//1.662607 MHz (~601 ns per cycle)
-        public static Mod mod = Mod.none;
+        private static Mod mod = Mod.none;
         #endregion
 
         /// <summary>
@@ -43,18 +43,8 @@ namespace NES
         /// </summary>
         public NES_CPU()
         {
-            InitMemorys();
-        }
-
-        private static void InitMemorys()
-        {
-            new NES_Memory();
             new Assembly_6502();
-            new NES_PPU();
-            new NES_Register();
-            new NES_GamePad();
         }
-
         #endregion
 
         public static void Run()
