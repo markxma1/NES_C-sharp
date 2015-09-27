@@ -38,7 +38,7 @@ namespace NES
         }
     }
 
-    class NES_Register
+    public class NES_Register
     {
         #region General_Purpose_Registers
 

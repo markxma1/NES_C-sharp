@@ -2,7 +2,7 @@
 
 namespace NES
 {
-    class NES_PPU_Palette
+    public class NES_PPU_Palette
     {
         public static Color[] PPUpalettes = new Color[0x40];
 

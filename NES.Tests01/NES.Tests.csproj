@@ -45,9 +45,9 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NES\NES.csproj">
+    <ProjectReference Include="..\NES\GUI.csproj">
       <Project>{A6A02790-95FC-4D84-9808-D82588DDE2D4}</Project>
-      <Name>NES</Name>
+      <Name>GUI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

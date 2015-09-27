@@ -1,6 +1,6 @@
 ﻿namespace NES
 {
-    class Interrupt
+    public class Interrupt
     {
 
         private static bool nmi = false;
