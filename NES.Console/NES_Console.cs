@@ -67,5 +67,10 @@ namespace NES
         {
             return NES_PPU_Palette.UniversalBackgroundColor();
         }
+
+        public static void LoadRom(string path)
+        {
+            NES_ROM.LoadRom(path);
+        }
     }
 }

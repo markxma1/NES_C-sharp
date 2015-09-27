@@ -1,7 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace NES
@@ -19,7 +19,7 @@ namespace NES
         private static Bitmap TempNameTable = new Bitmap(64 * 8, 60 * 8);
         private static Bitmap TempPatternTable = new Bitmap(128 * 2, 128);
         private static Bitmap TempPaletteTable = new Bitmap(16 * 20, 2 * 20);
-        private static byte[,] pattern;
+        private static Dictionary<int, Bitmap> patternArray = new Dictionary<int, Bitmap>();
 
         public static byte Scroll
         {
@@ -144,7 +144,7 @@ namespace NES
             Bitmap bitmap = new Bitmap(8, 8);
             byte[,] pattern = new byte[8, 8];
             Color[] color = NES_PPU_Palette.getPalette(pallete);
-            var PatternTable = NES_PPU_Memory.PatternTableN[NES_PPU_Register.PPUCTRL.B?1:0];
+            var PatternTable = NES_PPU_Memory.PatternTableN[NES_PPU_Register.PPUCTRL.B ? 1 : 0];
 
             CreateBitmap(startAdress, bitmap, pattern, color, PatternTable);
 
@@ -171,19 +171,41 @@ namespace NES
 
         private static void CreateBitmap(int startAdress, Bitmap bitmap, byte[,] pattern, Color[] color, ArrayList PatternTable)
         {
-            Parallel.For(0, 8, j =>
+            if (((Address)PatternTable[startAdress]).isNew()|| !patternArray.ContainsKey(startAdress))
             {
-                Parallel.For(0, 8, i =>
+                Parallel.For(0, 8, j =>
                 {
-                    var a = (((Address)PatternTable[startAdress + i]).Value >> j) & (0x01);
-                    var b = ((((Address)PatternTable[startAdress + i + 8]).Value >> j) & (0x01)) << 1;
-                    pattern[7 - j, i] = (byte)(a | b);
-                    lock (bitmap)
+                    Parallel.For(0, 8, i =>
                     {
-                        bitmap.SetPixel(7 - j, i, color[pattern[7 - j, i]]);
-                    }
+                        var a = (((Address)PatternTable[startAdress + i]).Value >> j) & (0x01);
+                        var b = ((((Address)PatternTable[startAdress + i + 8]).Value >> j) & (0x01)) << 1;
+                        pattern[7 - j, i] = (byte)(a | b);
+                        lock (bitmap)
+                        {
+                            bitmap.SetPixel(7 - j, i, color[pattern[7 - j, i]]);
+                        }
+                    });
                 });
-            });
+                AddToPatternArray(startAdress, bitmap);
+            }
+            else
+            {
+                    bitmap = patternArray[startAdress];
+            }
+        }
+
+        private static void AddToPatternArray(int startAdress, Bitmap bitmap)
+        {
+            lock (bitmap)
+            {
+                lock (patternArray)
+                {
+                    if (patternArray.ContainsKey(startAdress))
+                        patternArray[startAdress] = bitmap;
+                    else
+                        patternArray.Add(startAdress, bitmap);
+                }
+            }
         }
 
         public static Bitmap PatternTable(int PN)
@@ -199,7 +221,7 @@ namespace NES
                     {
                         int t = (k++) * 16;
                         g.DrawImage(Tile_StartAdress((ushort)(t), PN), j * 8, i * 8);
-                        g.DrawImage(Tile_StartAdress((ushort)(t+ 4096), PN), (j+16) * 8, i * 8);
+                        g.DrawImage(Tile_StartAdress((ushort)(t + 4096), PN), (j + 16) * 8, i * 8);
                     }
                 }
                 g.Dispose();
@@ -219,21 +241,26 @@ namespace NES
                     Graphics g = Graphics.FromImage(bitmap);
                     Parallel.For(0, 4, i =>
                             {
-                                switch (i)
+                                try
                                 {
-                                    case 0:
-                                        DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(0), 0, 0, 0);
-                                        break;
-                                    case 1:
-                                        DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(1), 1, 0, 32);
-                                        break;
-                                    case 2:
-                                        DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(2), 2, 30, 0);
-                                        break;
-                                    default:
-                                        DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(3), 3, 30, 32);
-                                        break;
+                                    switch (i)
+                                    {
+                                        case 0:
+                                            DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(0), 0, 0, 0);
+                                            break;
+                                        case 1:
+                                            DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(1), 1, 0, 32);
+                                            break;
+                                        case 2:
+                                            DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(2), 2, 30, 0);
+                                            break;
+                                        default:
+                                            DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(3), 3, 30, 32);
+                                            break;
+                                    }
                                 }
+                                catch (Exception ex)
+                                { }
                             });
                     g.DrawRectangle(Pens.Red, XScroll, YScroll, 256, 240);
                     g.DrawRectangle(Pens.Green, 0, 0, 64 * 8 - 1, 60 * 8 - 1);
