@@ -15,7 +15,7 @@ namespace NES
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-             Application.Run(new PatternTable());
+             Application.Run(new MainForm());
         }
     }
 }

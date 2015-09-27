@@ -29,104 +29,104 @@
         private void InitializeComponent()
         {
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.Stop = new System.Windows.Forms.Button();
-            this.Start = new System.Windows.Forms.Button();
-            this.Load = new System.Windows.Forms.Button();
-            this.Display = new System.Windows.Forms.Button();
-            this.NameTable = new System.Windows.Forms.Button();
-            this.PatternTable = new System.Windows.Forms.Button();
-            this.Initbtn = new System.Windows.Forms.Button();
+            this.btnStop = new System.Windows.Forms.Button();
+            this.btnStart = new System.Windows.Forms.Button();
+            this.btnLoad = new System.Windows.Forms.Button();
+            this.btnDisplay = new System.Windows.Forms.Button();
+            this.btnNameTable = new System.Windows.Forms.Button();
+            this.btnPatternTable = new System.Windows.Forms.Button();
+            this.btnInit = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // Stop
+            // btnStop
             // 
-            this.Stop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.Stop.Location = new System.Drawing.Point(197, 221);
-            this.Stop.Name = "Stop";
-            this.Stop.Size = new System.Drawing.Size(75, 23);
-            this.Stop.TabIndex = 4;
-            this.Stop.Text = "Stop";
-            this.Stop.UseVisualStyleBackColor = true;
-            this.Stop.Click += new System.EventHandler(this.Stop_Click);
+            this.btnStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnStop.Location = new System.Drawing.Point(197, 221);
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(75, 23);
+            this.btnStop.TabIndex = 4;
+            this.btnStop.Text = "Stop";
+            this.btnStop.UseVisualStyleBackColor = true;
+            this.btnStop.Click += new System.EventHandler(this.Stop_Click);
             // 
-            // Start
+            // btnStart
             // 
-            this.Start.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.Start.Location = new System.Drawing.Point(197, 192);
-            this.Start.Name = "Start";
-            this.Start.Size = new System.Drawing.Size(75, 23);
-            this.Start.TabIndex = 5;
-            this.Start.Text = "Start";
-            this.Start.UseVisualStyleBackColor = true;
-            this.Start.Click += new System.EventHandler(this.Start_Click);
+            this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnStart.Location = new System.Drawing.Point(197, 192);
+            this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(75, 23);
+            this.btnStart.TabIndex = 5;
+            this.btnStart.Text = "Start";
+            this.btnStart.UseVisualStyleBackColor = true;
+            this.btnStart.Click += new System.EventHandler(this.Start_Click);
             // 
-            // Load
+            // btnLoad
             // 
-            this.Load.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.Load.Location = new System.Drawing.Point(197, 163);
-            this.Load.Name = "Load";
-            this.Load.Size = new System.Drawing.Size(75, 23);
-            this.Load.TabIndex = 6;
-            this.Load.Text = "Load";
-            this.Load.UseVisualStyleBackColor = true;
-            this.Load.Click += new System.EventHandler(this.Load_Click);
+            this.btnLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnLoad.Location = new System.Drawing.Point(197, 163);
+            this.btnLoad.Name = "btnLoad";
+            this.btnLoad.Size = new System.Drawing.Size(75, 23);
+            this.btnLoad.TabIndex = 6;
+            this.btnLoad.Text = "Load";
+            this.btnLoad.UseVisualStyleBackColor = true;
+            this.btnLoad.Click += new System.EventHandler(this.Load_Click);
             // 
-            // Display
+            // btnDisplay
             // 
-            this.Display.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.Display.Location = new System.Drawing.Point(12, 163);
-            this.Display.Name = "Display";
-            this.Display.Size = new System.Drawing.Size(75, 23);
-            this.Display.TabIndex = 9;
-            this.Display.Text = "Display";
-            this.Display.UseVisualStyleBackColor = true;
-            this.Display.Click += new System.EventHandler(this.Display_Click);
+            this.btnDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDisplay.Location = new System.Drawing.Point(12, 163);
+            this.btnDisplay.Name = "btnDisplay";
+            this.btnDisplay.Size = new System.Drawing.Size(75, 23);
+            this.btnDisplay.TabIndex = 9;
+            this.btnDisplay.Text = "Display";
+            this.btnDisplay.UseVisualStyleBackColor = true;
+            this.btnDisplay.Click += new System.EventHandler(this.Display_Click);
             // 
-            // NameTable
+            // btnNameTable
             // 
-            this.NameTable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.NameTable.Location = new System.Drawing.Point(12, 192);
-            this.NameTable.Name = "NameTable";
-            this.NameTable.Size = new System.Drawing.Size(75, 23);
-            this.NameTable.TabIndex = 8;
-            this.NameTable.Text = "NameTable";
-            this.NameTable.UseVisualStyleBackColor = true;
-            this.NameTable.Click += new System.EventHandler(this.NameTable_Click);
+            this.btnNameTable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnNameTable.Location = new System.Drawing.Point(12, 192);
+            this.btnNameTable.Name = "btnNameTable";
+            this.btnNameTable.Size = new System.Drawing.Size(75, 23);
+            this.btnNameTable.TabIndex = 8;
+            this.btnNameTable.Text = "NameTable";
+            this.btnNameTable.UseVisualStyleBackColor = true;
+            this.btnNameTable.Click += new System.EventHandler(this.NameTable_Click);
             // 
-            // PatternTable
+            // btnPatternTable
             // 
-            this.PatternTable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.PatternTable.Location = new System.Drawing.Point(12, 221);
-            this.PatternTable.Name = "PatternTable";
-            this.PatternTable.Size = new System.Drawing.Size(75, 23);
-            this.PatternTable.TabIndex = 7;
-            this.PatternTable.Text = "PatternTable";
-            this.PatternTable.UseVisualStyleBackColor = true;
-            this.PatternTable.Click += new System.EventHandler(this.PatternTable_Click);
+            this.btnPatternTable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPatternTable.Location = new System.Drawing.Point(12, 221);
+            this.btnPatternTable.Name = "btnPatternTable";
+            this.btnPatternTable.Size = new System.Drawing.Size(75, 23);
+            this.btnPatternTable.TabIndex = 7;
+            this.btnPatternTable.Text = "PatternTable";
+            this.btnPatternTable.UseVisualStyleBackColor = true;
+            this.btnPatternTable.Click += new System.EventHandler(this.PatternTable_Click);
             // 
-            // Initbtn
+            // btnInit
             // 
-            this.Initbtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.Initbtn.Location = new System.Drawing.Point(105, 117);
-            this.Initbtn.Name = "Initbtn";
-            this.Initbtn.Size = new System.Drawing.Size(75, 23);
-            this.Initbtn.TabIndex = 10;
-            this.Initbtn.Text = "Init";
-            this.Initbtn.UseVisualStyleBackColor = true;
-            this.Initbtn.Click += new System.EventHandler(this.Initbtn_Click);
+            this.btnInit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnInit.Location = new System.Drawing.Point(105, 117);
+            this.btnInit.Name = "btnInit";
+            this.btnInit.Size = new System.Drawing.Size(75, 23);
+            this.btnInit.TabIndex = 10;
+            this.btnInit.Text = "Init";
+            this.btnInit.UseVisualStyleBackColor = true;
+            this.btnInit.Click += new System.EventHandler(this.Initbtn_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 256);
-            this.Controls.Add(this.Initbtn);
-            this.Controls.Add(this.Display);
-            this.Controls.Add(this.NameTable);
-            this.Controls.Add(this.PatternTable);
-            this.Controls.Add(this.Load);
-            this.Controls.Add(this.Start);
-            this.Controls.Add(this.Stop);
+            this.Controls.Add(this.btnInit);
+            this.Controls.Add(this.btnDisplay);
+            this.Controls.Add(this.btnNameTable);
+            this.Controls.Add(this.btnPatternTable);
+            this.Controls.Add(this.btnLoad);
+            this.Controls.Add(this.btnStart);
+            this.Controls.Add(this.btnStop);
             this.Name = "MainForm";
             this.Text = "MainForm";
             this.ResumeLayout(false);
@@ -136,12 +136,12 @@
         #endregion
 
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.Windows.Forms.Button Stop;
-        private System.Windows.Forms.Button Start;
-        private System.Windows.Forms.Button Load;
-        private System.Windows.Forms.Button Display;
-        private System.Windows.Forms.Button NameTable;
-        private System.Windows.Forms.Button PatternTable;
-        private System.Windows.Forms.Button Initbtn;
+        private System.Windows.Forms.Button btnStop;
+        private System.Windows.Forms.Button btnStart;
+        private System.Windows.Forms.Button btnLoad;
+        private System.Windows.Forms.Button btnDisplay;
+        private System.Windows.Forms.Button btnNameTable;
+        private System.Windows.Forms.Button btnPatternTable;
+        private System.Windows.Forms.Button btnInit;
     }
 }
