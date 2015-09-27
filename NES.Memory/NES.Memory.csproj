@@ -40,8 +40,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Address.cs" />
+    <Compile Include="Interrupt.cs" />
     <Compile Include="NES-Memory.cs" />
+    <Compile Include="NES-Register.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Stack.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\INES\INES.csproj">
+      <Project>{24bb7f3e-8fca-4765-870c-ffeb302bff5b}</Project>
+      <Name>INES</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

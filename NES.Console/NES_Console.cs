@@ -21,12 +21,21 @@ namespace NES
 
         public static void Run()
         {
+            NES_Register.RessetPointer();
+            NES_Register.P.Interrupt = false;
+            Interrupt.POWER = true;
+            NES_PPU_Register.InitialAtPower();
             NES_CPU.Run();
         }
 
         public static void Restart()
         {
-
+            Interrupt.POWER = false;
+            NES_Register.RessetPointer();
+            NES_Register.P.Interrupt = false;
+            Interrupt.POWER = true;
+            NES_PPU_Register.InitialOnReset();
+            NES_CPU.Run();
         }
 
         public static void Stop()

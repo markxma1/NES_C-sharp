@@ -46,10 +46,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Address\Address.csproj">
-      <Project>{587da8a6-b59a-48be-96d6-7d61d96d0f55}</Project>
-      <Name>Address</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CPU\NES.CPU.csproj">
       <Project>{aef77af8-6fb1-4e63-ba36-7eaf9637f1fb}</Project>
       <Name>NES.CPU</Name>

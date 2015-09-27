@@ -47,10 +47,13 @@
     <Compile Include="CPU\Parameter.cs" />
     <Compile Include="CPU\Status.cs" />
     <Compile Include="Exception\NoAssemby.cs" />
-    <Compile Include="Interrupt.cs" />
-    <Compile Include="NES-Register.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Stack.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NES.Memory\NES.Memory.csproj">
+      <Project>{95dc085f-21f1-4e41-a53f-b156237aff4a}</Project>
+      <Name>NES.Memory</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
