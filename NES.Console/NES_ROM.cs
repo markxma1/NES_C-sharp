@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace NES
 {
-    class NES_ROM
+    public class NES_ROM
     {
         private static byte[] b;
         private static int end;
