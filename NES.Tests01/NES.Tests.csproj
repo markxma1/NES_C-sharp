@@ -45,9 +45,9 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NES\NES.csproj">
+    <ProjectReference Include="..\NES\GUI.csproj">
       <Project>{A6A02790-95FC-4D84-9808-D82588DDE2D4}</Project>
-      <Name>NES</Name>
+      <Name>GUI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -57,6 +57,10 @@
     <Compile Include="MathTest.cs" />
     <Compile Include="MathTest.SBCTest.g.cs">
       <DependentUpon>MathTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NES_PPU_AttributeTableTest.cs" />
+    <Compile Include="NES_PPU_AttributeTableTest.SplitAttributeTest.g.cs">
+      <DependentUpon>NES_PPU_AttributeTableTest.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\PexAssemblyInfo.cs" />
