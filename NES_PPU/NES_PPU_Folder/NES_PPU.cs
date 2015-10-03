@@ -33,10 +33,10 @@ namespace NES
                         var color = NES_PPU_Palette.getPalette(k++);
                         for (int h = 0; h < 4; h++)
                         {
-                            if (color[h] == Color.Transparent)
+                            if (color.color[h] == Color.Transparent)
                                 g.FillRectangle(new SolidBrush(NES_PPU_Palette.UniversalBackgroundColor()), o * 20, i * 20, ++o * 20, (i + 1) * 20);
                             else
-                                g.FillRectangle(new SolidBrush(color[h]), o * 20, i * 20, ++o * 20, (i + 1) * 20);
+                                g.FillRectangle(new SolidBrush(color.color[h]), o * 20, i * 20, ++o * 20, (i + 1) * 20);
                         }
                     }
 

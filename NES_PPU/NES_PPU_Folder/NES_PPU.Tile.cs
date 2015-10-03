@@ -19,7 +19,7 @@ namespace NES
         {
             Bitmap bitmap = new Bitmap(8, 8);
             byte[,] pattern = new byte[8, 8];
-            Color[] color = NES_PPU_Palette.getPalette(pallete);
+            NES_PPU_Color color = NES_PPU_Palette.getPalette(pallete);
             var PatternTable = NES_PPU_Memory.Memory;
 
             CreateTileBitmap(startAdress, bitmap, pattern, color, PatternTable);
@@ -37,7 +37,7 @@ namespace NES
             int startAdress = spriteID * 16;
             Bitmap bitmap = new Bitmap(8, 8);
             byte[,] pattern = new byte[8, 8];
-            Color[] color = NES_PPU_Palette.getPalette(pallete);
+            NES_PPU_Color color = NES_PPU_Palette.getPalette(pallete);
             var PatternTable = NES_PPU_Memory.PatternTableN[NES_PPU_Register.PPUCTRL.B ? 1 : 0];
 
             CreateTileBitmap(startAdress, bitmap, pattern, color, PatternTable);
@@ -55,7 +55,7 @@ namespace NES
             int startAdress = spriteID * 16;
             Bitmap bitmap = new Bitmap(8, 8);
             byte[,] pattern = new byte[8, 8];
-            Color[] color = NES_PPU_Palette.getSpriteColorPalette(pallete);
+            NES_PPU_Color color = NES_PPU_Palette.getSpriteColorPalette(pallete);
             var PatternTable = NES_PPU_Memory.PatternTableN[bankID];
 
             CreateTileBitmap(startAdress, bitmap, pattern, color, PatternTable);
@@ -71,9 +71,9 @@ namespace NES
         /// <param name="pattern"></param>
         /// <param name="color"></param>
         /// <param name="PatternTable"></param>
-        private static void CreateTileBitmap(int startAdress, Bitmap bitmap, byte[,] pattern, Color[] color, ArrayList PatternTable)
+        private static void CreateTileBitmap(int startAdress, Bitmap bitmap, byte[,] pattern, NES_PPU_Color color, ArrayList PatternTable)
         {
-            if (((Address)PatternTable[startAdress]).isNew() || !patternArray.ContainsKey(startAdress))
+            if (isNew(startAdress, PatternTable, color))
             {
                 Parallel.For(0, 8, j =>
                 {
@@ -84,7 +84,7 @@ namespace NES
                         pattern[7 - j, i] = (byte)(a | b);
                         lock (bitmap)
                         {
-                            bitmap.SetPixel(7 - j, i, color[pattern[7 - j, i]]);
+                            bitmap.SetPixel(7 - j, i, color.color[pattern[7 - j, i]]);
                         }
                     });
                 });
@@ -94,6 +94,14 @@ namespace NES
             {
                 bitmap = patternArray[startAdress];
             }
+        }
+
+        private static bool isNew(int startAdress, ArrayList PatternTable, NES_PPU_Color color)
+        {
+            bool isnew = !patternArray.ContainsKey(startAdress);
+            isnew |= ((Address)PatternTable[startAdress]).isNew();
+            isnew |= color.isNew;
+            return isnew;
         }
 
         /// <summary>

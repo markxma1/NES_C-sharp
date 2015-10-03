@@ -49,12 +49,13 @@
     <Compile Include="NES_PPU_Folder\NES_PPU.Scroll.cs" />
     <Compile Include="NES_PPU_Folder\NES_PPU.Tile.cs" />
     <Compile Include="OAM\NES_PPU_OAM.cs" />
+    <Compile Include="Palette\NES_PPU_Color.cs" />
     <Compile Include="Palette\NES_PPU_Palette.cs" />
     <Compile Include="Memory\NES_PPU_Register.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Palletes\2C03and2C05.bmp" />
+    <Content Include="Palette\Palletes\2C03and2C05.bmp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\INES\INES.csproj">
