@@ -42,11 +42,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NES_PPU_Folder\NES_PPU.cs" />
-    <Compile Include="NES_PPU_Folder\NES_PPU_AttributeTable.cs" />
-    <Compile Include="NES_PPU_Folder\NES_PPU_Memory.cs" />
-    <Compile Include="NES_PPU_Folder\NES_PPU_OAM.cs" />
-    <Compile Include="NES_PPU_Folder\NES_PPU_Palette.cs" />
-    <Compile Include="NES_PPU_Folder\NES_PPU_Register.cs" />
+    <Compile Include="Memory\NES_PPU_AttributeTable.cs" />
+    <Compile Include="Memory\NES_PPU_Memory.cs" />
+    <Compile Include="NES_PPU_Folder\NES_PPU.Display.cs" />
+    <Compile Include="NES_PPU_Folder\NES_PPU.NameTable.cs" />
+    <Compile Include="NES_PPU_Folder\NES_PPU.Scroll.cs" />
+    <Compile Include="NES_PPU_Folder\NES_PPU.Tile.cs" />
+    <Compile Include="OAM\NES_PPU_OAM.cs" />
+    <Compile Include="Palette\NES_PPU_Palette.cs" />
+    <Compile Include="Memory\NES_PPU_Register.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
