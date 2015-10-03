@@ -56,8 +56,8 @@ namespace NES
                 cpuspeed = Sleep(SleepTime(), delegate
                 {
                     Debug();
-                    try { Assembly.assembly[((Address)NES_Memory.Memory[NES_Register.PC]).Value](); }
-                    catch (Exception ex) { string Messege=ex.Message + ((Address)NES_Memory.Memory[lastPC]).Value.ToString("X"); }
+                    try { Assembly.assembly[((AddressSetup)NES_Memory.Memory[NES_Register.PC]).Value](); }
+                    catch (Exception ex) { string Messege=ex.Message + ((AddressSetup)NES_Memory.Memory[lastPC]).Value.ToString("X"); }
                     Interrupt.Check();
                 });
             }
@@ -91,8 +91,8 @@ namespace NES
             //if (NES_Register.PPUPCADDR == 0x2212)
             //{ }
 
-            if (((Address)NES_Memory.Memory[0x4016]).value != changed)
-            { changed = ((Address)NES_Memory.Memory[0x4016]).value; }
+            if (((AddressSetup)NES_Memory.Memory[0x4016]).value != changed)
+            { changed = ((AddressSetup)NES_Memory.Memory[0x4016]).value; }
 
             lastPC5 = lastPC4;
             lastPC4 = lastPC3;

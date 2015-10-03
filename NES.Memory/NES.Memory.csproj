@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddressSetup.cs" />
     <Compile Include="Address.cs" />
     <Compile Include="Interrupt.cs" />
     <Compile Include="NES-Memory.cs" />

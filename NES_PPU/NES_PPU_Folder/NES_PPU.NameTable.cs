@@ -57,7 +57,7 @@ namespace NES
                     {
                         int k = K(X, Y, i, j);
                         int c = (int)Attribute[k];
-                        int t = ((Address)NES_PPU_Memory.NameTableN[Nr][k]).value;
+                        int t = ((Address)NES_PPU_Memory.NameTableN[Nr][k]).Value;
                         Bitmap temp = Tile((ushort)(t), c);
                         lock (g)
                         {

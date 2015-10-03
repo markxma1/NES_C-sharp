@@ -82,22 +82,22 @@ namespace NES
 
         public static Color UniversalBackgroundColor()
         {
-            return PPUpalettes[((Address)NES_PPU_Memory.BGPalette[0]).Value];
+            return PPUpalettes[((AddressSetup)NES_PPU_Memory.BGPalette[0]).Value];
         }
 
         private static Color getBGColorAsRGB(int BGAdress)
         {
-            return PPUpalettes[((Address)NES_PPU_Memory.BGPalette[BGAdress]).Value];
+            return PPUpalettes[((AddressSetup)NES_PPU_Memory.BGPalette[BGAdress]).Value];
         }
 
         private static Color getSpriteColorAsRGB(int SpriteAdress)
         {
-            return PPUpalettes[((Address)NES_PPU_Memory.SpritePalette[SpriteAdress]).Value];
+            return PPUpalettes[((AddressSetup)NES_PPU_Memory.SpritePalette[SpriteAdress]).Value];
         }
 
         private static Color getColorAsRGB(int Adress)
         {
-            return PPUpalettes[((Address)NES_PPU_Memory.Memory[Adress]).Value];
+            return PPUpalettes[((AddressSetup)NES_PPU_Memory.Memory[Adress]).Value];
         }
 
         private static int OctToHex(int a)

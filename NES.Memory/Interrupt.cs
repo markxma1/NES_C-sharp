@@ -74,7 +74,7 @@
         {
             if (RESET)
             {
-                NES_Register.PC = (ushort)(((Address)NES_Memory.Memory[0xfffc]).Value | (((Address)NES_Memory.Memory[0xfffd]).Value << 8));
+                NES_Register.PC = (ushort)(((AddressSetup)NES_Memory.Memory[0xfffc]).Value | (((AddressSetup)NES_Memory.Memory[0xfffd]).Value << 8));
             }
         }
 
@@ -82,7 +82,7 @@
         {
             Stack.ProcessorstatusToStack(b, u);
             Stack.PcToStack();
-            NES_Register.PC = (ushort)(((Address)NES_Memory.Memory[Address]).Value | (((Address)NES_Memory.Memory[Address + 1]).Value << 8));
+            NES_Register.PC = (ushort)(((AddressSetup)NES_Memory.Memory[Address]).Value | (((AddressSetup)NES_Memory.Memory[Address + 1]).Value << 8));
         }
 
         public static void Stop() { POWER = false; }
