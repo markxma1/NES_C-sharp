@@ -55,7 +55,7 @@ namespace NES
         private void Input8Byte(Func8 func)
         {
             var PC = NES_Register.PC;
-            byte b = ((Address)NES_Memory.Memory[++NES_Register.PC]).Value;
+            byte b = ((AddressSetup)NES_Memory.Memory[++NES_Register.PC]).Value;
             NES_Register.PC++;
             Debug(PC, b);
             func(b);
@@ -64,7 +64,7 @@ namespace NES
         private void Inputs8Byte(Funcs8 func)
         {
             var PC = NES_Register.PC;
-            sbyte b = (sbyte)((Address)NES_Memory.Memory[++NES_Register.PC]).Value;
+            sbyte b = (sbyte)((AddressSetup)NES_Memory.Memory[++NES_Register.PC]).Value;
             NES_Register.PC++;
             Debug(PC, b);
             func(b);
@@ -73,8 +73,8 @@ namespace NES
         private void Input16Byte(Func16 func)
         {
             var PC = NES_Register.PC;
-            ushort b = ((Address)NES_Memory.Memory[++NES_Register.PC]).Value;
-            b = (ushort)((((Address)NES_Memory.Memory[++NES_Register.PC]).Value << 8) | (b & 0xFF));
+            ushort b = ((AddressSetup)NES_Memory.Memory[++NES_Register.PC]).Value;
+            b = (ushort)((((AddressSetup)NES_Memory.Memory[++NES_Register.PC]).Value << 8) | (b & 0xFF));
             NES_Register.PC++;
             Debug(PC, b);
             func(b);

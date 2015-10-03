@@ -49,7 +49,7 @@ namespace NES
         {
             for (int r = 0; r < 2; r++)
             {
-                AL.Add(SplitAttribute(shift1, ((Address)AttributeTable[j + i * 8]).value));
+                AL.Add(SplitAttribute(shift1, ((AddressSetup)AttributeTable[j + i * 8]).value));
             }
         }
 
