@@ -18,8 +18,6 @@ namespace NES
         public bool isNew()
         {
             bool temp = !(oldValue == value);
-            if (temp)
-                oldValue = value;
             return temp;
         }
 
@@ -135,6 +133,11 @@ namespace NES
             string HEXValue = "0x" + value.ToString("X").PadLeft(2, '0');
             string HEXID = ID.ToString("X").PadLeft(4, '0');
             return HEXValue + ": (" + HEXID + ")";
+        }
+
+        public void setAsOld()
+        {
+                oldValue = value;
         }
 
         public static explicit operator AddressSetup(ArrayList v)

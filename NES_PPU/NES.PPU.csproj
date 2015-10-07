@@ -51,8 +51,10 @@
     <Compile Include="NES_PPU_Folder\NES_PPU.Tile.cs" />
     <Compile Include="OAM\NES_PPU_OAM.cs" />
     <Compile Include="Palette\NES_PPU_Color.cs" />
+    <Compile Include="Palette\NES_PPU_Palette.Check.cs" />
     <Compile Include="Palette\NES_PPU_Palette.cs" />
     <Compile Include="Memory\NES_PPU_Register.cs" />
+    <Compile Include="Palette\NES_PPU_Palette.Load.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

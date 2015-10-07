@@ -43,6 +43,7 @@ namespace NES
                 g.DrawImage(NameTabeleT, new Rectangle(0, 0, Display.Width, Display.Height), cropRect, GraphicsUnit.Pixel);
                 g.DrawImage(InsetObect(true), 0, 0);
                 g.Dispose();
+                NES_PPU_Palette.setAllPaletesAsOld();
                 TempDisplay = Display;
                 Draw = false;
                 NES_PPU_Register.PPUSTATUS.V = true;

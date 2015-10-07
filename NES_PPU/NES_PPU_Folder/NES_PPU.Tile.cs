@@ -101,6 +101,7 @@ namespace NES
             bool isnew = !patternArray.ContainsKey(startAdress);
             isnew |= ((Address)PatternTable[startAdress]).isNew();
             isnew |= color.isNew;
+            ((Address)PatternTable[startAdress]).setAsOld();
             return isnew;
         }
 
