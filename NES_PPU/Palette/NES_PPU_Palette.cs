@@ -2,45 +2,13 @@
 
 namespace NES
 {
-    public class NES_PPU_Palette
+    public partial class NES_PPU_Palette
     {
         public static Color[] PPUpalettes = new Color[0x40];
 
         public NES_PPU_Palette()
         {
             InitPalletesFromBMP(@".\Palleres\2C03and2C05.bmp");
-        }
-
-        private static void InitPalletesFromBMP(string Path)
-        {
-            Bitmap Pallete = LoadPalleteFromBMP(Path);
-            LoadPallete(Pallete);
-        }
-
-        private static void LoadPallete(Bitmap Pallete)
-        {
-            for (int j = 0; j < 4; j++)
-            {
-                LoadRow(Pallete, j);
-            }
-        }
-
-        private static void LoadRow(Bitmap Pallete, int j)
-        {
-            for (int i = 0; i < 16; i++)
-            {
-                PPUpalettes[i + j * 16] = Pallete.GetPixel(i, j);
-            }
-        }
-
-        private static Bitmap LoadPalleteFromBMP(string Path)
-        {
-            Bitmap Pallete = null;
-            using (var image = new Bitmap(Path))
-            {
-                Pallete = new Bitmap(image);
-            }
-            return Pallete;
         }
 
         public static NES_PPU_Color getPalette(int Nr)
@@ -72,14 +40,6 @@ namespace NES
             return new NES_PPU_Color(color, SpriteIsNew(start));
         }
 
-        private static bool BGIsNew(int start)
-        {
-            bool isNew = ((Address)NES_PPU_Memory.BGPalette[start * 4 + 1]).isNew();
-            isNew &= ((Address)NES_PPU_Memory.BGPalette[start * 4 + 2]).isNew();
-            isNew &= ((Address)NES_PPU_Memory.BGPalette[start * 4 + 3]).isNew();
-            return isNew;
-        }
-
         public static NES_PPU_Color getSpriteColorPalette(int start)
         {
             Color[] color = {
@@ -89,14 +49,6 @@ namespace NES
              getSpriteColorAsRGB(start * 4 + 3)};
 
             return new NES_PPU_Color(color, SpriteIsNew(start));
-        }
-
-        private static bool SpriteIsNew(int start)
-        {
-            bool isNew = ((Address)NES_PPU_Memory.SpritePalette[start * 4 + 1]).isNew();
-            isNew &= ((Address)NES_PPU_Memory.SpritePalette[start * 4 + 2]).isNew();
-            isNew &= ((Address)NES_PPU_Memory.SpritePalette[start * 4 + 3]).isNew();
-            return isNew;
         }
 
         public static Color UniversalBackgroundColor()

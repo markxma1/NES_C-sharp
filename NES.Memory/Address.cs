@@ -4,6 +4,7 @@
     {
         byte Value { get; set; }
         bool isNew();
+        void setAsOld();
         string ToString();
     }
 }
