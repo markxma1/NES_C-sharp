@@ -15,14 +15,15 @@ namespace NES
         /// </summary>
         /// <param name="startAdress"></param>
         /// <returns></returns>
-        public static Bitmap Tile_StartAdress(ushort startAdress, int pallete)
+        public static Bitmap Tile_StartAdress(int startAdress, int pallete)
         {
             Bitmap bitmap = new Bitmap(8, 8);
             byte[,] pattern = new byte[8, 8];
             NES_PPU_Color color = NES_PPU_Palette.getPalette(pallete);
             var PatternTable = NES_PPU_Memory.Memory;
+            int ID = GetTileID(startAdress, pallete, PatternTable);
 
-            bitmap = CreateTileBitmap(startAdress, bitmap, pattern, color, PatternTable);
+            bitmap = CreateTileBitmap(startAdress, bitmap, pattern, color, PatternTable, ID);
 
             return bitmap;
         }
@@ -39,8 +40,9 @@ namespace NES
             byte[,] pattern = new byte[8, 8];
             NES_PPU_Color color = NES_PPU_Palette.getPalette(pallete);
             var PatternTable = NES_PPU_Memory.PatternTableN[NES_PPU_Register.PPUCTRL.B ? 1 : 0];
+            int ID = GetTileID(startAdress, pallete, PatternTable);
 
-            bitmap = CreateTileBitmap(startAdress, bitmap, pattern, color, PatternTable);
+            bitmap = CreateTileBitmap(startAdress, bitmap, pattern, color, PatternTable, ID);
 
             return bitmap;
         }
@@ -57,10 +59,15 @@ namespace NES
             byte[,] pattern = new byte[8, 8];
             NES_PPU_Color color = NES_PPU_Palette.getSpriteColorPalette(pallete);
             var PatternTable = NES_PPU_Memory.PatternTableN[bankID];
+            int ID = GetTileID(startAdress, pallete, PatternTable);
 
-            bitmap = CreateTileBitmap(startAdress, bitmap, pattern, color, PatternTable);
+            bitmap = CreateTileBitmap(startAdress, bitmap, pattern, color, PatternTable, ID);
 
             return bitmap;
+        }
+        private static int GetTileID(int startAdress, int pallete, ArrayList PatternTable)
+        {
+            return pallete | (NES_PPU_Memory.Memory.IndexOf(PatternTable[startAdress])) << 8;
         }
 
         /// <summary>
@@ -71,9 +78,9 @@ namespace NES
         /// <param name="pattern"></param>
         /// <param name="color"></param>
         /// <param name="PatternTable"></param>
-        private static Bitmap CreateTileBitmap(int startAdress, Bitmap bitmap, byte[,] pattern, NES_PPU_Color color, ArrayList PatternTable)
+        private static Bitmap CreateTileBitmap(int startAdress, Bitmap bitmap, byte[,] pattern, NES_PPU_Color color, ArrayList PatternTable, int ID)
         {
-            if (isNew(startAdress, PatternTable, color))
+            if (isNew(startAdress, PatternTable, color, ID))
             {
                 Parallel.For(0, 8, j =>
                 {
@@ -88,18 +95,18 @@ namespace NES
                         }
                     });
                 });
-                AddTileToPatternArray(startAdress, bitmap);
+                AddTileToPatternArray(ID, bitmap);
                 return bitmap;
             }
             else
             {
-                return patternArray[startAdress];
+                return patternArray[ID];
             }
         }
 
-        private static bool isNew(int startAdress, ArrayList PatternTable, NES_PPU_Color color)
+        private static bool isNew(int startAdress, ArrayList PatternTable, NES_PPU_Color color,int ID)
         {
-            bool isnew = !patternArray.ContainsKey(startAdress);
+            bool isnew = !patternArray.ContainsKey(ID);
             isnew |= ((Address)PatternTable[startAdress]).isNew();
             isnew |= color.isNew;
             ((Address)PatternTable[startAdress]).setAsOld();
@@ -111,16 +118,16 @@ namespace NES
         /// </summary>
         /// <param name="startAdress"></param>
         /// <param name="bitmap"></param>
-        private static void AddTileToPatternArray(int startAdress, Bitmap bitmap)
+        private static void AddTileToPatternArray(int ID, Bitmap bitmap)
         {
             lock (bitmap)
             {
                 lock (patternArray)
                 {
-                    if (patternArray.ContainsKey(startAdress))
-                        patternArray[startAdress] = bitmap;
+                    if (patternArray.ContainsKey(ID))
+                        patternArray[ID] = bitmap;
                     else
-                        patternArray.Add(startAdress, bitmap);
+                        patternArray.Add(ID, bitmap);
                 }
             }
         }
