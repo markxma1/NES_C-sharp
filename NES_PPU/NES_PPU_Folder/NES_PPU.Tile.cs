@@ -22,7 +22,7 @@ namespace NES
             NES_PPU_Color color = NES_PPU_Palette.getPalette(pallete);
             var PatternTable = NES_PPU_Memory.Memory;
 
-            CreateTileBitmap(startAdress, bitmap, pattern, color, PatternTable);
+            bitmap = CreateTileBitmap(startAdress, bitmap, pattern, color, PatternTable);
 
             return bitmap;
         }
@@ -40,7 +40,7 @@ namespace NES
             NES_PPU_Color color = NES_PPU_Palette.getPalette(pallete);
             var PatternTable = NES_PPU_Memory.PatternTableN[NES_PPU_Register.PPUCTRL.B ? 1 : 0];
 
-            CreateTileBitmap(startAdress, bitmap, pattern, color, PatternTable);
+            bitmap = CreateTileBitmap(startAdress, bitmap, pattern, color, PatternTable);
 
             return bitmap;
         }
@@ -58,7 +58,7 @@ namespace NES
             NES_PPU_Color color = NES_PPU_Palette.getSpriteColorPalette(pallete);
             var PatternTable = NES_PPU_Memory.PatternTableN[bankID];
 
-            CreateTileBitmap(startAdress, bitmap, pattern, color, PatternTable);
+            bitmap = CreateTileBitmap(startAdress, bitmap, pattern, color, PatternTable);
 
             return bitmap;
         }
@@ -71,7 +71,7 @@ namespace NES
         /// <param name="pattern"></param>
         /// <param name="color"></param>
         /// <param name="PatternTable"></param>
-        private static void CreateTileBitmap(int startAdress, Bitmap bitmap, byte[,] pattern, NES_PPU_Color color, ArrayList PatternTable)
+        private static Bitmap CreateTileBitmap(int startAdress, Bitmap bitmap, byte[,] pattern, NES_PPU_Color color, ArrayList PatternTable)
         {
             if (isNew(startAdress, PatternTable, color))
             {
@@ -89,10 +89,11 @@ namespace NES
                     });
                 });
                 AddTileToPatternArray(startAdress, bitmap);
+                return bitmap;
             }
             else
             {
-                bitmap = patternArray[startAdress];
+                return patternArray[startAdress];
             }
         }
 
