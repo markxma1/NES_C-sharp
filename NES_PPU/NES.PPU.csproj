@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NES_PPU_Folder\BitmapWithInfo.cs" />
     <Compile Include="NES_PPU_Folder\NES_PPU.cs" />
     <Compile Include="Memory\NES_PPU_AttributeTable.cs" />
     <Compile Include="Memory\NES_PPU_Memory.cs" />
