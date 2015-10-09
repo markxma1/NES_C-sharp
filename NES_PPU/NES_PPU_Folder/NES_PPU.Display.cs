@@ -36,11 +36,10 @@ namespace NES
                 Draw = true;
                 Display = new Bitmap(TempDisplay.Size.Width, TempDisplay.Size.Height);
                 Interrupt.NMI = true;
-                Rectangle cropRect = new Rectangle(XScroll, YScroll, 257, 241);
                 Graphics g = Graphics.FromImage(Display);
                 Bitmap NameTabeleT = NameTabele();
                 g.DrawImage(InsetObect(false), 0, 0);
-                g.DrawImage(NameTabeleT, new Rectangle(0, 0, Display.Width, Display.Height), cropRect, GraphicsUnit.Pixel);
+                DrawBackground(Display, NameTabeleT, g);
                 g.DrawImage(InsetObect(true), 0, 0);
                 g.Dispose();
                 NES_PPU_Palette.setAllPaletesAsOld();
@@ -49,6 +48,20 @@ namespace NES
                 NES_PPU_Register.PPUSTATUS.V = true;
             }
             return Display;
+        }
+
+        private static void DrawBackground(Bitmap Display, Bitmap NameTabeleT, Graphics g)
+        {
+            g.DrawImage(NameTabeleT, new Rectangle(0, 0, Display.Width, Display.Height), new Rectangle(XScroll, YScroll, 257, 241), GraphicsUnit.Pixel);
+
+            if (XScroll > 240)
+                g.DrawImage(NameTabeleT, new Rectangle(0, 0, Display.Width, Display.Height), new Rectangle(XScroll - (256 * 2), YScroll, 257, 241), GraphicsUnit.Pixel);
+            if (YScroll > 240)
+                g.DrawImage(NameTabeleT, new Rectangle(0, 0, Display.Width, Display.Height), new Rectangle(XScroll, YScroll - (240 * 2), 257, 241), GraphicsUnit.Pixel);
+            if (XScroll < 0)
+                g.DrawImage(NameTabeleT, new Rectangle(0, 0, Display.Width, Display.Height), new Rectangle((256 * 2) - XScroll, YScroll, 257, 241), GraphicsUnit.Pixel);
+            if (YScroll < 0)
+                g.DrawImage(NameTabeleT, new Rectangle(0, 0, Display.Width, Display.Height), new Rectangle(XScroll, (240 * 2) - YScroll, 257, 241), GraphicsUnit.Pixel);
         }
 
         private static Bitmap InsetObect(bool Priory)
