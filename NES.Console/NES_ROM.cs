@@ -36,7 +36,7 @@ namespace NES
 
             for (int i = begin; i < end; i++)
             {
-                ((Address)NES_PPU_Memory.PatternTable[i - begin]).Value = b[i];
+                ((AddressSetup)NES_PPU_Memory.PatternTable[i - begin]).Value = b[i];
             }
         }
 
@@ -45,7 +45,7 @@ namespace NES
             PatternTableBegin();
             for (int i = 0x10; i < end; i++)
             {
-                ((Address)NES_Memory.PRGROM[i - 0x10]).Value = b[i];
+                ((AddressSetup)NES_Memory.PRGROM[i - 0x10]).Value = b[i];
                 PRGROMMirror(0x10, i);
             }
         }

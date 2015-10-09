@@ -9,6 +9,11 @@ namespace NES
 {
     public class NES_Console
     {
+        public static bool DrawRefresh
+        {
+            get { return NES_PPU.DrawRefresh; }
+            set { NES_PPU.DrawRefresh = value; }
+        }
 
         public static void INIT()
         {
