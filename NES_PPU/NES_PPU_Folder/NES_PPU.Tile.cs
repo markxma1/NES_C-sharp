@@ -9,7 +9,7 @@ namespace NES
     {
         private static Bitmap TempPatternTable = new Bitmap(128 * 2, 128);
         private static Dictionary<int, Bitmap> patternArray = new Dictionary<int, Bitmap>();
-        public static bool DrawRefresh=false;
+        public static bool DrawRefresh = false;
 
         /// <summary>
         /// converts Tiles from Memory to Bitmap. 
@@ -66,6 +66,7 @@ namespace NES
 
             return bitmap;
         }
+
         private static int GetTileID(int startAdress, int pallete, ArrayList PatternTable)
         {
             return pallete | (NES_PPU_Memory.Memory.IndexOf(PatternTable[startAdress])) << 8;
