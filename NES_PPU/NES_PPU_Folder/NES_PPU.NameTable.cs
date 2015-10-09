@@ -53,6 +53,8 @@ namespace NES
                             });
                     if (INES.arrangement == INES.Mirror.vertical)
                         g.DrawImage(bitmap, TempNameTable.Size.Width / 2, 0);
+                    if (INES.arrangement == INES.Mirror.horisontal)
+                        g.DrawImage(bitmap, 0, TempNameTable.Size.Height/2);
                     g.DrawRectangle(Pens.Red, XScroll, YScroll, 256, 240);
                     g.DrawRectangle(Pens.Green, 0, 0, 64 * 8 - 1, 60 * 8 - 1);
                     g.Dispose();
