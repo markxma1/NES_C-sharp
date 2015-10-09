@@ -48,7 +48,7 @@ namespace NES
 
         public static List<byte> MemTest(ArrayList list)
         {
-            return list.Cast<Address>().Select(a => a.value).ToList<byte>();
+            return list.Cast<AddressSetup>().Select(a => a.value).ToList();
         }
 
         public NES_Memory()
@@ -74,7 +74,7 @@ namespace NES
             for (int i = 0x4018; i <= 0x401F; i++)
             {
                 IO.Add(Memory[i]);
-                ((Address)Memory[i]).value = 0xFF;
+                ((AddressSetup)Memory[i]).value = 0xFF;
             }
         }
 
@@ -83,7 +83,7 @@ namespace NES
             for (int i = 0x4016; i <= 0x4017; i++)
             {
                 Joystick.Add(Memory[i]);
-                ((Address)Memory[i]).value = 0xFF;
+                ((AddressSetup)Memory[i]).value = 0xFF;
             }
         }
 
@@ -92,7 +92,7 @@ namespace NES
             for (int i = 0x4000; i <= 0x4015; i++)
             {
                 APU.Add(Memory[i]);
-                ((Address)Memory[i]).value = 0xFF;
+                ((AddressSetup)Memory[i]).value = 0xFF;
             }
         }
 
@@ -133,7 +133,7 @@ namespace NES
             for (int i = 0x6000; i <= 0x7FFF; i++)
             {
                 SRAM.Add(Memory[i]);
-                ((Address)Memory[i]).value = 0;
+                ((AddressSetup)Memory[i]).value = 0;
             }
         }
 
@@ -143,9 +143,9 @@ namespace NES
             {
                 EROM.Add(Memory[i]);
                 if (i < 0x5000)
-                    ((Address)Memory[i]).value = 0xFF;
+                    ((AddressSetup)Memory[i]).value = 0xFF;
                 else
-                    ((Address)Memory[i]).value = 0;
+                    ((AddressSetup)Memory[i]).value = 0;
             }
         }
 
@@ -155,7 +155,7 @@ namespace NES
             {
                 PPU.Add(Memory[i]);
                 Memory[i + 0x08] = Memory[i];
-                ((Address)Memory[i]).value = 0;
+                ((AddressSetup)Memory[i]).value = 0;
             }
         }
 
@@ -197,9 +197,9 @@ namespace NES
                             Memory.Add(Memory[i - 0x1800]);
                         else
                             if ((i & 4) == 0)
-                                Memory.Add(new Address(0x00,i));
+                                Memory.Add(new AddressSetup(0x00,i));
                             else
-                                Memory.Add(new Address(0xFF,i));
+                                Memory.Add(new AddressSetup(0xFF,i));
             }
         }
     }

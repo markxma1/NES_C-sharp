@@ -21,7 +21,7 @@ namespace NES
         /// </summary>
         public bool strobe { get { return (address.value & 0x01) > 0; } set { address.value = (byte)(address.value & ~0x01); if (value) address.value = (byte)(address.value | 0x01); } }
 
-        public Address address;
+        public AddressSetup address;
     }
 
     public class OutputFlags
@@ -43,7 +43,7 @@ namespace NES
             set { address.value = (byte)(address.value & ~0xE0); address.value |= (byte)(value & 0xE0); }
         }
 
-        public Address address;
+        public AddressSetup address;
     }
 
     public class OutputFlags4016 : OutputFlags
@@ -109,14 +109,14 @@ namespace NES
 
         private static void InitInput4016()
         {
-            input4016.address = (Address)NES_Memory.Memory[4016];
+            input4016.address = (AddressSetup)NES_Memory.Memory[4016];
         }
 
         private void InitOutput4016()
         {
-            output4016.address = (Address)NES_Memory.Memory[4016];
-            output4016.address.beforGet = delegate { getButton(); };
-            output4016.address.afterGet = delegate { output4016.address.value=0; };
+            output4016.address = (AddressSetup)NES_Memory.Memory[4016];
+            output4016.address.BeforGet = delegate { getButton(); };
+            output4016.address.AfterGet = delegate { output4016.address.value=0; };
         }
 
         private void getButton()

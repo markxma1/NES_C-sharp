@@ -269,7 +269,7 @@ namespace NES
         {
             for (int i = 0; i <= 0x3FFF; i++)
             {
-                Memory.Add(new Address(i));
+                Memory.Add(new AddressSetup(i));
                 MemoryMirror(i);
             }
         }
