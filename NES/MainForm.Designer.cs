@@ -35,7 +35,7 @@
             this.btnDisplay = new System.Windows.Forms.Button();
             this.btnNameTable = new System.Windows.Forms.Button();
             this.btnPatternTable = new System.Windows.Forms.Button();
-            this.btnInit = new System.Windows.Forms.Button();
+            this.drawRefresh = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // backgroundWorker1
@@ -108,23 +108,23 @@
             this.btnPatternTable.UseVisualStyleBackColor = true;
             this.btnPatternTable.Click += new System.EventHandler(this.PatternTable_Click);
             // 
-            // btnInit
+            // drawRefresh
             // 
-            this.btnInit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnInit.Location = new System.Drawing.Point(105, 117);
-            this.btnInit.Name = "btnInit";
-            this.btnInit.Size = new System.Drawing.Size(75, 23);
-            this.btnInit.TabIndex = 10;
-            this.btnInit.Text = "Init";
-            this.btnInit.UseVisualStyleBackColor = true;
-            this.btnInit.Click += new System.EventHandler(this.Initbtn_Click);
+            this.drawRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.drawRefresh.Location = new System.Drawing.Point(12, 12);
+            this.drawRefresh.Name = "drawRefresh";
+            this.drawRefresh.Size = new System.Drawing.Size(75, 23);
+            this.drawRefresh.TabIndex = 10;
+            this.drawRefresh.Text = "Draw Refresh";
+            this.drawRefresh.UseVisualStyleBackColor = true;
+            this.drawRefresh.Click += new System.EventHandler(this.drawRefresh_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 256);
-            this.Controls.Add(this.btnInit);
+            this.Controls.Add(this.drawRefresh);
             this.Controls.Add(this.btnDisplay);
             this.Controls.Add(this.btnNameTable);
             this.Controls.Add(this.btnPatternTable);
@@ -146,6 +146,6 @@
         private System.Windows.Forms.Button btnDisplay;
         private System.Windows.Forms.Button btnNameTable;
         private System.Windows.Forms.Button btnPatternTable;
-        private System.Windows.Forms.Button btnInit;
+        private System.Windows.Forms.Button drawRefresh;
     }
 }
