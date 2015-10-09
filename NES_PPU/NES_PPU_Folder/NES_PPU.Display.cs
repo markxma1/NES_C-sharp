@@ -76,6 +76,8 @@ namespace NES
                                                    ((NES_PPU_OAM.Byte2)NES_PPU_OAM.SpriteAttribute[i]).Palette,
                                                    (((NES_PPU_OAM.Byte1)NES_PPU_OAM.SpriteTile[i]).Bank) ? (1) : (0));
 
+                    tile = new Bitmap(tile);
+
                     if (((NES_PPU_OAM.Byte2)NES_PPU_OAM.SpriteAttribute[i]).FlipH)
                         tile.RotateFlip(RotateFlipType.RotateNoneFlipX);
                     if (((NES_PPU_OAM.Byte2)NES_PPU_OAM.SpriteAttribute[i]).FlipV)
