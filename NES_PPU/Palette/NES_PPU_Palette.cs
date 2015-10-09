@@ -37,7 +37,7 @@ namespace NES
                 getBGColorAsRGB(start * 4 + 2),
                 getBGColorAsRGB(start * 4 + 3) };
 
-            return new NES_PPU_Color(color, SpriteIsNew(start));
+            return new NES_PPU_Color(color, BGIsNew(start));
         }
 
         public static NES_PPU_Color getSpriteColorPalette(int start)
