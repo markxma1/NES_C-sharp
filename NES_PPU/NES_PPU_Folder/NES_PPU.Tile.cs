@@ -52,11 +52,9 @@ namespace NES
         public static Bitmap Tile(ushort spriteID, int pallete, int bankID)
         {
             int startAdress = spriteID * 16;
-
             NES_PPU_Color color = NES_PPU_Palette.getSpriteColorPalette(pallete);
             var PatternTable = NES_PPU_Memory.PatternTableN[bankID];
             int ID = GetTileID(startAdress, pallete, PatternTable);
-
             return CreateTileBitmap(startAdress, color, PatternTable, ID);
         }
 
