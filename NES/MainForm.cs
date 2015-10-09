@@ -14,6 +14,7 @@ namespace NES
         public MainForm()
         {
             InitializeComponent();
+            NES_Console.INIT();
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
@@ -57,9 +58,14 @@ namespace NES
             p.Show();
         }
 
-        private void Initbtn_Click(object sender, EventArgs e)
+
+        private void drawRefresh_Click(object sender, EventArgs e)
         {
-            NES_Console.INIT();
+            NES_Console.DrawRefresh = !NES_Console.DrawRefresh;
+            if (NES_Console.DrawRefresh)
+                drawRefresh.BackColor = Color.Green;
+            else
+                drawRefresh.BackColor = Color.Red;
         }
     }
 }

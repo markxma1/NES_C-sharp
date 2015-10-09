@@ -9,6 +9,7 @@ namespace NES
     {
         private static Bitmap TempPatternTable = new Bitmap(128 * 2, 128);
         private static Dictionary<int, Bitmap> patternArray = new Dictionary<int, Bitmap>();
+        public static bool DrawRefresh=false;
 
         /// <summary>
         /// converts Tiles from Memory to Bitmap. 
@@ -95,7 +96,13 @@ namespace NES
                         }
                     });
                 });
-                AddTileToPatternArray(ID, bitmap);
+                AddTileToPatternArray(ID, new Bitmap(bitmap));
+                if (DrawRefresh)
+                {
+                    Graphics g = Graphics.FromImage(bitmap);
+                    g.DrawRectangle(Pens.Red, 0, 0, 7, 7);
+                    g.Dispose();
+                }
                 return bitmap;
             }
             else
@@ -104,7 +111,7 @@ namespace NES
             }
         }
 
-        private static bool isNew(int startAdress, ArrayList PatternTable, NES_PPU_Color color,int ID)
+        private static bool isNew(int startAdress, ArrayList PatternTable, NES_PPU_Color color, int ID)
         {
             bool isnew = !patternArray.ContainsKey(ID);
             isnew |= ((Address)PatternTable[startAdress]).isNew();
