@@ -26,21 +26,33 @@ namespace NES
                                     {
                                         case 0:
                                             DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(0), 0, 0, 0);
+                                            //lock(g)
+                                            //{
+                                            //    if (INES.arrangement == INES.Mirror.horisontal)
+                                            //        g.DrawImage(bitmap, new Rectangle(0, 0, 0, 32), new Rectangle(0, 0, 30, 32), GraphicsUnit.Pixel);
+                                            //    if (INES.arrangement == INES.Mirror.vertical)
+                                            //        g.DrawImage(bitmap, new Rectangle(0, 0, 30, 0), new Rectangle(0, 0, 30, 32), GraphicsUnit.Pixel);
+                                            //}
                                             break;
                                         case 1:
-                                            DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(1), 1, 0, 32);
+                                            if (INES.arrangement != INES.Mirror.vertical)
+                                                DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(1), 1, 0, 32);
                                             break;
                                         case 2:
-                                            DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(2), 2, 30, 0);
+                                            if (INES.arrangement != INES.Mirror.horisontal)
+                                                DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(2), 2, 30, 0);
                                             break;
                                         default:
-                                            DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(3), 3, 30, 32);
+                                            if (INES.arrangement == INES.Mirror.four_screen)
+                                                DrowOneNameTable(g, NES_PPU_AttributeTable.AttributeTable(3), 3, 30, 32);
                                             break;
                                     }
                                 }
                                 catch (Exception ex)
-                                { }
+                                { throw; }
                             });
+                    if (INES.arrangement == INES.Mirror.vertical)
+                        g.DrawImage(bitmap, TempNameTable.Size.Width / 2, 0);
                     g.DrawRectangle(Pens.Red, XScroll, YScroll, 256, 240);
                     g.DrawRectangle(Pens.Green, 0, 0, 64 * 8 - 1, 60 * 8 - 1);
                     g.Dispose();
