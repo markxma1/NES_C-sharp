@@ -77,7 +77,19 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Emgu.CV.dll" />
+    <Content Include="Emgu.CV.UI.xml" />
+    <Content Include="Emgu.Util.dll" />
     <Content Include="Palette\Palletes\2C03and2C05.bmp" />
+    <Content Include="x64\cvextern.dll" />
+    <Content Include="x64\cvextern_test.exe" />
+    <Content Include="x64\msvcp120.dll" />
+    <Content Include="x64\msvcr120.dll" />
+    <Content Include="x64\opencv_ffmpeg300_64.dll" />
+    <Content Include="x86\cvextern.dll" />
+    <Content Include="x86\msvcp120.dll" />
+    <Content Include="x86\msvcr120.dll" />
+    <Content Include="x86\opencv_ffmpeg300.dll" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\INES\INES.csproj">
