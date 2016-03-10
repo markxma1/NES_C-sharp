@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using NES_PPU;
+using System.Drawing;
 
 namespace NES
 {
@@ -6,7 +7,7 @@ namespace NES
     public partial class NES_PPU
     {
 
-        private static Bitmap TempPaletteTable = new Bitmap(16 * 20, 2 * 20);
+        private static Picture TempPaletteTable = new Picture(16 * 20, 2 * 20);
 
         public NES_PPU()
         {
@@ -17,13 +18,12 @@ namespace NES
             new NES_PPU_AttributeTable();
         }
 
-        public static Bitmap PaletteTable()
+        public static Picture PaletteTable()
         {
-            Bitmap bitmap = new Bitmap(TempPaletteTable);
+            Picture bitmap = new Picture(TempPaletteTable);
             if (NES_PPU_Register.PPUCTRL.V)
             {
-                Graphics g = Graphics.FromImage(bitmap);
-                g.FillRectangle(new SolidBrush(NES_PPU_Palette.UniversalBackgroundColor()), 0, 0, bitmap.Size.Width, bitmap.Size.Height);
+                bitmap.FillRectangle(NES_PPU_Palette.UniversalBackgroundColor(), 0, 0, bitmap.Size.Width, bitmap.Size.Height);
                 int k = 0;
                 for (ushort i = 0; i < 2; i++)
                 {
@@ -34,9 +34,9 @@ namespace NES
                         for (int h = 0; h < 4; h++)
                         {
                             if (color.color[h] == Color.Transparent)
-                                g.FillRectangle(new SolidBrush(NES_PPU_Palette.UniversalBackgroundColor()), o * 20, i * 20, ++o * 20, (i + 1) * 20);
+                                bitmap.FillRectangle(NES_PPU_Palette.UniversalBackgroundColor(), o * 20, i * 20, ++o * 20, (i + 1) * 20);
                             else
-                                g.FillRectangle(new SolidBrush(color.color[h]), o * 20, i * 20, ++o * 20, (i + 1) * 20);
+                                bitmap.FillRectangle(color.color[h], o * 20, i * 20, ++o * 20, (i + 1) * 20);
                         }
                     }
 
@@ -48,7 +48,7 @@ namespace NES
                     {
                         for (int h = 0; h < 4; h++)
                         {
-                            g.DrawRectangle(Pens.Black, o * 20, i * 20, ++o * 20, (i + 1) * 20);
+                            bitmap.DrawRectangle(Color.Black, o * 20, i * 20, ++o * 20, (i + 1) * 20);
                         }
                     }
                 }

@@ -56,6 +56,7 @@
     <Compile Include="Palette\NES_PPU_Palette.cs" />
     <Compile Include="Memory\NES_PPU_Register.cs" />
     <Compile Include="Palette\NES_PPU_Palette.Load.cs" />
+    <Compile Include="Picture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

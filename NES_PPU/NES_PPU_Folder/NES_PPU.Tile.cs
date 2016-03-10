@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NES_PPU;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,7 +9,7 @@ namespace NES
 {
     public partial class NES_PPU
     {
-        private static Bitmap TempPatternTable = new Bitmap(128 * 2, 128);
+        private static Picture TempPatternTable = new Picture(128 * 2, 128);
         private static Dictionary<int, BitmapWithInfo> patternArray = new Dictionary<int, BitmapWithInfo>();
         public static bool DrawRefresh = false;
 
@@ -18,7 +19,7 @@ namespace NES
         /// </summary>
         /// <param name="startAdress"></param>
         /// <returns></returns>
-        public static Bitmap Tile_StartAdress(int startAdress, int pallete)
+        public static Picture Tile_StartAdress(int startAdress, int pallete)
         {
             byte[,] pattern = new byte[8, 8];
             NES_PPU_Color color = NES_PPU_Palette.getPalette(pallete);
@@ -33,7 +34,7 @@ namespace NES
         /// </summary>
         /// <param name="spriteID">ID of Sprite  </param>
         /// <returns></returns>
-        public static Bitmap Tile(ushort spriteID, int pallete)
+        public static Picture Tile(ushort spriteID, int pallete)
         {
             int startAdress = spriteID * 16;
             byte[,] pattern = new byte[8, 8];
@@ -49,7 +50,7 @@ namespace NES
         /// </summary>
         /// <param name="spriteID">ID of Sprite  </param>
         /// <returns></returns>
-        public static Bitmap Tile(ushort spriteID, int pallete, int bankID)
+        public static Picture Tile(ushort spriteID, int pallete, int bankID)
         {
             int startAdress = spriteID * 16;
             NES_PPU_Color color = NES_PPU_Palette.getSpriteColorPalette(pallete);
@@ -71,7 +72,7 @@ namespace NES
         /// <param name="pattern"></param>
         /// <param name="color"></param>
         /// <param name="PatternTable"></param>
-        private static Bitmap CreateTileBitmap(int startAdress, NES_PPU_Color color, ArrayList PatternTable, int ID)
+        private static Picture CreateTileBitmap(int startAdress, NES_PPU_Color color, ArrayList PatternTable, int ID)
         {
             try
             {
@@ -84,7 +85,7 @@ namespace NES
                         bitmap = CreateNewTile(startAdress, color, PatternTable);
 
                         AddTileToPatternArray(ID, bitmap);
-                        return DrawRefreshFrame(bitmap.Image, Pens.Red);
+                        return DrawRefreshFrame(bitmap.Image, Color.Red);
                     }
                     else
                     {
@@ -94,7 +95,7 @@ namespace NES
 
                         lock (bitmap)
                         {
-                            return DrawRefreshFrame(bitmap.Image, Pens.Blue, bitmap.isNew);
+                            return DrawRefreshFrame(bitmap.Image, Color.Blue, bitmap.isNew);
                         }
                     }
                 }
@@ -126,7 +127,7 @@ namespace NES
                 if (isNew)
                 {
                     byte[,] pattern = patternArray[ID].Pattern;
-                    Bitmap bitmap = new Bitmap(8, 8);
+                    Picture bitmap = new Picture(8, 8);
 
                     for (int j = 0; j < 8; j++)
                     {
@@ -142,13 +143,11 @@ namespace NES
             }
         }
 
-        private static Bitmap DrawRefreshFrame(Bitmap bitmap, Pen pen, bool isNew = true)
+        private static Picture DrawRefreshFrame(Picture bitmap, Color pen, bool isNew = true)
         {
             if (DrawRefresh && isNew)
             {
-                Graphics g = Graphics.FromImage(bitmap);
-                g.DrawRectangle(pen, 0, 0, 7, 7);
-                g.Dispose();
+                bitmap.DrawRectangle(pen, 0, 0, 7, 7);
             }
             return bitmap;
         }
@@ -156,7 +155,7 @@ namespace NES
         private static BitmapWithInfo CreateNewTile(int startAdress, NES_PPU_Color color, ArrayList PatternTable)
         {
             byte[,] pattern = new byte[8, 8];
-            Bitmap bitmap = new Bitmap(8, 8);
+            Picture bitmap = new Picture(8, 8);
             List<byte> cID = new List<byte>();
             Parallel.For(0, 8, j =>
             {
@@ -177,7 +176,6 @@ namespace NES
                     {
                         bitmap.SetPixel(7 - j, i, color.color[pattern[7 - j, i]]);
                     }
-
                 });
             });
             ((Address)PatternTable[startAdress]).setAsOld();
@@ -219,23 +217,21 @@ namespace NES
         /// </summary>
         /// <param name="PN">Palette Nummer</param>
         /// <returns></returns>
-        public static Bitmap PatternTable(int PN)
+        public static Picture PatternTable(int PN)
         {
-            Bitmap bitmap = new Bitmap(TempPatternTable);
+            Picture bitmap = new Picture(TempPatternTable);
             if (NES_PPU_Register.PPUCTRL.V)
             {
-                Graphics g = Graphics.FromImage(bitmap);
                 int k = 0;
                 for (ushort i = 0; i < 16; i++)
                 {
                     for (ushort j = 0; j < 16; j++)
                     {
                         int t = (k++) * 16;
-                        g.DrawImage(Tile_StartAdress((ushort)(t), PN), j * 8, i * 8);
-                        g.DrawImage(Tile_StartAdress((ushort)(t + 4096), PN), (j + 16) * 8, i * 8);
+                        bitmap.DrawImage(Tile_StartAdress((ushort)(t), PN), j * 8, i * 8);
+                        bitmap.DrawImage(Tile_StartAdress((ushort)(t + 4096), PN), (j + 16) * 8, i * 8);
                     }
                 }
-                g.Dispose();
                 TempPatternTable = bitmap;
             }
             return bitmap;

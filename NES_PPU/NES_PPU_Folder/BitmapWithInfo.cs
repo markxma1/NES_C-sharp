@@ -1,32 +1,33 @@
-﻿using System.Drawing;
+﻿using NES_PPU;
+using System.Drawing;
 
 namespace NES
 {
     class BitmapWithInfo
     {
-        Bitmap bitmap;
+        Picture bitmap;
         byte[,] pattern;
         public bool isNew;
         public byte[] cID;
 
-        public BitmapWithInfo(Bitmap bitmap, byte[,] pattern, byte[] cID, bool isNew = true)
+        public BitmapWithInfo(Picture bitmap, byte[,] pattern, byte[] cID, bool isNew = true)
         {
-            this.bitmap = new Bitmap(bitmap);
+            this.bitmap = new Picture(bitmap);
             this.pattern = pattern;
             this.isNew = isNew;
             this.cID = cID;
         }
 
-        public Bitmap Image
+        public Picture Image
         {
             get
             {
-                return new Bitmap(bitmap);
+                return new Picture(bitmap);
             }
 
             set
             {
-                bitmap = new Bitmap(value);
+                bitmap = new Picture(value);
             }
         }
 
@@ -36,7 +37,6 @@ namespace NES
             {
                 return pattern;
             }
-
             set
             {
                 pattern = value;
