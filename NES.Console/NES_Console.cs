@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using NES_PPU;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NES
 {
@@ -50,22 +46,22 @@ namespace NES
 
         public static Bitmap getPaletteTable()
         {
-            return NES_PPU.PaletteTable();
+            return NES_PPU.PaletteTable().Image;
         }
 
         public static Bitmap getPatternTable(int PN)
         {
-            return NES_PPU.PatternTable(PN);
+            return NES_PPU.PatternTable(PN).Image;
         }
 
         public static Bitmap getNameTabele(bool display = true)
         {
-            return NES_PPU.NameTabele(display);
+            return NES_PPU.NameTabele(display).Image;
         }
 
         public static Bitmap getDisplay(bool display = true)
         {
-            return NES_PPU.Display();
+            return NES_PPU.Display().Image;
         }
 
         public static Color getUniversalBackgroundColor()
