@@ -111,7 +111,7 @@ namespace NES_PPU
                 for (int j = y; j < y + bitmap.height; j++)
                 {
                     if (i >= 0 && j >= 0 && i < width && j < height)
-                        add(img[i, j], bitmap.getPixel(i - x, j - y));
+                        img[i, j] = add(img[i, j], bitmap.getPixel(i - x, j - y));
                 }
             }
         }
@@ -127,30 +127,30 @@ namespace NES_PPU
             int A = (c1.A + c2.A);
             if (A == 0)
                 return 255;
-            if (c1.B == 0)
-                switch (color)
-                {
-                    case "R":
-                        return c1.R;
-                    case "G":
-                        return c1.G;
-                    case "B":
-                        return c1.B;
-                    default:
-                        return 255;
-                }
-            if (c1.B == 255)
-                switch (color)
-                {
-                    case "R":
-                        return c2.R;
-                    case "G":
-                        return c2.G;
-                    case "B":
-                        return c2.B;
-                    default:
-                        return 255;
-                }
+            //if (c2.A == 0)
+            //    switch (color)
+            //    {
+            //        case "R":
+            //            return c1.R;
+            //        case "G":
+            //            return c1.G;
+            //        case "B":
+            //            return c1.B;
+            //        default:
+            //            return 255;
+            //    }
+            //if (c2.A == 255)
+            //    switch (color)
+            //    {
+            //        case "R":
+            //            return c2.R;
+            //        case "G":
+            //            return c2.G;
+            //        case "B":
+            //            return c2.B;
+            //        default:
+            //            return 255;
+            //    }
             switch (color)
             {
                 case "R":
@@ -158,7 +158,7 @@ namespace NES_PPU
                 case "G":
                     return (c1.G * c1.A + c2.G * c2.A) / A;
                 case "B":
-                    return (c1.B * c1.B + c2.B * c2.A) / A;
+                    return (c1.B * c1.A + c2.B * c2.A) / A;
                 default:
                     return 255;
             }
@@ -194,7 +194,7 @@ namespace NES_PPU
                 for (int j = destRec.Y; j < height; j++)
                 {
                     if (i >= 0 && j >= 0 && i < width && j < height)
-                        if (i - destRec.X >= 0 && j - destRec.Y >= 0 && i - destRec.X < W2 && j - srcRec.Y < H2)
+                       // if (i - destRec.X >= 0 && j - destRec.Y >= 0 && i - destRec.X < W2 && j - srcRec.Y < H2)
                             img[i, j] = temp2.getPixel(i - destRec.X, j - destRec.Y);
                 }
             }

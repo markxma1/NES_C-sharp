@@ -39,8 +39,11 @@ namespace NES
                 Interrupt.NMI = true;
 
                 Display.DrawImage(InsetObect(false), 0, 0);
+                var temp = Display.Image;
                 DrawBackground(Display, NameTabele());
-                Display.DrawImage(InsetObect(true), 0, 0);
+                temp = Display.Image;
+                //Display.DrawImage(InsetObect(true), 0, 0);
+                //temp = Display.Image;
 
 
                 NES_PPU_Palette.setAllPaletesAsOld();
@@ -55,14 +58,14 @@ namespace NES
         {
             Display.DrawImage(NameTabeleT, new Rectangle(0, 0, Display.Width, Display.Height), new Rectangle(XScroll, YScroll, 257, 241));
 
-                if (XScroll > 240)
-                    Display.DrawImage(NameTabeleT, new Rectangle(0, 0, Display.Width, Display.Height), new Rectangle(XScroll - (256 * 2), YScroll, 257, 241));
-                if (YScroll > 240)
-                    Display.DrawImage(NameTabeleT, new Rectangle(0, 0, Display.Width, Display.Height), new Rectangle(XScroll, YScroll - (240 * 2), 257, 241));
-                if (XScroll < 0)
-                    Display.DrawImage(NameTabeleT, new Rectangle(0, 0, Display.Width, Display.Height), new Rectangle((256 * 2) - XScroll, YScroll, 257, 241));
-                if (YScroll < 0)
-                    Display.DrawImage(NameTabeleT, new Rectangle(0, 0, Display.Width, Display.Height), new Rectangle(XScroll, (240 * 2) - YScroll, 257, 241));
+            if (XScroll > 240)
+                Display.DrawImage(NameTabeleT, new Rectangle(0, 0, Display.Width, Display.Height), new Rectangle(XScroll - (256 * 2), YScroll, 257, 241));
+            if (YScroll > 240)
+                Display.DrawImage(NameTabeleT, new Rectangle(0, 0, Display.Width, Display.Height), new Rectangle(XScroll, YScroll - (240 * 2), 257, 241));
+            if (XScroll < 0)
+                Display.DrawImage(NameTabeleT, new Rectangle(0, 0, Display.Width, Display.Height), new Rectangle((256 * 2) - XScroll, YScroll, 257, 241));
+            if (YScroll < 0)
+                Display.DrawImage(NameTabeleT, new Rectangle(0, 0, Display.Width, Display.Height), new Rectangle(XScroll, (240 * 2) - YScroll, 257, 241));
         }
 
         private static Picture InsetObect(bool Priory)
