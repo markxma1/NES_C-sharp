@@ -39,11 +39,8 @@ namespace NES
                 Interrupt.NMI = true;
 
                 Display.DrawImage(InsetObect(false), 0, 0);
-                var temp = Display.Image;
                 DrawBackground(Display, NameTabele());
-                temp = Display.Image;
-                //Display.DrawImage(InsetObect(true), 0, 0);
-                //temp = Display.Image;
+                Display.DrawImage(InsetObect(true), 0, 0);
 
 
                 NES_PPU_Palette.setAllPaletesAsOld();

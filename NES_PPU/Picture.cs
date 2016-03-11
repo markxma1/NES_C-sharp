@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NES_PPU
 {
@@ -16,60 +11,37 @@ namespace NES_PPU
         private int width { get { return size.Width; } set { size.Width = value; } }
         private int height { get { return size.Height; } set { size.Height = value; } }
 
-        public Picture(int width, int height)
+        #region Get/Set
+
+        public int Width { get { return width; } }
+        public int Height { get { return height; } }
+
+        public Color GetPixel(int x, int y)
         {
-            size.Width = width;
-            size.Height = height;
-            img = new Color[width, height];
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < height; y++)
-                {
-                    img[x, y] = new Color();
-                }
-            }
+            if (x >= 0 && y >= 0 && x < width && y < height)
+                return img[x, y];
+            return Color.Transparent;
         }
 
-        public Picture(Picture image)
+        public void SetPixel(Color color, int x, int y)
         {
-            width = image.width;
-            height = image.height;
-            img = new Color[image.width, image.height];
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < height; y++)
-                {
-                    img[x, y] = (Color)image.img[x, y];
-                }
-            }
+            if (x >= 0 && y >= 0 && x < width && y < height)
+                img[x, y] = color;
         }
 
-        public Picture(Bitmap image)
+        public void SetPixel(int x, int y, Color color)
         {
-            size.Width = image.Width;
-            size.Height = image.Height;
-            img = new Color[width, height];
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < height; y++)
-                {
-                    img[x, y] = image.GetPixel(x, y);
-                }
-            }
+            SetPixel(color, x, y);
         }
 
-        public Picture(Color[,] image, int width, int height)
+        public void DrawPixel(Color color, int x, int y)
         {
-            this.width = width;
-            this.height = height;
-            img = new Color[width, height];
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < height; y++)
-                {
-                    img[x, y] = image[x, y];
-                }
-            }
+            SetPixel(add(GetPixel(x, y), color), x, y);
+        }
+
+        private Color[,] getMatrix()
+        {
+            return img;
         }
 
         public Size Size { get { return size; } }
@@ -83,12 +55,67 @@ namespace NES_PPU
                 {
                     for (int y = 0; y < height; y++)
                     {
-                        temp.SetPixel(x, y, img[x, y]);
+                        temp.SetPixel(x, y, GetPixel(x, y));
                     }
                 }
                 return temp;
             }
         }
+        #endregion
+
+        #region Constructor
+        public Picture(int width, int height)
+        {
+            size.Width = width;
+            size.Height = height;
+            img = new Color[width, height];
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    SetPixel(new Color(), x, y);
+                }
+            }
+        }
+
+        public Picture(Picture image)
+        {
+            width = image.width;
+            height = image.height;
+            img = new Color[image.width, image.height];
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    SetPixel(image.GetPixel(x, y), x, y);
+                }
+            }
+        }
+
+        public Picture(Bitmap image)
+        {
+            size.Width = image.Width;
+            size.Height = image.Height;
+            img = new Color[width, height];
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    SetPixel(image.GetPixel(x, y), x, y);
+                }
+            }
+        }
+
+        public Picture(Color[,] image, int width, int height)
+        {
+            this.width = width;
+            this.height = height;
+            img = (Color[,])image.Clone();
+        }
+
+        #endregion
+
+        #region Draw
 
         internal void FillRectangle(Color color, int x, int y, int width, int height)
         {
@@ -96,13 +123,10 @@ namespace NES_PPU
             {
                 for (int j = y; j < height; j++)
                 {
-                    img[i, j] = color;
+                    SetPixel(color, i, j);
                 }
             }
         }
-
-        public int Width { get { return width; } }
-        public int Height { get { return height; } }
 
         public void DrawImage(Picture bitmap, int x, int y)
         {
@@ -110,68 +134,23 @@ namespace NES_PPU
             {
                 for (int j = y; j < y + bitmap.height; j++)
                 {
-                    if (i >= 0 && j >= 0 && i < width && j < height)
-                        img[i, j] = add(img[i, j], bitmap.getPixel(i - x, j - y));
+                    DrawPixel(bitmap.GetPixel(i - x, j - y), i, j);
                 }
             }
         }
 
-        private Color add(Color c1, Color c2)
+        internal void DrawRectangle(Color color, int x, int y, int width, int height)
         {
-            Color temp = Color.FromArgb(Math.Max(c1.A, c2.A), AvarageColor(c1, c2, "R"), AvarageColor(c1, c2, "G"), AvarageColor(c1, c2, "B"));
-            return temp;
-        }
-
-        private static int AvarageColor(Color c1, Color c2, string color)
-        {
-            int A = (c1.A + c2.A);
-            if (A == 0)
-                return 255;
-            //if (c2.A == 0)
-            //    switch (color)
-            //    {
-            //        case "R":
-            //            return c1.R;
-            //        case "G":
-            //            return c1.G;
-            //        case "B":
-            //            return c1.B;
-            //        default:
-            //            return 255;
-            //    }
-            //if (c2.A == 255)
-            //    switch (color)
-            //    {
-            //        case "R":
-            //            return c2.R;
-            //        case "G":
-            //            return c2.G;
-            //        case "B":
-            //            return c2.B;
-            //        default:
-            //            return 255;
-            //    }
-            switch (color)
+            for (int i = x; i < x + width; i++)
             {
-                case "R":
-                    return (c1.R * c1.A + c2.R * c2.A) / A;
-                case "G":
-                    return (c1.G * c1.A + c2.G * c2.A) / A;
-                case "B":
-                    return (c1.B * c1.A + c2.B * c2.A) / A;
-                default:
-                    return 255;
+                for (int j = y; j < y + height; j++)
+                {
+                    if (j == y || i == x || j == y + height - 1 || i == x + width - 1)
+                        SetPixel(color, i, j);
+                }
             }
-
         }
 
-        private Color getPixel(int x, int y)
-        {
-            if (x >= 0 && y >= 0 && x < width && y < height)
-                return img[x, y];
-            return Color.Transparent;
-        }
-        //TODO Cut image
         public void DrawImage(Picture bitmap, Rectangle destRec, Rectangle srcRec)
         {
             Picture temp1 = new Picture(srcRec.Width, srcRec.Height);
@@ -180,8 +159,7 @@ namespace NES_PPU
             {
                 for (int j = srcRec.Y; j < srcRec.Height + srcRec.Y; j++)
                 {
-                    if (i - srcRec.X >= 0 && j - srcRec.Y >= 0 && i - srcRec.X < srcRec.Width && j - srcRec.Y < srcRec.Height)
-                        temp1.SetPixel(i - srcRec.X, j - srcRec.Y, bitmap.getPixel(i, j));
+                    temp1.SetPixel(bitmap.GetPixel(i, j), i - srcRec.X, j - srcRec.Y);
                 }
             }
 
@@ -193,19 +171,12 @@ namespace NES_PPU
             {
                 for (int j = destRec.Y; j < height; j++)
                 {
-                    if (i >= 0 && j >= 0 && i < width && j < height)
-                       // if (i - destRec.X >= 0 && j - destRec.Y >= 0 && i - destRec.X < W2 && j - srcRec.Y < H2)
-                            img[i, j] = temp2.getPixel(i - destRec.X, j - destRec.Y);
+                    DrawPixel(temp2.GetPixel(i - destRec.X, j - destRec.Y), i, j);
                 }
             }
         }
 
-        private Color[,] getMatrix()
-        {
-            return img;
-        }
-
-        T[,] ResizeArray<T>(T[,] original, int rows, int cols)
+        private T[,] ResizeArray<T>(T[,] original, int rows, int cols)
         {
             var newArray = new T[rows, cols];
             int minRows = Math.Min(rows, original.GetLength(0));
@@ -216,6 +187,47 @@ namespace NES_PPU
             return newArray;
         }
 
+        private Color add(Color c1, Color c2)
+        {
+            Color temp = Color.FromArgb(Math.Max(c1.A, c2.A), AvarageColor(c1, c2, "R"), AvarageColor(c1, c2, "G"), AvarageColor(c1, c2, "B"));
+            return temp;
+        }
+
+        private static int AvarageColor(Color c1, Color c2, string color)
+        {
+            if ((c1.A + c2.A) == 0)
+                return 255;
+
+            int A = Range(c1.A - c2.A);
+            int B = (A + c2.A);
+            switch (color)
+            {
+                case "R":
+                    return (c1.R * A + c2.R * c2.A) / B;
+                case "G":
+                    return (c1.G * A + c2.G * c2.A) / B;
+                case "B":
+                    return (c1.B * A + c2.B * c2.A) / B;
+                default:
+                    return 255;
+            }
+
+        }
+
+        /// <summary>
+        /// set value range. min 0 max 255
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        private static int Range(int value)
+        {
+            if (value < 0) value = 0;
+            if (value > 255) value = 255;
+            return value;
+        }
+        #endregion
+
+        #region RotateFlip
         internal void RotateFlip(RotateFlipType rotateNoneFlipX)
         {
             switch (rotateNoneFlipX)
@@ -261,7 +273,7 @@ namespace NES_PPU
             {
                 for (int y = 0; y < height; y++)
                 {
-                    img[x, y] = temp[y, x];
+                    SetPixel(temp[y, x], x, y);
                 }
             }
         }
@@ -274,7 +286,7 @@ namespace NES_PPU
             {
                 for (int y = 0; y < height; y++)
                 {
-                    img[x, y] = temp[x, height - y];
+                    SetPixel(temp[x, height - y], x, y);
                 }
             }
         }
@@ -287,29 +299,12 @@ namespace NES_PPU
             {
                 for (int y = 0; y < height; y++)
                 {
-                    img[x, y] = temp[width - x, y];
+                    SetPixel(temp[width - x, y], x, y);
                 }
             }
-
             return temp;
         }
+        #endregion
 
-        public void SetPixel(int x, int y, Color color)
-        {
-            img[x, y] = color;
-        }
-
-        internal void DrawRectangle(Color color, int x, int y, int width, int height)
-        {
-            for (int i = x; i < width; i++)
-            {
-                for (int j = y; j < height; j++)
-                {
-                    if (i > 0 && j > 0 && i < width && j < height)
-                        if (j == y || i == x || j == height || x == width)
-                            img[i, j] = color;
-                }
-            }
-        }
     }
 }
