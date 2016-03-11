@@ -48,7 +48,7 @@ namespace NES
                     {
                         for (int h = 0; h < 4; h++)
                         {
-                            bitmap.DrawRectangle(Color.Black, o * 20, i * 20, ++o * 20, (i + 1) * 20);
+                            bitmap.DrawInfoRectangle(Color.Black, o * 20, i * 20, ++o * 20, (i + 1) * 20);
                         }
                     }
                 }

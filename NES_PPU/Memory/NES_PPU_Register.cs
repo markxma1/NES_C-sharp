@@ -139,7 +139,8 @@
         /// line); cleared after reading $2002 and at dot 1 of the
         /// pre-render line.
         /// </summary>
-        public bool V { get { return (adress.value & 0x80) > 0; } set { adress.value = (byte)(adress.value & ~0x80); if (value) adress.value = (byte)(adress.value | 0x80); } }
+        public bool V { get { return (adress.value & 0x80) > 0; }
+            set { adress.value = (byte)(adress.value & ~0x80); if (value) adress.value = (byte)(adress.value | 0x80); } }
 
         public AddressSetup adress;
     }
