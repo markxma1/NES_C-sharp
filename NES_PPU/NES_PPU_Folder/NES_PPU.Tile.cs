@@ -147,7 +147,7 @@ namespace NES
         {
             if (DrawRefresh && isNew)
             {
-                bitmap.DrawRectangle(pen, 0, 0, 7, 7);
+                bitmap.DrawInfoRectangle(pen, 0, 0, 7, 7);
             }
             return bitmap;
         }

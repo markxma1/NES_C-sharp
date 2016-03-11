@@ -1,17 +1,81 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 
 namespace NES_PPU
 {
     public class Picture
     {
-        // private Bitmap image;
+        #region Init
+        class Mirror
+        {
+            public bool HaveMirror = false;
+            public int x;
+            public int y;
+        }
+
+        private Mirror mirror = new Mirror();
         private Color[,] img;
+        private Color[,] infoLayer;
         private Size size;
         private int width { get { return size.Width; } set { size.Width = value; } }
         private int height { get { return size.Height; } set { size.Height = value; } }
+        #endregion
+
+        #region Constructor
+
+        public Picture(int width, int height)
+        {
+            size.Width = width;
+            size.Height = height;
+            img = new Color[width, height];
+            infoLayer = new Color[Size.Width, Size.Height];
+        }
+
+        public Picture(Picture image)
+        {
+            width = image.width;
+            height = image.height;
+            img = /*(Color[,])image.img.Clone();//*/new Color[image.width, image.height];
+            infoLayer = new Color[width, height];
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    SetPixel(image.GetPixel(x, y), x, y);
+                }
+            }
+        }
+
+        public Picture(Bitmap image)
+        {
+            width = image.Width;
+            height = image.Height;
+            img = new Color[width, height];
+            infoLayer = new Color[width, height];
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    SetPixel(image.GetPixel(x, y), x, y);
+                }
+            }
+        }
+
+        public Picture(Color[,] image, int width, int height)
+        {
+            this.width = width;
+            this.height = height;
+            img = (Color[,])image.Clone();
+            infoLayer = new Color[width, height];
+        }
+
+        #endregion
 
         #region Get/Set
+
+        public bool HaveMirror { get { return mirror.HaveMirror; } set { mirror.HaveMirror = value; } }
+
 
         public int Width { get { return width; } }
         public int Height { get { return height; } }
@@ -19,8 +83,28 @@ namespace NES_PPU
         public Color GetPixel(int x, int y)
         {
             if (x >= 0 && y >= 0 && x < width && y < height)
+            {
+                Color info = getInfLayerPixel(x, y);
+                if (info != new Color())
+                    return info;
+
+                if (HaveMirror && (((x >= mirror.x) && (mirror.x != 0)) || ((y >= mirror.y) && (mirror.y != 0))))
+                    return GetPixel(x - mirror.x, y - mirror.y);
+
                 return img[x, y];
+            }
             return Color.Transparent;
+        }
+
+        private Color getInfLayerPixel(int x, int y)
+        {
+            return infoLayer[x, y];
+        }
+
+        public void SetInfLayerPixel(Color color, int x, int y)
+        {
+            if (x >= 0 && y >= 0 && x < width && y < height)
+                infoLayer[x, y] = color;
         }
 
         public void SetPixel(Color color, int x, int y)
@@ -63,58 +147,6 @@ namespace NES_PPU
         }
         #endregion
 
-        #region Constructor
-        public Picture(int width, int height)
-        {
-            size.Width = width;
-            size.Height = height;
-            img = new Color[width, height];
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < height; y++)
-                {
-                    SetPixel(new Color(), x, y);
-                }
-            }
-        }
-
-        public Picture(Picture image)
-        {
-            width = image.width;
-            height = image.height;
-            img = new Color[image.width, image.height];
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < height; y++)
-                {
-                    SetPixel(image.GetPixel(x, y), x, y);
-                }
-            }
-        }
-
-        public Picture(Bitmap image)
-        {
-            size.Width = image.Width;
-            size.Height = image.Height;
-            img = new Color[width, height];
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < height; y++)
-                {
-                    SetPixel(image.GetPixel(x, y), x, y);
-                }
-            }
-        }
-
-        public Picture(Color[,] image, int width, int height)
-        {
-            this.width = width;
-            this.height = height;
-            img = (Color[,])image.Clone();
-        }
-
-        #endregion
-
         #region Draw
 
         internal void FillRectangle(Color color, int x, int y, int width, int height)
@@ -139,6 +171,24 @@ namespace NES_PPU
             }
         }
 
+        public void DrawNewImage(Picture bitmap, int x, int y)
+        {
+            for (int i = x; i < x + bitmap.width; i++)
+            {
+                for (int j = y; j < y + bitmap.height; j++)
+                {
+                    SetPixel(bitmap.GetPixel(i - x, j - y), i, j);
+                }
+            }
+        }
+
+        public void DrawMirror(int x, int y)
+        {
+            mirror.x = x;
+            mirror.y = y;
+            HaveMirror = true;
+        }
+
         internal void DrawRectangle(Color color, int x, int y, int width, int height)
         {
             for (int i = x; i < x + width; i++)
@@ -151,7 +201,27 @@ namespace NES_PPU
             }
         }
 
+        internal void DrawInfoRectangle(Color color, int x, int y, int width, int height)
+        {
+            for (int i = x; i < x + width; i++)
+            {
+                for (int j = y; j < y + height; j++)
+                {
+                    if (j == y || i == x || j == y + height - 1 || i == x + width - 1)
+                        SetInfLayerPixel(color, i, j);
+                }
+            }
+        }
+
         public void DrawImage(Picture bitmap, Rectangle destRec, Rectangle srcRec)
+        {
+            if (srcRec.Width == destRec.Width || srcRec.Height == destRec.Height)
+                SameSize(bitmap, destRec, srcRec);
+            else
+                NotSameSize(bitmap, destRec, srcRec);
+        }
+
+        private void NotSameSize(Picture bitmap, Rectangle destRec, Rectangle srcRec)
         {
             Picture temp1 = new Picture(srcRec.Width, srcRec.Height);
 
@@ -165,13 +235,24 @@ namespace NES_PPU
 
             int W2 = destRec.Width - destRec.X;
             int H2 = destRec.Height - destRec.Y;
-            Picture temp2 = new Picture(ResizeArray<Color>(temp1.getMatrix(), W2, H2), W2, H2);
+            Picture temp2 = new Picture(ResizeArray(temp1.getMatrix(), W2, H2), W2, H2);
 
             for (int i = destRec.X; i < width; i++)
             {
                 for (int j = destRec.Y; j < height; j++)
                 {
                     DrawPixel(temp2.GetPixel(i - destRec.X, j - destRec.Y), i, j);
+                }
+            }
+        }
+
+        private void SameSize(Picture bitmap, Rectangle destRec, Rectangle srcRec)
+        {
+            for (int i = srcRec.X; i < srcRec.Width + srcRec.X; i++)
+            {
+                for (int j = srcRec.Y; j < srcRec.Height + srcRec.Y; j++)
+                {
+                    DrawPixel(bitmap.GetPixel(i, j), i - srcRec.X + destRec.X, j - srcRec.Y + destRec.Y);
                 }
             }
         }

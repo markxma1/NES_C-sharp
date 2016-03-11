@@ -1,6 +1,7 @@
 ﻿using NES_PPU;
 using System;
 using System.Collections;
+using System.Diagnostics;
 using System.Drawing;
 using System.Threading.Tasks;
 
@@ -12,13 +13,19 @@ namespace NES
 
         public static Picture NameTabele(bool display = true)
         {
-            Picture bitmap = new Picture(TempNameTable);
+            TimeSpan t1 = new TimeSpan(0);
+            TimeSpan t2 = new TimeSpan(0);
+            TimeSpan t3 = new TimeSpan(0);
+            TimeSpan t4 = new TimeSpan(0);
 
             if (display)
                 if (NES_PPU_Register.PPUCTRL.V)
                 {
-                    bitmap = new Picture(TempNameTable.Size.Width, TempNameTable.Size.Height);
+                    Stopwatch t = new Stopwatch();
+                    t.Start();
 
+                    Picture bitmap = new Picture(TempNameTable.Size.Width, TempNameTable.Size.Height);
+                    t1 = t.Elapsed;
                     Parallel.For(0, 4, i =>
                     {
                         try
@@ -46,53 +53,60 @@ namespace NES
                         { throw; }
                     });
 
+                    t2 = t.Elapsed;
                     DrawMirror(bitmap);
                     DrawDisplayFrame(bitmap);
-
-                    bitmap.DrawRectangle(Color.Green, 0, 0, 64 * 8 - 1, 60 * 8 - 1);
+                    t3 = t.Elapsed;
+                    bitmap.DrawInfoRectangle(Color.Green, 0, 0, 64 * 8 - 1, 60 * 8 - 1);
                     TempNameTable = bitmap;
+                    t.Stop();
+                    t4 = t.Elapsed;
+                    t4 -= t3;
+                    t3 -= t2;
+                    t2 -= t1;
                 }
-            return bitmap;
+            return TempNameTable;
         }
 
         private static void DrawDisplayFrame(Picture bitmap)
         {
-            bitmap.DrawRectangle(Color.Red, XScroll, YScroll, 256, 240);
+            bitmap.DrawInfoRectangle(Color.Red, XScroll, YScroll, 256, 240);
 
             if (XScroll > 240)
-                bitmap.DrawRectangle(Color.Red, XScroll - (256 * 2), YScroll, 256, 240);
+                bitmap.DrawInfoRectangle(Color.Red, XScroll - (256 * 2), YScroll, 256, 240);
             if (YScroll > 240)
-                bitmap.DrawRectangle(Color.Red, XScroll, YScroll - (240 * 2), 256, 240);
+                bitmap.DrawInfoRectangle(Color.Red, XScroll, YScroll - (240 * 2), 256, 240);
             if (XScroll < 0)
-                bitmap.DrawRectangle(Color.Red, (256 * 2) - XScroll, YScroll, 256, 240);
+                bitmap.DrawInfoRectangle(Color.Red, (256 * 2) - XScroll, YScroll, 256, 240);
             if (YScroll < 0)
-                bitmap.DrawRectangle(Color.Red, XScroll, (240 * 2) - YScroll, 256, 240);
+                bitmap.DrawInfoRectangle(Color.Red, XScroll, (240 * 2) - YScroll, 256, 240);
         }
 
         private static void DrawMirror(Picture bitmap)
         {
             if (INES.arrangement == INES.Mirror.vertical)
-                bitmap.DrawImage(bitmap, TempNameTable.Size.Width / 2, 0);
+                bitmap.DrawMirror(TempNameTable.Size.Width / 2, 0);
             if (INES.arrangement == INES.Mirror.horisontal)
-                bitmap.DrawImage(bitmap, 0, TempNameTable.Size.Height / 2);
+                bitmap.DrawMirror(0, TempNameTable.Size.Height / 2);
         }
 
         private static void DrowOneNameTable(Picture image, ArrayList Attribute, int Nr, ushort X, ushort Y)
         {
+
             Parallel.For(X, X + 30 - 1, i =>
+            {
+                for (int j = Y; j < Y + 32; j++)
                 {
-                    for (int j = Y; j < Y + 32; j++)
+                    int k = K(X, Y, i, j);
+                    int c = (int)Attribute[k];
+                    int t = ((Address)NES_PPU_Memory.NameTableN[Nr][k]).Value;
+                    Picture temp = Tile((ushort)(t), c);
+                    lock (image)
                     {
-                        int k = K(X, Y, i, j);
-                        int c = (int)Attribute[k];
-                        int t = ((Address)NES_PPU_Memory.NameTableN[Nr][k]).Value;
-                        Picture temp = Tile((ushort)(t), c);
-                        lock (image)
-                        {
-                            image.DrawImage(temp, j * 8, i * 8);
-                        }
+                        image.DrawNewImage(temp, j * 8, i * 8);
                     }
-                });
+                }
+            });
         }
 
         private static int K(ushort X, ushort Y, int i, int j)
