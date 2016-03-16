@@ -54,6 +54,11 @@ namespace NES
         public NES_Memory()
         {
             InitMemory();
+            ResetBlocks();
+        }
+
+        public static void ResetBlocks()
+        {
             InitZeroPage();
             InitStack();
             InitRAM();
