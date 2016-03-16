@@ -49,7 +49,7 @@ namespace NES
                                     break;
                             }
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         { throw; }
                     });
 
@@ -92,19 +92,28 @@ namespace NES
 
         private static void DrowOneNameTable(Picture image, ArrayList Attribute, int Nr, ushort X, ushort Y)
         {
-
             Parallel.For(X, X + 30 - 1, i =>
             {
                 for (int j = Y; j < Y + 32; j++)
                 {
+                    TimeSpan t1 = new TimeSpan(0);
+                    TimeSpan t2 = new TimeSpan(0);
+                    TimeSpan t3 = new TimeSpan(0);
+                    Stopwatch ti = new Stopwatch();
+                    ti.Start();
                     int k = K(X, Y, i, j);
                     int c = (int)Attribute[k];
                     int t = ((Address)NES_PPU_Memory.NameTableN[Nr][k]).Value;
+                    t1 = ti.Elapsed;
                     Picture temp = Tile((ushort)(t), c);
+                    t2 = ti.Elapsed;
                     lock (image)
                     {
                         image.DrawNewImage(temp, j * 8, i * 8);
                     }
+                    t3 = ti.Elapsed;
+                    t3 -= t2;
+                    t2 -= t1;
                 }
             });
         }

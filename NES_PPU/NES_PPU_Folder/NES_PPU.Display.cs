@@ -1,4 +1,5 @@
 ﻿using NES_PPU;
+using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
@@ -32,10 +33,10 @@ namespace NES
 
         public static Picture Display()
         {
-            System.TimeSpan t1 = new System.TimeSpan(0);
-            System.TimeSpan t2 = new System.TimeSpan(0);
-            System.TimeSpan t3 = new System.TimeSpan(0);
-            System.TimeSpan t4 = new System.TimeSpan(0);
+            TimeSpan t1 = new TimeSpan(0);
+            TimeSpan t2 = new TimeSpan(0);
+            TimeSpan t3 = new TimeSpan(0);
+            TimeSpan t4 = new TimeSpan(0);
 
             if (NES_PPU_Register.PPUCTRL.V)
             {
@@ -71,11 +72,11 @@ namespace NES
 
         private static void DrawBackground(Picture Display, Picture NameTabeleT)
         {
-            System.TimeSpan t1 = new System.TimeSpan(0);
-            System.TimeSpan t2 = new System.TimeSpan(0);
-            System.TimeSpan t3 = new System.TimeSpan(0);
-            System.TimeSpan t4 = new System.TimeSpan(0);
-            System.TimeSpan t5 = new System.TimeSpan(0);
+            TimeSpan t1 = new TimeSpan(0);
+            TimeSpan t2 = new TimeSpan(0);
+            TimeSpan t3 = new TimeSpan(0);
+            TimeSpan t4 = new TimeSpan(0);
+            TimeSpan t5 = new TimeSpan(0);
 
             Stopwatch t = new Stopwatch();
             t.Start();
@@ -106,23 +107,32 @@ namespace NES
 
             for (int i = 0; i < NES_PPU_OAM.SpriteTile.Count; i++)
             {
-                if (Priory == ((NES_PPU_OAM.Byte2)NES_PPU_OAM.SpriteAttribute[i]).Priority)
+                try
                 {
+                    NES_PPU_OAM.Byte1 SpriteTile = (NES_PPU_OAM.Byte1)NES_PPU_OAM.SpriteTile[i];
+                    NES_PPU_OAM.Byte2 Attribute = (NES_PPU_OAM.Byte2)NES_PPU_OAM.SpriteAttribute[i];
+                    Address SpriteXc = (Address)NES_PPU_OAM.SpriteXc[i];
+                    Address SpriteYc = (Address)NES_PPU_OAM.SpriteYc[i];
+                    if (Priory == Attribute.Priority)
+                    {
 
-                    Picture tile = Tile(((NES_PPU_OAM.Byte1)NES_PPU_OAM.SpriteTile[i]).Number,
-                                                     ((NES_PPU_OAM.Byte2)NES_PPU_OAM.SpriteAttribute[i]).Palette,
-                                                   (((NES_PPU_OAM.Byte1)NES_PPU_OAM.SpriteTile[i]).Bank) ? (1) : (0));
+                        Picture tile = Tile(SpriteTile.Number, Attribute.Palette, (SpriteTile.Bank) ? (1) : (0));
 
-                    tile = new Picture(tile);
+                        tile = new Picture(tile);
+                        
+                        if (Attribute.FlipH)
+                            tile.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                        if (Attribute.FlipV)
+                            tile.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
-                    if (((NES_PPU_OAM.Byte2)NES_PPU_OAM.SpriteAttribute[i]).FlipH)
-                        tile.RotateFlip(RotateFlipType.RotateNoneFlipX);
-                    if (((NES_PPU_OAM.Byte2)NES_PPU_OAM.SpriteAttribute[i]).FlipV)
-                        tile.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                        // SpriteXc.Value - 8
+                        Display.DrawImage(tile, SpriteXc.Value - 1, SpriteYc.Value - 1);
 
-                    Display.DrawImage(tile, ((Address)NES_PPU_OAM.SpriteXc[i]).Value - 8,
-                                                        ((Address)NES_PPU_OAM.SpriteYc[i]).Value - 1);
+                    }
                 }
+                catch (Exception)
+                { }
+
             }
             return Display;
         }
