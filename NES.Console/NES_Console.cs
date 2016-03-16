@@ -73,5 +73,15 @@ namespace NES
         {
             NES_ROM.LoadRom(path);
         }
+
+        public static void SaveGame(string path)
+        {
+            SaveLoadMemory.SaveTo(path);
+        }
+
+        public static void LoadGame(string path)
+        {
+            SaveLoadMemory.LoadFrom(path);
+        }
     }
 }

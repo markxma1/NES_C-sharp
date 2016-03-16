@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI", "NES\GUI.csproj", "{A6A02790-95FC-4D84-9808-D82588DDE2D4}"
 EndProject
@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NES.Console", "NES.Console\
 		{15134FE7-97C8-45D6-AB84-B17B35A24928} = {15134FE7-97C8-45D6-AB84-B17B35A24928}
 		{AEF77AF8-6FB1-4E63-BA36-7EAF9637F1FB} = {AEF77AF8-6FB1-4E63-BA36-7EAF9637F1FB}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extras", "Extras\Extras.csproj", "{57AE4E69-06A7-4C57-9C0B-C96F27ADA3CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -101,6 +103,14 @@ Global
 		{D909FB1E-3E16-403A-9C41-7CB4BC9A4C88}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D909FB1E-3E16-403A-9C41-7CB4BC9A4C88}.Release|x86.ActiveCfg = Release|Any CPU
 		{D909FB1E-3E16-403A-9C41-7CB4BC9A4C88}.Release|x86.Build.0 = Release|Any CPU
+		{57AE4E69-06A7-4C57-9C0B-C96F27ADA3CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57AE4E69-06A7-4C57-9C0B-C96F27ADA3CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57AE4E69-06A7-4C57-9C0B-C96F27ADA3CA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{57AE4E69-06A7-4C57-9C0B-C96F27ADA3CA}.Debug|x86.Build.0 = Debug|Any CPU
+		{57AE4E69-06A7-4C57-9C0B-C96F27ADA3CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57AE4E69-06A7-4C57-9C0B-C96F27ADA3CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57AE4E69-06A7-4C57-9C0B-C96F27ADA3CA}.Release|x86.ActiveCfg = Release|Any CPU
+		{57AE4E69-06A7-4C57-9C0B-C96F27ADA3CA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

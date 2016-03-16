@@ -39,7 +39,6 @@ namespace NES
                                 bitmap.FillRectangle(color.color[h], o * 20, i * 20, ++o * 20, (i + 1) * 20);
                         }
                     }
-
                 }
                 for (ushort i = 0; i < 2; i++)
                 {

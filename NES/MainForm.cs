@@ -67,5 +67,15 @@ namespace NES
             else
                 drawRefresh.BackColor = Color.Red;
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            NES_Console.SaveGame("memory.xml");
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            NES_Console.LoadGame("memory.xml");
+        }
     }
 }
