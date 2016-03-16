@@ -51,11 +51,11 @@ namespace NES
                 Picture Display = new Picture(TempDisplay.Size.Width, TempDisplay.Size.Height);
 
                 t1 = t.Elapsed;
-                Display.DrawImage(InsetObect(false), 0, 0);
+                Display.DrawImage(InsertObect(true), 0, 0);
                 t2 = t.Elapsed;
                 DrawBackground(Display, NameTabele());
                 t3 = t.Elapsed;
-                Display.DrawImage(InsetObect(true), 0, 0);
+                Display.DrawImage(InsertObect(false), 0, 0);
                 t.Stop();
                 t4 = t.Elapsed;
                 t4 -= t3;
@@ -101,7 +101,12 @@ namespace NES
             t2 -= t1;
         }
 
-        private static Picture InsetObect(bool Priory)
+        /// <summary>
+        /// Inserts Tiles into Image. 
+        /// </summary>
+        /// <param name="Priority">false sets Tiles in front of Background, true in behind of background</param>
+        /// <returns></returns>
+        private static Picture InsertObect(bool Priority)
         {
             Picture Display = new Picture(TempDisplay.Width, TempDisplay.Height);
 
@@ -109,17 +114,17 @@ namespace NES
             {
                 try
                 {
-                    NES_PPU_OAM.Byte1 SpriteTile = (NES_PPU_OAM.Byte1)NES_PPU_OAM.SpriteTile[i];
                     NES_PPU_OAM.Byte2 Attribute = (NES_PPU_OAM.Byte2)NES_PPU_OAM.SpriteAttribute[i];
-                    Address SpriteXc = (Address)NES_PPU_OAM.SpriteXc[i];
-                    Address SpriteYc = (Address)NES_PPU_OAM.SpriteYc[i];
-                    if (Priory == Attribute.Priority)
+                    if (Priority == Attribute.Priority)
                     {
+                        NES_PPU_OAM.Byte1 SpriteTile = (NES_PPU_OAM.Byte1)NES_PPU_OAM.SpriteTile[i];
+                        Address SpriteXc = (Address)NES_PPU_OAM.SpriteXc[i];
+                        Address SpriteYc = (Address)NES_PPU_OAM.SpriteYc[i];
 
                         Picture tile = Tile(SpriteTile.Number, Attribute.Palette, (SpriteTile.Bank) ? (1) : (0));
 
                         tile = new Picture(tile);
-                        
+
                         if (Attribute.FlipH)
                             tile.RotateFlip(RotateFlipType.RotateNoneFlipX);
                         if (Attribute.FlipV)
