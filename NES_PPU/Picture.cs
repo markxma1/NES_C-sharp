@@ -215,10 +215,13 @@ namespace NES_PPU
 
         public void DrawImage(Picture bitmap, Rectangle destRec, Rectangle srcRec)
         {
+            Stopwatch t = new Stopwatch();
+            t.Start();
             if (srcRec.Width == destRec.Width || srcRec.Height == destRec.Height)
                 SameSize(bitmap, destRec, srcRec);
             else
                 NotSameSize(bitmap, destRec, srcRec);
+            t.Stop();
         }
 
         private void NotSameSize(Picture bitmap, Rectangle destRec, Rectangle srcRec)
@@ -248,6 +251,8 @@ namespace NES_PPU
 
         private void SameSize(Picture bitmap, Rectangle destRec, Rectangle srcRec)
         {
+            Stopwatch t = new Stopwatch();
+            t.Start();
             for (int i = srcRec.X; i < srcRec.Width + srcRec.X; i++)
             {
                 for (int j = srcRec.Y; j < srcRec.Height + srcRec.Y; j++)
@@ -255,6 +260,7 @@ namespace NES_PPU
                     DrawPixel(bitmap.GetPixel(i, j), i - srcRec.X + destRec.X, j - srcRec.Y + destRec.Y);
                 }
             }
+            t.Stop();
         }
 
         private T[,] ResizeArray<T>(T[,] original, int rows, int cols)

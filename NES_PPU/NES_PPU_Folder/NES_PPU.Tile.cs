@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Threading.Tasks;
 
@@ -36,13 +37,21 @@ namespace NES
         /// <returns></returns>
         public static Picture Tile(ushort spriteID, int pallete)
         {
+            System.TimeSpan t1 = new System.TimeSpan(0);
+            System.TimeSpan t2 = new System.TimeSpan(0);
+            Stopwatch t = new Stopwatch();
+            t.Start();
             int startAdress = spriteID * 16;
             byte[,] pattern = new byte[8, 8];
             NES_PPU_Color color = NES_PPU_Palette.getPalette(pallete);
             var PatternTable = NES_PPU_Memory.PatternTableN[NES_PPU_Register.PPUCTRL.B ? 1 : 0];
             int ID = GetTileID(startAdress, pallete, PatternTable);
-
-            return CreateTileBitmap(startAdress, color, PatternTable, ID);
+            t1 = t.Elapsed;
+            var temp = CreateTileBitmap(startAdress, color, PatternTable, ID);
+            t2 = t.Elapsed;
+            t.Stop();
+            t2 -= t1;
+            return temp;
         }
 
         /// <summary>
@@ -74,6 +83,11 @@ namespace NES
         /// <param name="PatternTable"></param>
         private static Picture CreateTileBitmap(int startAdress, NES_PPU_Color color, ArrayList PatternTable, int ID)
         {
+            Stopwatch t = new Stopwatch();
+            t.Start();
+            System.TimeSpan t1 = new System.TimeSpan(0);
+            System.TimeSpan t2 = new System.TimeSpan(0);
+
             try
             {
                 if (isNew(startAdress, PatternTable, color, ID))
@@ -83,21 +97,27 @@ namespace NES
                     if (isNewPattern(startAdress, PatternTable, ID))
                     {
                         bitmap = CreateNewTile(startAdress, color, PatternTable);
-
+                        t1 = t.Elapsed;
                         AddTileToPatternArray(ID, bitmap);
+                        t2 = t.Elapsed;
+                        t.Stop();
+                        t2 -= t1;
                         return DrawRefreshFrame(bitmap.Image, Color.Red);
                     }
                     else
                     {
                         bitmap = UpdateTile(ID, color);
-
+                        t1 = t.Elapsed;
                         AddTileToPatternArray(ID, bitmap);
-
+                        t2 = t.Elapsed;
+                        t.Stop();
+                        t2 -= t1;
                         lock (bitmap)
                         {
                             return DrawRefreshFrame(bitmap.Image, Color.Blue, bitmap.isNew);
                         }
                     }
+
                 }
                 else
                 {
@@ -107,7 +127,7 @@ namespace NES
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 throw;
