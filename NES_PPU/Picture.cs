@@ -373,7 +373,7 @@ namespace NES_PPU
             {
                 for (int y = 0; y < height; y++)
                 {
-                    SetPixel(temp[x, height - y], x, y);
+                    SetPixel(temp[x, height - y - 1], x, y);
                 }
             }
         }
@@ -386,7 +386,7 @@ namespace NES_PPU
             {
                 for (int y = 0; y < height; y++)
                 {
-                    SetPixel(temp[width - x, y], x, y);
+                    SetPixel(temp[width - x - 1, y], x, y);
                 }
             }
             return temp;
