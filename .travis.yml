@@ -1,3 +1,6 @@
 
 language: C#
 sudo: true
+before_script:
+  - psql -c "CREATE USER skateparks WITH PASSWORD 'skateparks';" -U postgres
+
