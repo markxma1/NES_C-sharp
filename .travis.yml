@@ -1,6 +1,11 @@
 
 language: C#
-sudo: true
-before_script:
-  - psql -c "CREATE USER skateparks WITH PASSWORD 'skateparks';" -U postgres
+rvm:
+ - "1.8.7"
+ - "1.9.2"
+ - "1.9.3"
+ - rbx
+#sudo: true
+#before_script:
+#  - psql -c "CREATE USER skateparks WITH PASSWORD 'skateparks';" -U postgres
 
