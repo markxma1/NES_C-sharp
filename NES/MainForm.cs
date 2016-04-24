@@ -51,7 +51,7 @@ namespace NES
         private void Load_Click(object sender, EventArgs e)
         {
             //NES_ROM.LoadRom(@"F:\roms\thwaite.nes");
-            NES_Console.LoadRom(@".\Galaga.nes");
+            NES_Console.LoadRom("./Galaga.nes");
             //NES_ROM.LoadRom(@"F:\roms\Dendy\ICE_HOCK.nes");
             //NES_ROM.LoadRom(@"F:\roms\Dendy\FCEUX\test.nes");
         }

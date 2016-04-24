@@ -25,7 +25,7 @@ namespace NES
 
         public NES_PPU_Palette()
         {
-            InitPalletesFromBMP(@".\Palletes\2C03and2C05.bmp");
+            InitPalletesFromBMP("./Palletes/2C03and2C05.bmp");
         }
 
         public static NES_PPU_Color getPalette(int Nr)
