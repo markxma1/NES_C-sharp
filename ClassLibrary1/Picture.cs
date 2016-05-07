@@ -165,7 +165,7 @@ namespace NES_PPU
 
         #region Draw
 
-        internal void FillRectangle(Color color, int x, int y, int width, int height)
+        public void FillRectangle(Color color, int x, int y, int width, int height)
         {
             for (int i = x; i < width; i++)
             {
@@ -205,7 +205,7 @@ namespace NES_PPU
             HaveMirror = true;
         }
 
-        internal void DrawRectangle(Color color, int x, int y, int width, int height)
+        public void DrawRectangle(Color color, int x, int y, int width, int height)
         {
             for (int i = x; i < x + width; i++)
             {
@@ -217,7 +217,7 @@ namespace NES_PPU
             }
         }
 
-        internal void DrawInfoRectangle(Color color, int x, int y, int width, int height)
+        public void DrawInfoRectangle(Color color, int x, int y, int width, int height)
         {
             for (int i = x; i < x + width; i++)
             {
@@ -296,24 +296,47 @@ namespace NES_PPU
             return temp;
         }
 
-        private static int AvarageColor(Color c1, Color c2, string color)
+        private static byte AvarageColor(Color c1, Color c2, string color)
         {
-            if ((c1.A + c2.A) == 0)
-                return 255;
-
-            int A = Range(c1.A - c2.A);
-            int B = (A + c2.A);
+            if (c2.A==255)
+            {
+                switch (color)
+                {
+                    case "R":
+                        return c2.R;
+                    case "G":
+                        return c2.G;
+                    case "B":
+                        return c2.B;
+                }
+            }
             switch (color)
             {
                 case "R":
-                    return (c1.R * A + c2.R * c2.A) / B;
+                    return (byte)(c2.A * c2.R + (1 - c2.A) * c1.R);
                 case "G":
-                    return (c1.G * A + c2.G * c2.A) / B;
+                    return (byte)(c2.A * c2.G + (1 - c2.A) * c1.G);
                 case "B":
-                    return (c1.B * A + c2.B * c2.A) / B;
-                default:
-                    return 255;
+                    return (byte)(c2.A * c2.B + (1 - c2.A) * c1.B);
             }
+            return 255;
+
+            //if ((c1.A + c2.A) == 0)
+            //    return 255;
+
+            //int A = Range(c1.A - c2.A);
+            //int B = (A + c2.A);
+            //switch (color)
+            //{
+            //    case "R":
+            //        return (c1.R * A + c2.R * c2.A) / B;
+            //    case "G":
+            //        return (c1.G * A + c2.G * c2.A) / B;
+            //    case "B":
+            //        return (c1.B * A + c2.B * c2.A) / B;
+            //    default:
+            //        return 255;
+            //}
 
         }
 
@@ -331,7 +354,7 @@ namespace NES_PPU
         #endregion
 
         #region RotateFlip
-        internal void RotateFlip(RotateFlipType rotateNoneFlipX)
+        public void RotateFlip(RotateFlipType rotateNoneFlipX)
         {
             switch (rotateNoneFlipX)
             {
