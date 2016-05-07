@@ -65,6 +65,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ClassLibrary1\Image.csproj">
+      <Project>{0605F024-BC93-41A4-845D-7F71FFECFA2A}</Project>
+      <Name>Image</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CPU\NES.CPU.csproj">
       <Project>{aef77af8-6fb1-4e63-ba36-7eaf9637f1fb}</Project>
       <Name>NES.CPU</Name>

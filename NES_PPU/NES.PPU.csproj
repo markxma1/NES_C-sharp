@@ -74,13 +74,16 @@
     <Compile Include="Palette\NES_PPU_Palette.cs" />
     <Compile Include="Memory\NES_PPU_Register.cs" />
     <Compile Include="Palette\NES_PPU_Palette.Load.cs" />
-    <Compile Include="Picture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Palette\Palletes\2C03and2C05.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ClassLibrary1\Image.csproj">
+      <Project>{0605f024-bc93-41a4-845d-7f71ffecfa2a}</Project>
+      <Name>Image</Name>
+    </ProjectReference>
     <ProjectReference Include="..\INES\INES.csproj">
       <Project>{24bb7f3e-8fca-4765-870c-ffeb302bff5b}</Project>
       <Name>INES</Name>
