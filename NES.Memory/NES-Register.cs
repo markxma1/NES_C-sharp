@@ -1,4 +1,5 @@
-﻿///   Copyright 2016 Xma1
+﻿using System.Runtime.CompilerServices;
+///   Copyright 2016 Xma1
 ///
 ///   This file is part of NES-C#.
 ///
@@ -17,6 +18,7 @@
 ///https://en.wikibooks.org/wiki/NES_Programming/Introduction 
 ///http://wiki.nesdev.com/w/index.php/CPU_status_flag_behavior
 ///http://wiki.nesdev.com/w/index.php/PPU_registers
+[assembly: InternalsVisibleTo("CPUTest")]
 namespace NES
 {
 

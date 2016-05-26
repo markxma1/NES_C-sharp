@@ -1,4 +1,5 @@
-﻿///   Copyright 2016 Xma1
+﻿using System.Runtime.CompilerServices;
+///   Copyright 2016 Xma1
 ///
 ///   This file is part of NES-C#.
 ///
@@ -14,9 +15,10 @@
 ///
 ///   You should have received a copy of the GNU General Public License
 ///   along with NES-C#. If not, see http://www.gnu.org/licenses/.
+[assembly: InternalsVisibleTo("CPUTest")]
 namespace NES
 {
-    class Math
+     class Math
     {
         /// <summary>
         /// Add Memory to Accumulator with Carry: ADC
