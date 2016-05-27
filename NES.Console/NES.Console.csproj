@@ -38,6 +38,8 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -47,6 +49,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -70,27 +73,27 @@
       <Name>Image</Name>
     </ProjectReference>
     <ProjectReference Include="..\CPU\NES.CPU.csproj">
-      <Project>{aef77af8-6fb1-4e63-ba36-7eaf9637f1fb}</Project>
+      <Project>{AEF77AF8-6FB1-4E63-BA36-7EAF9637F1FB}</Project>
       <Name>NES.CPU</Name>
     </ProjectReference>
     <ProjectReference Include="..\Extras\Extras.csproj">
-      <Project>{57ae4e69-06a7-4c57-9c0b-c96f27ada3ca}</Project>
+      <Project>{57AE4E69-06A7-4C57-9C0B-C96F27ADA3CA}</Project>
       <Name>Extras</Name>
     </ProjectReference>
     <ProjectReference Include="..\INES\INES.csproj">
-      <Project>{24bb7f3e-8fca-4765-870c-ffeb302bff5b}</Project>
+      <Project>{24BB7F3E-8FCA-4765-870C-FFEB302BFF5B}</Project>
       <Name>INES</Name>
     </ProjectReference>
     <ProjectReference Include="..\NES.Controller\NES.Controller.csproj">
-      <Project>{15134fe7-97c8-45d6-ab84-b17b35a24928}</Project>
+      <Project>{15134FE7-97C8-45D6-AB84-B17B35A24928}</Project>
       <Name>NES.Controller</Name>
     </ProjectReference>
     <ProjectReference Include="..\NES.Memory\NES.Memory.csproj">
-      <Project>{95dc085f-21f1-4e41-a53f-b156237aff4a}</Project>
+      <Project>{95DC085F-21F1-4E41-A53F-B156237AFF4A}</Project>
       <Name>NES.Memory</Name>
     </ProjectReference>
     <ProjectReference Include="..\NES_PPU\NES.PPU.csproj">
-      <Project>{ddb36965-853a-4928-8671-216c78344a84}</Project>
+      <Project>{DDB36965-853A-4928-8671-216C78344A84}</Project>
       <Name>NES.PPU</Name>
     </ProjectReference>
   </ItemGroup>

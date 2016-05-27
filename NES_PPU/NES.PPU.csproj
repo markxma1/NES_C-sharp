@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NES_PPU</RootNamespace>
     <AssemblyName>NES_PPU</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -42,6 +42,8 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -52,6 +54,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -86,15 +89,15 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ClassLibrary1\Image.csproj">
-      <Project>{0605f024-bc93-41a4-845d-7f71ffecfa2a}</Project>
+      <Project>{0605F024-BC93-41A4-845D-7F71FFECFA2A}</Project>
       <Name>Image</Name>
     </ProjectReference>
     <ProjectReference Include="..\INES\INES.csproj">
-      <Project>{24bb7f3e-8fca-4765-870c-ffeb302bff5b}</Project>
+      <Project>{24BB7F3E-8FCA-4765-870C-FFEB302BFF5B}</Project>
       <Name>INES</Name>
     </ProjectReference>
     <ProjectReference Include="..\NES.Memory\NES.Memory.csproj">
-      <Project>{95dc085f-21f1-4e41-a53f-b156237aff4a}</Project>
+      <Project>{95DC085F-21F1-4E41-A53F-B156237AFF4A}</Project>
       <Name>NES.Memory</Name>
     </ProjectReference>
   </ItemGroup>

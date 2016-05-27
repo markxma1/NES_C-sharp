@@ -38,6 +38,8 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -47,6 +49,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -70,7 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NES.Memory\NES.Memory.csproj">
-      <Project>{95dc085f-21f1-4e41-a53f-b156237aff4a}</Project>
+      <Project>{95DC085F-21F1-4E41-A53F-B156237AFF4A}</Project>
       <Name>NES.Memory</Name>
     </ProjectReference>
   </ItemGroup>
