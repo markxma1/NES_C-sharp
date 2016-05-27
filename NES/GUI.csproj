@@ -52,6 +52,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -62,22 +63,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form\Monitor.cs">
+    <Compile Include="Forms\CPUSpeedForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form\Monitor.Designer.cs">
+    <Compile Include="Forms\CPUSpeedForm.Designer.cs">
+      <DependentUpon>CPUSpeedForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Monitor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Monitor.Designer.cs">
       <DependentUpon>Monitor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form\PatternTable.cs">
+    <Compile Include="Forms\PatternTable.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form\PatternTable.Designer.cs">
+    <Compile Include="Forms\PatternTable.Designer.cs">
       <DependentUpon>PatternTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form\NameTable.cs">
+    <Compile Include="Forms\NameTable.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form\NameTable.Designer.cs">
+    <Compile Include="Forms\NameTable.Designer.cs">
       <DependentUpon>NameTable.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.cs">
@@ -88,13 +95,16 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form\PatternTable.resx">
+    <EmbeddedResource Include="Forms\CPUSpeedForm.resx">
+      <DependentUpon>CPUSpeedForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PatternTable.resx">
       <DependentUpon>PatternTable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form\NameTable.resx">
+    <EmbeddedResource Include="Forms\NameTable.resx">
       <DependentUpon>NameTable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form\Monitor.resx">
+    <EmbeddedResource Include="Forms\Monitor.resx">
       <DependentUpon>Monitor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">

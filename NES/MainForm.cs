@@ -93,5 +93,11 @@ namespace NES
         {
             NES_Console.LoadGame("memory.xml");
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            CPUSpeedForm c = new CPUSpeedForm();
+            c.Show();
+        }
     }
 }
