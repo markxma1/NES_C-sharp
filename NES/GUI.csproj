@@ -113,89 +113,6 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.config" />
-    <None Include="FCEUX\auxlib.lua" />
-    <None Include="FCEUX\fceux.cfg" />
-    <None Include="FCEUX\fceux.chm" />
-    <None Include="FCEUX\fcs\Galaga-bak.fc1" />
-    <None Include="FCEUX\fcs\Galaga-bak.fc5" />
-    <None Include="FCEUX\fcs\Galaga.bak.fc0" />
-    <None Include="FCEUX\fcs\Galaga.fc1" />
-    <None Include="FCEUX\fcs\Galaga.fc2" />
-    <None Include="FCEUX\fcs\Galaga.fc5" />
-    <None Include="FCEUX\Galaga.cdl" />
-    <None Include="FCEUX\Galaga.nes" />
-    <None Include="FCEUX\Galaga.nes.1.nl" />
-    <None Include="FCEUX\Galaga.nes.deb" />
-    <None Include="FCEUX\Galaga.nes.ram.nl" />
-    <None Include="FCEUX\luaScripts\AVI-HeadsUpDisplay.lua" />
-    <None Include="FCEUX\luaScripts\BoulderDash_AmoebaAI.lua" />
-    <None Include="FCEUX\luaScripts\BugsBunnyBirthdayBlowout.lua" />
-    <None Include="FCEUX\luaScripts\ButtonCount.lua" />
-    <None Include="FCEUX\luaScripts\CustomLagIndicator_RvT.lua" />
-    <None Include="FCEUX\luaScripts\Excitingbike-speedometeronly.lua" />
-    <None Include="FCEUX\luaScripts\Excitingbike.lua" />
-    <None Include="FCEUX\luaScripts\FRKfunctions.lua" />
-    <None Include="FCEUX\luaScripts\Galaxian.lua" />
-    <None Include="FCEUX\luaScripts\Gradius-BulletHell.lua" />
-    <None Include="FCEUX\luaScripts\GUI-iup_button.lua" />
-    <None Include="FCEUX\luaScripts\GUI-iup_example.lua" />
-    <None Include="FCEUX\luaScripts\JumpingFCEUXWindow.lua" />
-    <None Include="FCEUX\luaScripts\Luabot.lua" />
-    <None Include="FCEUX\luaScripts\luabot_framework.lua" />
-    <None Include="FCEUX\luaScripts\Machrider.lua" />
-    <None Include="FCEUX\luaScripts\MegamanII-LaserEyes.lua" />
-    <None Include="FCEUX\luaScripts\MemoryWatch.lua" />
-    <None Include="FCEUX\luaScripts\Multitrack.lua" />
-    <None Include="FCEUX\luaScripts\Multitrack2.lua" />
-    <None Include="FCEUX\luaScripts\m_utils.lua" />
-    <None Include="FCEUX\luaScripts\NightmareElmStreet-4Player.lua" />
-    <None Include="FCEUX\luaScripts\PunchOutChallenge.lua" />
-    <None Include="FCEUX\luaScripts\PunchOutStats.lua" />
-    <None Include="FCEUX\luaScripts\PunchOutTraining.lua" />
-    <None Include="FCEUX\luaScripts\RBIBaseball.lua" />
-    <None Include="FCEUX\luaScripts\Registerfind%28CheatSearch%29.lua" />
-    <None Include="FCEUX\luaScripts\Rewinder.lua" />
-    <None Include="FCEUX\luaScripts\shapedefs.lua" />
-    <None Include="FCEUX\luaScripts\ShowPalette.lua" />
-    <None Include="FCEUX\luaScripts\SMB-AreaScrambler.lua" />
-    <None Include="FCEUX\luaScripts\SMB-CompetitionRecorder.lua" />
-    <None Include="FCEUX\luaScripts\SMB-HitBoxes.lua" />
-    <None Include="FCEUX\luaScripts\SMB-Jetpack.lua" />
-    <None Include="FCEUX\luaScripts\SMB-Lives&amp;HPDisplay.lua" />
-    <None Include="FCEUX\luaScripts\SMB-Mouse.lua" />
-    <None Include="FCEUX\luaScripts\SMB-Snow.lua" />
-    <None Include="FCEUX\luaScripts\SMB2U.lua" />
-    <None Include="FCEUX\luaScripts\SMB3-RainbowRiding.lua" />
-    <None Include="FCEUX\luaScripts\SoundDisplay.lua" />
-    <None Include="FCEUX\luaScripts\SoundDisplay2.lua" />
-    <None Include="FCEUX\luaScripts\Subtitler.lua" />
-    <None Include="FCEUX\luaScripts\taseditor\InputDisplay_for_Selection.lua" />
-    <None Include="FCEUX\luaScripts\taseditor\InvertSelection.lua" />
-    <None Include="FCEUX\luaScripts\taseditor\RecordBackwards.lua" />
-    <None Include="FCEUX\luaScripts\taseditor\ShowNotes.lua" />
-    <None Include="FCEUX\luaScripts\taseditor\Swap1P2P.lua" />
-    <None Include="FCEUX\luaScripts\taseditor\TrackNoise.lua" />
-    <None Include="FCEUX\luaScripts\TeenageMutantNinjaTurtles.lua" />
-    <None Include="FCEUX\luaScripts\tetris.lua" />
-    <None Include="FCEUX\luaScripts\vnb.lua" />
-    <None Include="FCEUX\luaScripts\x_functions.lua" />
-    <None Include="FCEUX\luaScripts\x_interface.lua" />
-    <None Include="FCEUX\luaScripts\x_smb1enemylist.lua" />
-    <None Include="FCEUX\luaScripts\ZapperDisplay.lua" />
-    <None Include="FCEUX\luaScripts\ZapperFun.lua" />
-    <None Include="FCEUX\palettes\ASQ_realityA.pal" />
-    <None Include="FCEUX\palettes\ASQ_realityB.pal" />
-    <None Include="FCEUX\palettes\BMF_final2.pal" />
-    <None Include="FCEUX\palettes\BMF_final3.pal" />
-    <None Include="FCEUX\palettes\FCEU-13-default_nitsuja.pal" />
-    <None Include="FCEUX\palettes\FCEU-15-nitsuja_new.pal" />
-    <None Include="FCEUX\palettes\FCEUX.pal" />
-    <None Include="FCEUX\palettes\nestopia_rgb.pal" />
-    <None Include="FCEUX\palettes\nestopia_yuv.pal" />
-    <None Include="FCEUX\sav\Batman_3.sav" />
-    <None Include="FCEUX\taseditor.chm" />
-    <None Include="FCEUX\test.nes" />
-    <None Include="FCEUX\test.nes.deb" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -223,21 +140,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="FCEUX\7z.dll" />
-    <Content Include="FCEUX\fceux.exe" />
-    <Content Include="FCEUX\lua5.1.dll" />
-    <Content Include="FCEUX\lua51.dll" />
-    <Content Include="FCEUX\luaScripts\UsingLuaBot-Documentation.txt" />
-    <Content Include="FCEUX\luaScripts\UsingLuaScripting-Documentation.txt" />
-    <Content Include="FCEUX\luaScripts\UsingLuaScripting-ListofFunctions.txt" />
-    <Content Include="FCEUX\snaps\Galaga-0.png" />
-    <Content Include="FCEUX\tools\taseditor_patterns.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="FCEUX\cheats\" />
-    <Folder Include="FCEUX\movies\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\NES.Console\NES.Console.csproj">
       <Project>{d909fb1e-3e16-403a-9c41-7cb4bc9a4c88}</Project>
